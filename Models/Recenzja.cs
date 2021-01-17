@@ -7,7 +7,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models
 {
     public class Recenzja
     {
-        public Ocena OcenaPracy { get; set; }
+        public Grade OcenaPracy { get; set; }
         public DateTime? DataRecenzji { get; set; } = null;
     }
 }

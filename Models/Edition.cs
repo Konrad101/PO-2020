@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models
 {
-    public class Edycja
+    public class Edition
     {
-        public int Numer { get; set; }
+        public int Number { get; set; }
     }
 }
