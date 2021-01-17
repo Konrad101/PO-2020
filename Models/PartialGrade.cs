@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models
 {
-    public enum FormaZajec
+    public class PartialGrade
     {
-        wyklad, seminarium, laboratorium, cwiczenia, projekt, inne
+        public DateTime GradeDate { get; set; }
+        public Grade GradeValue { get; set; }
+        public string Comment { get; set; }
     }
 }

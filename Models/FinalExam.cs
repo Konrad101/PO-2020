@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models
 {
-    public class OcenaPytania
+    public class FinalExam
     {
-        public Grade OcenaPyt { get; set; }
+        public DateTime ExamDate { get; set; }
+        public string Classroom { get; set; }
+        public string ExamCourse { get; set; }
     }
 }

@@ -25,10 +25,10 @@ CREATE TABLE Uczestnicy (
   FOREIGN KEY (idUzytkownika) REFERENCES Uzytkownicy (idUzytkownika)
 );
 
-CREATE TABLE Kierownik (
-  idKier INT PRIMARY KEY,
+CREATE TABLE StudyFieldManager (
+  managerId INT PRIMARY KEY,
   idUzytkownika INT,
-  podstawoweMiejsceZatrudnienia VARCHAR(127),
+  primaryEmploymentPlace VARCHAR(127),
   FOREIGN KEY (idUzytkownika) REFERENCES Uzytkownicy (idUzytkownika)
 );
 
@@ -39,22 +39,23 @@ CREATE TABLE Prowadzacy (
 );
 
 
-CREATE TABLE Edycje (
-  numer INT PRIMARY KEY
+CREATE TABLE Editions (
+  number INT PRIMARY KEY
 );
 
 
 -- dac tu id jako sztuczny primary key?
-CREATE TABLE EgzaminyKoncowe (
-  termin DATE,
-  sala VARCHAR(15),
-  przebieg VARCHAR(127)
+CREATE TABLE FinalExams (
+  examId INT PRIMARY KEY,
+  examDate DATE,
+  classroom VARCHAR(15),
+  examCourse VARCHAR(127)
 );
 
 
-CREATE TABLE Formularze (
+CREATE TABLE Form (
   id INT PRIMARY KEY,
-  daneFormularza VARCHAR(255)[][]
+  formData VARCHAR(255)[][]
 );
 
 /* zeby potem dodawac, to robimy jak ponizej
@@ -63,25 +64,27 @@ CREATE TABLE Formularze (
 */
 
 
-CREATE TABLE JednostkaZajec (
-  poczatekZajec DATE,
-  koniecZajec DATE,
-  numerSali VARCHAR(31)
+CREATE TABLE ClassesUnits (
+  classUnitId INT PRIMARY KEY,
+  classBeginning DATE,
+  classEnding DATE,
+  classroomNumber VARCHAR(31)
 );
 
 
-CREATE TABLE Kursy (
-  idKursu VARCHAR(15) PRIMARY KEY,
-  nazwa VARCHAR(63),
-  punktyECTS INT,
-  semestr INT
+CREATE TABLE Courses (
+  courseId VARCHAR(15) PRIMARY KEY,
+  courseName VARCHAR(63),
+  ectsPoints INT,
+  semester INT
 );
 
 
-CREATE TABLE OcenyCzastkowe (
-  data DATE,
-  ocenaZajeciowa FLOAT,
-  komentarz VARCHAR(255)
+CREATE TABLE PartialGrades (
+  partialGradeId INT PRIMARY KEY,
+  gradeDate DATE,
+  gradeValue FLOAT,
+  comment VARCHAR(255)
 );
 
 

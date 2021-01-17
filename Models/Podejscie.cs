@@ -7,6 +7,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models
 {
     public class Podejscie
     {
-        public Ocena ocenaEgzaminu { get; set; }
+        public Grade ocenaEgzaminu { get; set; }
     }
 }

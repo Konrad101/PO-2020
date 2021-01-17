@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models
 {
-    public class Kierownik
+    public class StudyFieldManager
     {
-        public int IdKier { get; set; }
-        public String PodstawoweMiejsceZatrudnienia { get; set; }
+        public int ManagerId { get; set; }
+        public string PrimaryEmploymentPlace { get; set; }
     }
 }

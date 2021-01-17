@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models
 {
-    public class Formularz
+    public class Form
     {
         public int Id { get; set; }
-        public Dictionary<String, String> DaneFormularza { get; set; }
+        public Dictionary<string, string> FormData { get; set; }
     }
 }
