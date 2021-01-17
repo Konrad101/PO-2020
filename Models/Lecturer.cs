@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models
 {
-    public class Recenzja
+    public class Lecturer
     {
-        public Grade OcenaPracy { get; set; }
-        public DateTime? DataRecenzji { get; set; } = null;
+        public int IdL { get; set; }
     }
 }

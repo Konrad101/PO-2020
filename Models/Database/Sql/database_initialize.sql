@@ -1,28 +1,28 @@
-CREATE TABLE Uzytkownicy (
-  idUzytkownika INT PRIMARY KEY,
-  imie VARCHAR(31),
-  nazwisko VARCHAR(31),
+CREATE TABLE Users (
+  userId INT PRIMARY KEY,
+  userName VARCHAR(31),
+  surname VARCHAR(31),
   email VARCHAR(63),
-  dataUrodzenia DATE,
-  adresKorespondencyjny VARCHAR(127),
-  tytulNaukowy VARCHAR(31)
+  birthdate DATE,
+  mailingAddress VARCHAR(127),
+  degree VARCHAR(31)
 );
 
-CREATE TABLE Uczestnicy (
-  idU INT PRIMARY KEY,
-  idUzytkownika INT,
-  indeks VARCHAR(6),
-  drugieImie VARCHAR(31),
+CREATE TABLE Participants (
+  participantId INT PRIMARY KEY,
+  userId INT,
+  participantIndex VARCHAR(6),
+  secondName VARCHAR(31),
   pesel VARCHAR(12),
-  numerTelefonu VARCHAR(15),
-  dataUrodzenia DATE,
-  imieMatki VARCHAR(15),
-  imieOjca VARCHAR(15),
-  dataRozpoczecia DATE,
-  dataZakonczenia DATE,
-  statusAktywnegoUczestnika TINYINT,
-  czyZdanyEgzaminKoncowy TINYINT,
-  FOREIGN KEY (idUzytkownika) REFERENCES Uzytkownicy (idUzytkownika)
+  phoneNumber VARCHAR(15),
+  birthdate DATE,
+  mathersName VARCHAR(15),
+  fathersName VARCHAR(15),
+  startDate DATE,
+  endDate DATE,
+  activeParticipantStatus TINYINT,
+  ifPassedFinalExam TINYINT,
+  FOREIGN KEY (userId) REFERENCES Users (userId)
 );
 
 CREATE TABLE StudyFieldManager (
@@ -32,10 +32,10 @@ CREATE TABLE StudyFieldManager (
   FOREIGN KEY (idUzytkownika) REFERENCES Uzytkownicy (idUzytkownika)
 );
 
-CREATE TABLE Prowadzacy (
-  idKier INT PRIMARY KEY,
-  idP INT,
-  FOREIGN KEY (idUzytkownika) REFERENCES Uzytkownicy (idUzytkownika)
+CREATE TABLE Lecturer (
+  lecturerId INT PRIMARY KEY,
+  userId INT,
+  FOREIGN KEY (userId) REFERENCES Users (userId)
 );
 
 
@@ -88,46 +88,51 @@ CREATE TABLE PartialGrades (
 );
 
 
-CREATE TABLE OcenyPytan (
-  ocenaPyt FLOAT
+CREATE TABLE QuestionGrades (
+  questionGradeId INT PRIMARY KEY,
+  questionGrade FLOAT
 );
 
 
-CREATE TABLE Podejscia (
-  ocenaEgzaminu FLOAT
+CREATE TABLE Approaches (
+  approacheId INT PRIMARY KEY,
+  examGrade FLOAT
 );
 
 
-CREATE TABLE PraceKoncowe (
-  terminOddania DATE,
-  temat VARCHAR(127),
-  komentarze VARCHAR(255)[],
-  czyTematZatwierdzony TINYINT,
-  czyOswiadczenieSamodzielnaPraca TINYINT,
-  czyOswiadczenieUdostepnieniePracy TINYINT,
-  czyOswiadczenieTozsamoscPracy TINYINT
+CREATE TABLE FinalTheses (
+  finalThesisId INT PRIMARY KEY,
+  deliveryDeadline DATE,
+  topic VARCHAR(127),
+  comments VARCHAR(255)[],
+  ifTopicApproved TINYINT,
+  ifDeclarationOfIndependentThesis TINYINT,
+  ifDeclarationOfShareThesis TINYINT,
+  ifDeclarationOfIdentityThesis TINYINT
 );
 
 
-CREATE TABLE Pytania (
-  idPytania INT PRIMARY KEY,
-  tresc VARCHAR(1023),
-  punkty INT,
-  odpowiedz VARCHAR(2047)
+CREATE TABLE Questions (
+  questionId INT PRIMARY KEY,
+  content VARCHAR(1023),
+  points INT,
+  answer VARCHAR(2047)
 );
 
 
-CREATE TABLE Recenzje (
-  ocenaPracy FLOAT,
-  dataRecenzji DATE
+CREATE TABLE Reviews (
+  reviewId INT PRIMARY KEY,
+  thesisGrade FLOAT,
+  reviewDate DATE
 );
 
 
-CREATE TABLE Zaliczenia (
-  terminZaliczenia DATE,
-  ocenaZaliczenia FLOAT,
-  dataWystawieniaOceny DATE,
-  formaZaliczenia VARCHAR(31)
+CREATE TABLE Passings (
+  passingId INT PRIMARY KEY,
+  passingDate DATE,
+  passingGrade FLOAT,
+  dateOfAssesment DATE,
+  formOfPassing VARCHAR(31)
 );
 
 
