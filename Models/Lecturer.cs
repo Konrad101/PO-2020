@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models
 {
-    public class Podejscie
+    public class Lecturer
     {
-        public Ocena ocenaEgzaminu { get; set; }
+        public int IdL { get; set; }
     }
 }

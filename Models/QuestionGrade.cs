@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models
 {
-    public class Prowadzacy
+    public class QuestionGrade
     {
-        public int IdP { get; set; }
+        public Ocena QuestGrade { get; set; }
     }
 }
