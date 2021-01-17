@@ -54,14 +54,14 @@ CREATE TABLE FinalExams (
 
 
 CREATE TABLE Form (
-  id INT PRIMARY KEY,
-  formData VARCHAR(255)[][]
+  formId INT PRIMARY KEY
 );
 
-/* zeby potem dodawac, to robimy jak ponizej
-	INSERT INTO Formularze VALUES (1, '{{"imie", "Jan"}, "nazwisko", "Kowalski"}');
-	(tablica dwuwymiarowa jako odpowiednik słownika)
-*/
+CREATE TABLE FormData (
+  formId INT,
+  formFieldData VARCHAR(255),
+  FOREIGN KEY (formId) REFERENCES Form (formId)
+);
 
 
 CREATE TABLE ClassesUnits (
@@ -104,12 +104,19 @@ CREATE TABLE FinalTheses (
   finalThesisId INT PRIMARY KEY,
   deliveryDeadline DATE,
   topic VARCHAR(127),
-  comments VARCHAR(255)[],
+  comments VARCHAR(255),
   ifTopicApproved TINYINT,
   ifDeclarationOfIndependentThesis TINYINT,
   ifDeclarationOfShareThesis TINYINT,
   ifDeclarationOfIdentityThesis TINYINT
 );
+
+CREATE TABLE ThesisComments (
+  finalThesisId INT,
+  comment VARCHAR(255),
+  FOREIGN KEY (finalThesisId) REFERENCES FinalTheses (finalThesisId)
+);
+
 
 
 CREATE TABLE Questions (
