@@ -1,10 +1,13 @@
-﻿{
+{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
+<<<<<<< HEAD
       "applicationUrl": "http://localhost:52085",
       "sslPort": 44369
+=======
+>>>>>>> InitializingDatabase
     }
   },
   "profiles": {
@@ -12,8 +15,11 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
+<<<<<<< HEAD
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation"
+=======
+>>>>>>> InitializingDatabase
       }
     },
     "PO_implementacja_StudiaPodyplomowe": {
@@ -21,8 +27,11 @@
       "launchBrowser": true,
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
+<<<<<<< HEAD
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation"
+=======
+>>>>>>> InitializingDatabase
       }
     }
   }
