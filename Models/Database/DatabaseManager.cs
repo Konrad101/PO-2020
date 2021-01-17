@@ -1,64 +1,63 @@
-﻿using Microsoft.IdentityModel.Protocols;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Configuration;
 using System.Collections.Specialized;
 using System.IO;
-using Microsoft.Data.SqlClient;
+using System.Data.SqlClient;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 {
     public class DatabaseManager : IDao
     {
-        private static readonly string SCIEZKA_DO_DANYCH_POLACZENIA = "db_conf.txt";
-        private SqlConnection polaczenie;
+        private static readonly string CONNECTION_DATA_PATH = "db_conf.txt";
+        private SqlConnection connection;
 
-        public void PolaczZBazaDanych()
+        public void ConnectToDatabase()
         {
             try
             {
-                List<string> danePolaczenia = CzytajDanePolaczenia();
-                var name = danePolaczenia[0];
-                var username = danePolaczenia[1];
-                var password = danePolaczenia[2];
-                var serwer = danePolaczenia[3];
+                List<string> connectionData = ReadConnectionData();
+                var name = connectionData[0];
+                var username = connectionData[1];
+                var password = connectionData[2];
+                var server = connectionData[3];
 
-                SqlConnectionStringBuilder budowniczyPolaczenia = new SqlConnectionStringBuilder();
-                budowniczyPolaczenia.DataSource = $"{serwer}.database.windows.net";
-                budowniczyPolaczenia.UserID = $"{username}";
-                budowniczyPolaczenia.Password = $"{password}";
-                budowniczyPolaczenia.InitialCatalog = $"{name}";
+                SqlConnectionStringBuilder connectionBuilder = new SqlConnectionStringBuilder();
+                connectionBuilder.DataSource = $"{server}.database.windows.net";
+                connectionBuilder.UserID = $"{username}";
+                connectionBuilder.Password = $"{password}";
+                connectionBuilder.InitialCatalog = $"{name}";
 
-                polaczenie = new SqlConnection(budowniczyPolaczenia.ConnectionString);
+                connection = new SqlConnection(connectionBuilder.ConnectionString);
             } catch (SqlException e)
             {
                 Console.WriteLine(e.ToString());
             }
         }
 
-        private List<string> CzytajDanePolaczenia()
+        private List<string> ReadConnectionData()
         {
-            List<string> dane = new List<string>();
-            if (SCIEZKA_DO_DANYCH_POLACZENIA.Trim().Length > 0)
+            List<string> data = new List<string>();
+            if (CONNECTION_DATA_PATH.Trim().Length > 0)
             {
-                if (File.Exists(SCIEZKA_DO_DANYCH_POLACZENIA))
+                if (File.Exists(CONNECTION_DATA_PATH))
                 {
-                    using (StreamReader czytnik = File.OpenText(SCIEZKA_DO_DANYCH_POLACZENIA))
+                    using (StreamReader reader = File.OpenText(CONNECTION_DATA_PATH))
                     {
-                        while (!czytnik.EndOfStream)
+                        while (!reader.EndOfStream)
                         {
-                            dane.Add(czytnik.ReadLine());
+                            data.Add(reader.ReadLine());
                         }
                     }
                 }
             }
 
-            return dane;
+            return data;
         }
 
-        public void DodajUczestnika()
+        public void AddStudent()
         {
 
             throw new NotImplementedException();

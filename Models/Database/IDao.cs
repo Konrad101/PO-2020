@@ -7,6 +7,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 {
     interface IDao
     {
-        public void DodajUczestnika();
+        public void AddStudent();
     }
 }

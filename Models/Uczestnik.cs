@@ -1,14 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models
 {
-<<<<<<< HEAD
-=======
     public class Uczestnik : Uzytkownik
->>>>>>> InitializingDatabase
     {
         private int IdU { get; set; }
         public string Indeks { get; set; }
