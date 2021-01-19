@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
 {
-    public class StudyFieldManagerFinalExamQuestionDetailsController : Controller
+    public class StudyFieldManagerFinalThesisApplicationFormController : Controller
     {
         public IActionResult Index()
         {
