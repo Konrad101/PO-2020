@@ -7,6 +7,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models
 {
     public class Approach
     {
-        public Ocena ExamGrade { get; set; }
+        public Grade ExamGrade { get; set; }
     }
 }

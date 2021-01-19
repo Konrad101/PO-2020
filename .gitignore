@@ -36,5 +36,6 @@ msbuild.wrn
 
 .vs/
 
+
 # Database config
 *.txt
