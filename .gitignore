@@ -17,6 +17,7 @@ nupkg/
 *.userosscache
 *.sln.docstates
 launchSettings.json
+*.csproj
 
 # Build results
 [Dd]ebug/
