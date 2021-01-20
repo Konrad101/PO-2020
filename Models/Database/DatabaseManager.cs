@@ -59,7 +59,10 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 
         public void AddStudent()
         {
-
+            throw new NotImplementedException();
+        }
+        public void AddGrade(PartialGrade grade)
+        {
             throw new NotImplementedException();
         }
     }

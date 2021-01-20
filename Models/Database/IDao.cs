@@ -8,5 +8,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
     interface IDao
     {
         public void AddStudent();
+        public void AddGrade(PartialGrade grade);
     }
 }
