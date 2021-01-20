@@ -25,17 +25,57 @@ CREATE TABLE Participants (
   FOREIGN KEY (userId) REFERENCES Users (userId)
 );
 
-CREATE TABLE StudyFieldManager (
-  managerId INT PRIMARY KEY,
-  idUzytkownika INT,
-  primaryEmploymentPlace VARCHAR(127),
-  FOREIGN KEY (idUzytkownika) REFERENCES Uzytkownicy (idUzytkownika)
-);
-
-CREATE TABLE Lecturer (
+CREATE TABLE Lecturers (
   lecturerId INT PRIMARY KEY,
   userId INT,
   FOREIGN KEY (userId) REFERENCES Users (userId)
+);
+
+CREATE TABLE StudyFieldManager (
+  managerId INT PRIMARY KEY,
+  userId INT,
+  primaryEmploymentPlace VARCHAR(127),
+  FOREIGN KEY (userId) REFERENCES Users (userId)
+);
+
+CREATE TABLE SubmittingTheses (
+  submittingId INT PRIMARY KEY,
+  lecturerId INT,
+  thesisTopic VARCHAR(2048),
+  topicNumber INT, -- max 5
+  thesisObjectives VARCHAR(2048),
+  thesisScope VARCHAR(2048),
+  FOREIGN KEY (lecturerId) REFERENCES Lecturers (lecturerId)
+);
+
+CREATE TABLE StudyFieldManagerSubmittings (
+  managerId INT,
+  submittingId INT,
+  FOREIGN KEY (managerId) REFERENCES StudyFieldManager (managerId),
+  FOREIGN KEY (submittingId) REFERENCES SubmittingTheses (submittingId)
+);
+
+
+CREATE TABLE FinalThesisForms (
+  formId INT PRIMARY KEY,
+  thesisTopic VARCHAR(2048),
+  participantData VARCHAR(128),
+  titleCompability VARCHAR(128),
+  thesisStructureComment VARCHAR(128),
+  newProblem VARCHAR(128),
+  sourcesUse VARCHAR(128),
+  sourcesCharacteristics VARCHAR(256),
+  formalWorkSide VARCHAR(256),
+  substantiveThesisGrade VARCHAR(2048),
+  thesisGrade VARCHAR(16),
+  formDate DATE
+);
+
+CREATE TABLE LecturerForms (
+  lecturerId INT,
+  submittingId INT,
+  FOREIGN KEY (lecturerId) REFERENCES Lecturers (lecturerId),
+  FOREIGN KEY (submittingId) REFERENCES SubmittingTheses (submittingId)
 );
 
 
@@ -44,7 +84,6 @@ CREATE TABLE Editions (
 );
 
 
--- dac tu id jako sztuczny primary key?
 CREATE TABLE FinalExams (
   examId INT PRIMARY KEY,
   examDate DATE,
@@ -52,23 +91,11 @@ CREATE TABLE FinalExams (
   examCourse VARCHAR(127)
 );
 
-
-CREATE TABLE Form (
-  formId INT PRIMARY KEY
-);
-
-CREATE TABLE FormData (
-  formId INT,
-  formFieldData VARCHAR(255),
-  FOREIGN KEY (formId) REFERENCES Form (formId)
-);
-
-
-CREATE TABLE ClassesUnits (
-  classUnitId INT PRIMARY KEY,
-  classBeginning DATE,
-  classEnding DATE,
-  classroomNumber VARCHAR(31)
+CREATE TABLE StudyFieldManagerExams (
+  managerId INT,
+  examId INT,
+  FOREIGN KEY (managerId) REFERENCES StudyFieldManager (managerId),
+  FOREIGN KEY (examId) REFERENCES FinalExams (examId)
 );
 
 
@@ -77,6 +104,22 @@ CREATE TABLE Courses (
   courseName VARCHAR(63),
   ectsPoints INT,
   semester INT
+);
+
+CREATE TABLE ClassesUnits (
+  classUnitId INT PRIMARY KEY,
+  classBeginning DATE,
+  classEnding DATE,
+  classroomNumber VARCHAR(31),
+  courseId INT,
+  FOREIGN KEY (courseId) REFERENCES Courses (courseId)
+);
+
+CREATE TABLE Attendances (
+  participantId INT,
+  classUnitId INT,
+  FOREIGN KEY (participantId) REFERENCES Participants (participantId),
+  FOREIGN KEY (classUnitId) REFERENCES ClassesUnits (classUnitId)
 );
 
 
@@ -116,7 +159,6 @@ CREATE TABLE ThesisComments (
   comment VARCHAR(255),
   FOREIGN KEY (finalThesisId) REFERENCES FinalTheses (finalThesisId)
 );
-
 
 
 CREATE TABLE Questions (
