@@ -5,9 +5,7 @@ using System.Threading.Tasks;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models
 {
-    public class Form
+    public class ThesisSubmission
     {
-        public int Id { get; set; }
-        public Dictionary<string, string> FormData { get; set; }
     }
 }
