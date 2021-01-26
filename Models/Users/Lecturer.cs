@@ -7,6 +7,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models
 {
     public class Lecturer
     {
-        public int IdL { get; set; }
+        public int LecturerId { get; set; }
     }
 }

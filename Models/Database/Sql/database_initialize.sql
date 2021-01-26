@@ -38,8 +38,9 @@ CREATE TABLE StudyFieldManager (
   FOREIGN KEY (userId) REFERENCES Users (userId)
 );
 
+
 CREATE TABLE SubmittingTheses (
-  submittingId INT PRIMARY KEY,
+  submissionId INT PRIMARY KEY,
   lecturerId INT,
   thesisTopic VARCHAR(2048),
   topicNumber INT, -- max 5
@@ -48,15 +49,16 @@ CREATE TABLE SubmittingTheses (
   FOREIGN KEY (lecturerId) REFERENCES Lecturers (lecturerId)
 );
 
-CREATE TABLE StudyFieldManagerSubmittings (
+-- PU Kamil
+CREATE TABLE StudyFieldManagerSubmissions (
   managerId INT,
-  submittingId INT,
+  submissionId INT,
   FOREIGN KEY (managerId) REFERENCES StudyFieldManager (managerId),
-  FOREIGN KEY (submittingId) REFERENCES SubmittingTheses (submittingId)
+  FOREIGN KEY (submissionId) REFERENCES SubmittingTheses (submissionId)
 );
 
 
-CREATE TABLE FinalThesisForms (
+CREATE TABLE FinalThesesForms (
   formId INT PRIMARY KEY,
   thesisTopic VARCHAR(2048),
   participantData VARCHAR(128),
@@ -71,11 +73,12 @@ CREATE TABLE FinalThesisForms (
   formDate DATE
 );
 
-CREATE TABLE LecturerForms (
+-- PU Konrad
+CREATE TABLE LecturerThesesForms (
   lecturerId INT,
-  submittingId INT,
+  formId INT,
   FOREIGN KEY (lecturerId) REFERENCES Lecturers (lecturerId),
-  FOREIGN KEY (submittingId) REFERENCES SubmittingTheses (submittingId)
+  FOREIGN KEY (formId) REFERENCES FinalThesesForms (formId)
 );
 
 
@@ -91,6 +94,7 @@ CREATE TABLE FinalExams (
   examCourse VARCHAR(127)
 );
 
+-- PU Konrad
 CREATE TABLE StudyFieldManagerExams (
   managerId INT,
   examId INT,
@@ -111,10 +115,11 @@ CREATE TABLE ClassesUnits (
   classBeginning DATE,
   classEnding DATE,
   classroomNumber VARCHAR(31),
-  courseId INT,
+  courseId VARCHAR(15),
   FOREIGN KEY (courseId) REFERENCES Courses (courseId)
 );
 
+-- PU Kamil i Radek
 CREATE TABLE Attendances (
   participantId INT,
   classUnitId INT,
@@ -130,6 +135,16 @@ CREATE TABLE PartialGrades (
   comment VARCHAR(255)
 );
 
+-- PU Radek
+CREATE TABLE ParticipantsGrades (
+	participantId INT,
+	courseId VARCHAR(15),
+	partialGradeId INT,
+	FOREIGN KEY (participantId) REFERENCES Participants (participantId),
+	FOREIGN KEY (courseId) REFERENCES Courses (courseId),
+	FOREIGN KEY (partialGradeId) REFERENCES PartialGrades (partialGradeId)
+);
+
 
 CREATE TABLE QuestionGrades (
   questionGradeId INT PRIMARY KEY,
@@ -137,21 +152,19 @@ CREATE TABLE QuestionGrades (
 );
 
 
-CREATE TABLE Approaches (
-  approacheId INT PRIMARY KEY,
-  examGrade FLOAT
-);
-
-
 CREATE TABLE FinalTheses (
   finalThesisId INT PRIMARY KEY,
+  participantId INT,
+  lecturerId INT,
   deliveryDeadline DATE,
   topic VARCHAR(127),
   comments VARCHAR(255),
   ifTopicApproved TINYINT,
   ifDeclarationOfIndependentThesis TINYINT,
   ifDeclarationOfShareThesis TINYINT,
-  ifDeclarationOfIdentityThesis TINYINT
+  ifDeclarationOfIdentityThesis TINYINT,
+  FOREIGN KEY (participantId) REFERENCES Participants(participantId),
+  FOREIGN KEY (lecturerId) REFERENCES Lecturers(lecturerId)
 );
 
 CREATE TABLE ThesisComments (
@@ -174,14 +187,4 @@ CREATE TABLE Reviews (
   thesisGrade FLOAT,
   reviewDate DATE
 );
-
-
-CREATE TABLE Passings (
-  passingId INT PRIMARY KEY,
-  passingDate DATE,
-  passingGrade FLOAT,
-  dateOfAssesment DATE,
-  formOfPassing VARCHAR(31)
-);
-
 
