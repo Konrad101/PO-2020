@@ -10,10 +10,6 @@
   line-height:normal;
   text-transform:none;
 }
-.box_1 {
-}
-.image {
-}
 .heading_1 {
   font-family:'Arial Normalny', 'Arial', sans-serif;
   font-weight:bold;
@@ -55,36 +51,40 @@
   font-size:10px;
   text-align:left;
 }
-.label {
-  font-size:14px;
-  text-align:left;
-}
 .paragraph {
   text-align:left;
-}
-.text_field {
-  color:#000000;
-  text-align:left;
-}
-.droplist {
-  color:#000000;
-  text-align:left;
-}
-.flow_shape {
-}
-.table_cell {
 }
 .form_hint {
   color:#999999;
 }
 .form_disabled {
 }
-.button {
+.flow_shape {
+}
+.box_1 {
+}
+.image {
+}
+.droplist {
+  color:#000000;
+  text-align:left;
+}
+.label {
+  font-size:14px;
+  text-align:left;
 }
 .text_area {
   color:#000000;
   text-align:left;
 }
+.text_field {
+  color:#000000;
+  text-align:left;
+}
+.button {
+}
 .ellipse {
+}
+.table_cell {
 }
 textarea, select, input, button { outline: none; }
