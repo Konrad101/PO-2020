@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Configuration;
 using System.Collections.Specialized;
 using System.IO;
-using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models.Database
@@ -61,7 +60,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         {
             List<Course> participantCourses = new List<Course>();
             conn.Open(); 
-
             string sql = $"SELECT * FROM ParticipantsCourses PC" +
                 "NATURAL JOIN Courses C" +
                 $"WHERE participantId = {participant.ParticipantId}";
@@ -86,8 +84,8 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             List<Lecturer> lecturers = new List<Lecturer>();
             conn.Open();
 
-            string sql = $"SELECT L.lecturerId, U.userName, U.surname, U.email," +
                 $" U.birthdate, U.mailingAddress, U.degree FROM Lecturers L " +
+            string sql = $"SELECT L.lecturerId, U.userName, U.surname, U.email," +
                 "JOIN Users U ON L.userId = U.userId";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
@@ -105,21 +103,17 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 lecturers.Add(lecturer);
             }
             rdr.Close();
-            return lecturers;
         }
+            return lecturers;
 
         public void EddReview(Review review)
         {
-            throw new NotImplementedException();
-        }
 
-        public Review GetReview()
-        {
-            throw new NotImplementedException();
         }
 
         public List<Review> GetReviews(Lecturer lecturer)
         {
+
             throw new NotImplementedException();
         }
 
@@ -144,11 +138,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         }
 
         public void EditFinalThesis()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Course GetCourse()
         {
             throw new NotImplementedException();
         }
@@ -252,6 +241,11 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             }
             rdr.Close();
             return partialGrades;
+        }
+
+        public List<Grade> GetGrades(Participant participant, Course course)
+        {
+            throw new NotImplementedException();
         }
 
         public void AddGrade(PartialGrade grade, Participant participant)
