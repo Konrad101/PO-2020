@@ -6,34 +6,34 @@ using System.Configuration;
 using System.Collections.Specialized;
 using System.IO;
 using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 {
     public class DatabaseManager : IDao
     {
         private static readonly string CONNECTION_DATA_PATH = "db_conf.txt";
-        private SqlConnection connection;
+        private MySqlConnection conn;
 
         public void ConnectToDatabase()
         {
+            List<string> connectionData = ReadConnectionData();
+            var name = connectionData[0];
+            var username = connectionData[1];
+            var password = connectionData[2];
+            var server = connectionData[3];
+
+            string myConnectionString = $"server={server};uid={username};" +
+                $"pwd={password};database={name}";
+
             try
             {
-                List<string> connectionData = ReadConnectionData();
-                var name = connectionData[0];
-                var username = connectionData[1];
-                var password = connectionData[2];
-                var server = connectionData[3];
-
-                SqlConnectionStringBuilder connectionBuilder = new SqlConnectionStringBuilder();
-                connectionBuilder.DataSource = $"{server}.database.windows.net";
-                connectionBuilder.UserID = $"{username}";
-                connectionBuilder.Password = $"{password}";
-                connectionBuilder.InitialCatalog = $"{name}";
-
-                connection = new SqlConnection(connectionBuilder.ConnectionString);
-            } catch (SqlException e)
+                conn = new MySqlConnection();
+                conn.ConnectionString = myConnectionString;
+            }
+            catch (MySqlException ex)
             {
-                Console.WriteLine(e.ToString());
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -107,14 +107,56 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             throw new NotImplementedException();
         }
 
-        public Course GetCourses(Participant participant)
+        // TO DO
+        public List<Course> GetCourses(Participant participant)
         {
-            throw new NotImplementedException();
+            List<Course> participantCourses = new List<Course>();
+            conn.Open(); 
+
+            string sql = $"SELECT * FROM ParticipantsCourses PC" +
+                "NATURAL JOIN Courses C" +
+                $"WHERE participantId = {participant.ParticipantId}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                Course course = new Course();
+                course.CourseId = rdr[0].ToString();
+                course.Name = rdr[1].ToString();
+                course.ECTSPoints = int.Parse(rdr[2].ToString());
+                course.Semester = int.Parse(rdr[3].ToString());
+                participantCourses.Add(course);
+            }
+            rdr.Close();
+            return participantCourses;
         }
 
         public List<Lecturer> GetLecturers()
         {
-            throw new NotImplementedException();
+            List<Lecturer> lecturers = new List<Lecturer>();
+            conn.Open();
+
+            string sql = $"SELECT L.lecturerId, U.userName, U.surname, U.email," +
+                $" U.birthdate, U.mailingAddress, U.degree FROM Lecturers L " +
+                "JOIN Users U ON L.userId = U.userId";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                Lecturer lecturer = new Lecturer();
+                lecturer.LecturerId = int.Parse(rdr[0].ToString());
+                lecturer.Name = rdr[1].ToString();
+                lecturer.Surname = rdr[2].ToString();
+                lecturer.Email = rdr[3].ToString();
+                lecturer.Birthdate = DateTime.Parse(rdr[4].ToString());
+                lecturer.MailingAddress = rdr[5].ToString();
+                lecturer.Degree = rdr[6].ToString();
+                lecturers.Add(lecturer);
+            }
+            rdr.Close();
+            return lecturers;
         }
 
         public List<Participant> GetParticipants(Course course)
@@ -143,11 +185,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         }
 
         public void AddGrade(PartialGrade grade, Participant participant)
-        {
-            throw new NotImplementedException();
-        }
-
-        List<Course> IDao.GetCourses(Participant participant)
         {
             throw new NotImplementedException();
         }

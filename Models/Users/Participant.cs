@@ -7,7 +7,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models
 {
     public class Participant : User
     {
-        private int IdU { get; set; }
+        public int ParticipantId { get; set; }
         public string Index { get; set; }
         public string SecondNameU { get; set; }
         public string Pesel { get; set; }

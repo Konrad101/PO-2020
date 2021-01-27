@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models
 {
-    public class Lecturer
+    public class Lecturer : User
     {
         public int LecturerId { get; set; }
     }
