@@ -16,6 +16,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         //public Thesis GetFinalThesis();
         //public List<Attendence> getAttendences(nazwa studenta?, nazwa kursu?);
         //public List<Attendence> getAttendences(nazwa kursu?);
+        public List<PartialGrade> GetGrades(Participant participant);
         public List<Course> GetCourses(Participant participant);
         public List<Lecturer> GetLecturers();
         public List<Participant> GetParticipants(Course course);

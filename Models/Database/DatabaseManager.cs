@@ -56,59 +56,31 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return data;
         }
 
-        public List<Course> GetCourses(Participant participant)
+		public void AddReview(Review review)
         {
-            List<Course> participantCourses = new List<Course>();
-            conn.Open(); 
-            string sql = $"SELECT * FROM ParticipantsCourses PC" +
-                "NATURAL JOIN Courses C" +
-                $"WHERE participantId = {participant.ParticipantId}";
-            MySqlCommand cmd = new MySqlCommand(sql, conn);
-            MySqlDataReader rdr = cmd.ExecuteReader();
-
-            while (rdr.Read())
-            {
-                Course course = new Course();
-                course.CourseId = rdr[0].ToString();
-                course.Name = rdr[1].ToString();
-                course.ECTSPoints = int.Parse(rdr[2].ToString());
-                course.Semester = int.Parse(rdr[3].ToString());
-                participantCourses.Add(course);
-            }
-            rdr.Close();
-            return participantCourses;
-        }
-
-        public List<Lecturer> GetLecturers()
-        {
-            List<Lecturer> lecturers = new List<Lecturer>();
             conn.Open();
-
-                $" U.birthdate, U.mailingAddress, U.degree FROM Lecturers L " +
-            string sql = $"SELECT L.lecturerId, U.userName, U.surname, U.email," +
-                "JOIN Users U ON L.userId = U.userId";
+            string sql = "INSERT INTO FinalThesesForms " +
+                "(formId, thesisTopic, participantData, titleCompability," +
+                " thesisStructureComment, newProblem, sourcesUse," +
+                " sourcesCharacteristics, formalWorkSide, substantiveThesisGrade," +
+                " thesisGrade, formDate) VALUES " +
+                $"({review.FormId}, {review.ThesisTopic}, {review.ParticipantData}," +
+                $" {review.TitleCompability}, {review.ThesisStructureComment}, {review.NewProblem}," +
+                $" {review.SourcesUse}, {review.SourcesCharacteristics}, {review.FormalWorkSide}," +
+                $" {review.SubstantiveThesisGrade}, {review.ThesisGrade}, '{review.FormDate.ToString("yyyy-MM-dd")}')";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
-            MySqlDataReader rdr = cmd.ExecuteReader();
-
-            while (rdr.Read())
-            {
-                Lecturer lecturer = new Lecturer();
-                lecturer.LecturerId = int.Parse(rdr[0].ToString());
-                lecturer.Name = rdr[1].ToString();
-                lecturer.Surname = rdr[2].ToString();
-                lecturer.Email = rdr[3].ToString();
-                lecturer.Birthdate = DateTime.Parse(rdr[4].ToString());
-                lecturer.MailingAddress = rdr[5].ToString();
-                lecturer.Degree = rdr[6].ToString();
-                lecturers.Add(lecturer);
-            }
-            rdr.Close();
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
-            return lecturers;
 
-        public void EddReview(Review review)
+        public void EditReview(Review review)
         {
+            throw new NotImplementedException();
+        }
 
+        public Review GetReview(int reviewId)
+        {
+            throw new NotImplementedException();
         }
 
         public List<Review> GetReviews(Lecturer lecturer)
@@ -140,6 +112,56 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         public void EditFinalThesis()
         {
             throw new NotImplementedException();
+        }
+
+        public List<Course> GetCourses(Participant participant)
+        {
+            List<Course> participantCourses = new List<Course>();
+            conn.Open(); 
+            string sql = $"SELECT * FROM ParticipantsCourses PC" +
+                "NATURAL JOIN Courses C" +
+                $"WHERE participantId = {participant.ParticipantId}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                Course course = new Course();
+                course.CourseId = rdr[0].ToString();
+                course.Name = rdr[1].ToString();
+                course.ECTSPoints = int.Parse(rdr[2].ToString());
+                course.Semester = int.Parse(rdr[3].ToString());
+                participantCourses.Add(course);
+            }
+            rdr.Close();
+            return participantCourses;
+        }
+
+        public List<Lecturer> GetLecturers()
+        {
+            List<Lecturer> lecturers = new List<Lecturer>();
+            conn.Open();
+            string sql = $"SELECT L.lecturerId, U.userName, U.surname, U.email," +
+                $" U.birthdate, U.mailingAddress, U.degree FROM Lecturers L " +
+                "JOIN Users U ON L.userId = U.userId";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                Lecturer lecturer = new Lecturer();
+                lecturer.LecturerId = int.Parse(rdr[0].ToString());
+                lecturer.Name = rdr[1].ToString();
+                lecturer.Surname = rdr[2].ToString();
+                lecturer.Email = rdr[3].ToString();
+                lecturer.Birthdate = DateTime.Parse(rdr[4].ToString());
+                lecturer.MailingAddress = rdr[5].ToString();
+                lecturer.Degree = rdr[6].ToString();
+                lecturers.Add(lecturer);
+            }
+            rdr.Close();
+            conn.Close();
+            return lecturers;
         }
 
         public List<Participant> GetParticipants(Course course)
@@ -182,16 +204,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             }
             rdr.Close();
             return participants;
-        }
-
-        public void AddGrade(Grade grade)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void EditGrade(Grade grade)
-        {
-            throw new NotImplementedException();
         }
 
         public List<PartialGrade> GetGrades(Participant participant)
@@ -248,7 +260,17 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             throw new NotImplementedException();
         }
 
-        public void AddGrade(PartialGrade grade, Participant participant)
+        public void AddGrade(Participant participant, PartialGrade grade, Course course)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EditGrade(Participant participant, PartialGrade grade, Course course)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<PartialGrade> GetParticipantsGrades(Participant participant)
         {
             throw new NotImplementedException();
         }
