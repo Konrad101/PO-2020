@@ -14,5 +14,10 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Participant
             return View();
         }
 
+        public ActionResult Details()
+        {
+            return View();
+        }
+
     }
 }
