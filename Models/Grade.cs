@@ -12,7 +12,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models
 
     public class GradeConverter
     {
-        public double ParseGrade(Grade grade)
+        public static double ParseGrade(Grade grade)
         {
             switch (grade)
             {
@@ -34,6 +34,30 @@ namespace PO_implementacja_StudiaPodyplomowe.Models
                     return 0;
             }
 
+        }
+
+        public static Grade GetGrade(float gradeValue)
+        {
+            switch (gradeValue)
+            {
+                case 2:
+                    return Grade.Grade20;
+                case 3.0f:
+                    return Grade.Grade30;
+                case 3.5f:
+                    return Grade.Grade35;
+                case 4.0f:
+                    return Grade.Grade40;
+                case 4.5f:
+                    return Grade.Grade45;
+                case 5.0f:
+                    return Grade.Grade50;
+                case 5.5f:
+                    return Grade.Grade55;
+                default:
+                    return Grade.None;
+            }
+                
         }
     }
 }

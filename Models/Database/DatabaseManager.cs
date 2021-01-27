@@ -155,7 +155,44 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 
         public List<Participant> GetParticipants(Course course)
         {
-            throw new NotImplementedException();
+            List<Participant> participants = new List<Participant>();
+            conn.Open();
+
+            string sql = $"SELECT P.participantId, P.participantIndex, P.secondName, " +
+                $"P.pesel, P.phoneNumber, P.mothersName, P.fathersName, P.startDate, P.endDate, " +
+                $"P.activeParticipantStatus, P.ifPassedFinalExam, U.userName, U.surname, U.email, " +
+                $"U.birthdate, U.mailingAddress, U.degree FROM Participants P " +
+                $"JOIN ParticipantsCourses PC ON P.participantId = PC.participantId " +
+                $"JOIN Courses C ON C.courseId = PC.courseId JOIN Users U ON U.userId = P.userId" +
+                $"WHERE C.courseId = {course.CourseId} ORDER BY 1";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                Participant participant = new Participant();
+                participant.ParticipantId = int.Parse(rdr[0].ToString());
+                participant.Index = rdr[1].ToString();
+                participant.SecondNameU = rdr[2].ToString();
+                participant.Pesel = rdr[3].ToString();
+                participant.PhoneNumber = rdr[4].ToString();
+                participant.MothersName = rdr[5].ToString();
+                participant.FathersName = rdr[6].ToString();
+                participant.StartDate = DateTime.Parse(rdr[7].ToString());
+                participant.EndDate = DateTime.Parse(rdr[8].ToString());
+                participant.ActiveParticipantStatus = bool.Parse(rdr[9].ToString());
+                participant.IfPassedFinalExam = bool.Parse(rdr[10].ToString());
+                participant.Name = rdr[11].ToString();
+                participant.Surname = rdr[12].ToString();
+                participant.Email = rdr[13].ToString();
+                participant.Birthdate = DateTime.Parse(rdr[14].ToString());
+                participant.MailingAddress = rdr[15].ToString();
+                participant.Degree = rdr[16].ToString();
+                participants.Add(participant);
+            }
+            rdr.Close();
+            return participants;
         }
 
         public void AddGrade(Grade grade)
@@ -168,37 +205,53 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             throw new NotImplementedException();
         }
 
-        public List<Grade> GetGrades(Participant participant)
+        public List<PartialGrade> GetGrades(Participant participant)
         {
-            throw new NotImplementedException();
-        }
-
-        public List<Grade> GetGrades(Participant participant, Course course)
-        {
-            /*List<Grade> grades = new List<Grade>();
+            List<PartialGrade> partialGrades = new List<PartialGrade>();
             conn.Open();
 
-            string sql = $"SELECT L.lecturerId, U.userName, U.surname, U.email," +
-                $" U.birthdate, U.mailingAddress, U.degree FROM Lecturers L " +
-                "JOIN Users U ON L.userId = U.userId";
+            string sql = $"SELECT PG.GradeDate, PG.GradeValue, PG.Comment FROM ParticipantsGrades PGS " +
+                $"JOIN PartialGrades PG ON PGS.partialGradeId = PG.partialGradeId " +
+                $"WHERE PGS.participantID = {participant.ParticipantId} ORDER BY 1";
+
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
 
             while (rdr.Read())
             {
-                Lecturer lecturer = new Lecturer();
-                lecturer.LecturerId = int.Parse(rdr[0].ToString());
-                lecturer.Name = rdr[1].ToString();
-                lecturer.Surname = rdr[2].ToString();
-                lecturer.Email = rdr[3].ToString();
-                lecturer.Birthdate = DateTime.Parse(rdr[4].ToString());
-                lecturer.MailingAddress = rdr[5].ToString();
-                lecturer.Degree = rdr[6].ToString();
-                grades.Add(lecturer);
+                PartialGrade partialGrade = new PartialGrade();
+                partialGrade.GradeDate = DateTime.Parse(rdr[0].ToString());
+                partialGrade.GradeValue = GradeConverter.GetGrade(float.Parse(rdr[1].ToString()));
+                partialGrade.Comment = rdr[2].ToString();
+                partialGrades.Add(partialGrade);
             }
             rdr.Close();
-            return grades;*/
-            throw new NotImplementedException();
+            return partialGrades;
+        }
+
+        public List<PartialGrade> GetParticipantsGrades(Participant participant, Course course)
+        {
+            List<PartialGrade> partialGrades = new List<PartialGrade>();
+            conn.Open();
+
+            string sql = $"SELECT PG.GradeDate, PG.GradeValue, PG.Comment FROM ParticipantsGrades PGS " +
+                $"JOIN PartialGrades PG ON PGS.partialGradeId = PG.partialGradeId " +
+                $"WHERE PGS.participantID = {participant.ParticipantId} " +
+                $"AND PGS.courseId = {course.CourseId} ORDER BY 1";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                PartialGrade partialGrade = new PartialGrade();
+                partialGrade.GradeDate = DateTime.Parse(rdr[0].ToString());
+                partialGrade.GradeValue = GradeConverter.GetGrade(float.Parse(rdr[1].ToString()));
+                partialGrade.Comment = rdr[2].ToString();
+                partialGrades.Add(partialGrade);
+            }
+            rdr.Close();
+            return partialGrades;
         }
 
         public void AddGrade(PartialGrade grade, Participant participant)
