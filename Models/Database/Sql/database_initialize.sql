@@ -15,8 +15,7 @@ CREATE TABLE Participants (
   secondName VARCHAR(31),
   pesel VARCHAR(12),
   phoneNumber VARCHAR(15),
-  birthdate DATE,
-  mathersName VARCHAR(15),
+  mothersName VARCHAR(15),
   fathersName VARCHAR(15),
   startDate DATE,
   endDate DATE,
@@ -108,6 +107,13 @@ CREATE TABLE Courses (
   courseName VARCHAR(63),
   ectsPoints INT,
   semester INT
+);
+
+CREATE TABLE ParticipantsCourses (
+  participantId INT,
+  courseId VARCHAR(15),
+  FOREIGN KEY (participantId) REFERENCES Participants (participantId),
+  FOREIGN KEY (courseId) REFERENCES Courses (courseId)
 );
 
 CREATE TABLE ClassesUnits (
