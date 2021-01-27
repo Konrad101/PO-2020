@@ -57,57 +57,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return data;
         }
 
-        public void AddGrade(PartialGrade grade)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void EddReview(Review review)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Review GetReview()
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Review> GetReviews(Lecturer lecturer)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AddQuestion(Question question)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void EditQuestion(Question question)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Question> GetQuestions(FinalExam finalExam)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AddFinalThesis()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void EditFinalThesis()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Course GetCourse()
-        {
-            throw new NotImplementedException();
-        }
-
-        // TO DO
         public List<Course> GetCourses(Participant participant)
         {
             List<Course> participantCourses = new List<Course>();
@@ -159,6 +108,51 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return lecturers;
         }
 
+        public void EddReview(Review review)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Review GetReview()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Review> GetReviews(Lecturer lecturer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddQuestion(Question question)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EditQuestion(Question question)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Question> GetQuestions(FinalExam finalExam)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddFinalThesis()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EditFinalThesis()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Course GetCourse()
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Participant> GetParticipants(Course course)
         {
             throw new NotImplementedException();
@@ -181,6 +175,29 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 
         public List<Grade> GetGrades(Participant participant, Course course)
         {
+            /*List<Grade> grades = new List<Grade>();
+            conn.Open();
+
+            string sql = $"SELECT L.lecturerId, U.userName, U.surname, U.email," +
+                $" U.birthdate, U.mailingAddress, U.degree FROM Lecturers L " +
+                "JOIN Users U ON L.userId = U.userId";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                Lecturer lecturer = new Lecturer();
+                lecturer.LecturerId = int.Parse(rdr[0].ToString());
+                lecturer.Name = rdr[1].ToString();
+                lecturer.Surname = rdr[2].ToString();
+                lecturer.Email = rdr[3].ToString();
+                lecturer.Birthdate = DateTime.Parse(rdr[4].ToString());
+                lecturer.MailingAddress = rdr[5].ToString();
+                lecturer.Degree = rdr[6].ToString();
+                grades.Add(lecturer);
+            }
+            rdr.Close();
+            return grades;*/
             throw new NotImplementedException();
         }
 
