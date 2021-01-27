@@ -41,7 +41,7 @@
             <div id="u237" class="ax_default heading_2">
                 <div id="u237_div" class=""></div>
                 <div id="u237_text" class="text ">
-                    <p><span>Ocenianie prac końcowych</span></p>
+                    <p><a asp-controller="LecturerFinalThesisList" asp-action="Index">Ocenianie prac końcowych</a></p>
                 </div>
             </div>
 
@@ -69,7 +69,7 @@
             <div id="u241" class="ax_default heading_2">
                 <div id="u241_div" class=""></div>
                 <div id="u241_text" class="text ">
-                    <p><span>Oceny studentów</span></p>
+                    <p><a asp-controller="LecturerGradesList" asp-action="Index">Oceny studentów</a></p>
                 </div>
             </div>
         </div>
@@ -81,7 +81,7 @@
             <div id="u243" class="ax_default heading_2">
                 <div id="u243_div" class=""></div>
                 <div id="u243_text" class="text ">
-                    <p><span>Zarządzanie obecnościami</span></p>
+                    <p><a asp-controller="LecturerPresenceList" asp-action="Index">Zarządzanie obecnościami</a></p>
                 </div>
             </div>
 
@@ -116,10 +116,9 @@
 
         <!-- Unnamed (Image) -->
         <div id="u248" class="ax_default image">
-            <img id="u248_img" class="img " src="../images/lecturerfinalthesisformdetails/u13.png" />
-            <div id="u248_text" class="text " style="display:none; visibility: hidden">
-                <p></p>
-            </div>
+            <a asp-controller="Home" asp-action="Index">
+                <img id="u248_img" class="img " src="../images/lecturerfinalthesisformdetails/u13.png" />
+            </a>
         </div>
 
         <!-- Unnamed (Rectangle) -->
