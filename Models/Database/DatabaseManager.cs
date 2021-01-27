@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Configuration;
 using System.Collections.Specialized;
 using System.IO;
-using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models.Database
@@ -57,23 +56,31 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return data;
         }
 
-        public void AddGrade(PartialGrade grade)
+        public void AddReview(Review review)
         {
-            throw new NotImplementedException();
+            conn.Open();
+            string sql = "INSERT INTO FinalThesesForms " +
+                "(formId, thesisTopic, participantData, titleCompability," +
+                " thesisStructureComment, newProblem, sourcesUse," +
+                " sourcesCharacteristics, formalWorkSide, substantiveThesisGrade," +
+                " thesisGrade, formDate) VALUES " +
+                $"({review.FormId}, {review.ThesisTopic}, {review.ParticipantData}," +
+                $" {review.TitleCompability}, {review.ThesisStructureComment}, {review.NewProblem}," +
+                $" {review.SourcesUse}, {review.SourcesCharacteristics}, {review.FormalWorkSide}," +
+                $" {review.SubstantiveThesisGrade}, {review.ThesisGrade}, '{review.FormDate.ToString("yyyy-MM-dd")}')";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
 
-        public void EddReview(Review review)
+        public void EditReview(Review review)
         {
-            throw new NotImplementedException();
-        }
 
-        public Review GetReview()
-        {
-            throw new NotImplementedException();
         }
 
         public List<Review> GetReviews(Lecturer lecturer)
         {
+
             throw new NotImplementedException();
         }
 
@@ -102,12 +109,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             throw new NotImplementedException();
         }
 
-        public Course GetCourse()
-        {
-            throw new NotImplementedException();
-        }
-
-        // TO DO
         public List<Course> GetCourses(Participant participant)
         {
             List<Course> participantCourses = new List<Course>();
@@ -129,6 +130,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 participantCourses.Add(course);
             }
             rdr.Close();
+            conn.Close();
             return participantCourses;
         }
 
@@ -156,6 +158,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 lecturers.Add(lecturer);
             }
             rdr.Close();
+            conn.Close();
             return lecturers;
         }
 
@@ -164,12 +167,12 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             throw new NotImplementedException();
         }
 
-        public void AddGrade(Grade grade)
+        public void AddGrade(Participant participant, PartialGrade grade, Course course)
         {
             throw new NotImplementedException();
         }
 
-        public void EditGrade(Grade grade)
+        public void EditGrade(Participant participant, PartialGrade grade, Course course)
         {
             throw new NotImplementedException();
         }
@@ -184,7 +187,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             throw new NotImplementedException();
         }
 
-        public void AddGrade(PartialGrade grade, Participant participant)
+        public Review GetReview(int reviewId)
         {
             throw new NotImplementedException();
         }

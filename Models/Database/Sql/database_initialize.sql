@@ -188,9 +188,3 @@ CREATE TABLE Questions (
 );
 
 
-CREATE TABLE Reviews (
-  reviewId INT PRIMARY KEY,
-  thesisGrade FLOAT,
-  reviewDate DATE
-);
-
