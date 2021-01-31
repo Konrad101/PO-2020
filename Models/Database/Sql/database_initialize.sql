@@ -15,7 +15,6 @@ CREATE TABLE Participants (
   secondName VARCHAR(31),
   pesel VARCHAR(12),
   phoneNumber VARCHAR(15),
-  birthdate DATE,
   mathersName VARCHAR(15),
   fathersName VARCHAR(15),
   startDate DATE,
@@ -39,9 +38,18 @@ CREATE TABLE StudyFieldManager (
 );
 
 CREATE TABLE Editions (
-  edNumber INT PRIMARY KEY
+  edNumber INT PRIMARY KEY,
   managerId INT,
   FOREIGN KEY (managerId) REFERENCES StudyFieldManager (managerId)
+);
+
+CREATE TABLE FinalTheses (
+  finalThesisId INT PRIMARY KEY,
+  deliveryDeadline DATE,
+  participantId INT,
+  lecturerId INT,
+  FOREIGN KEY (participantId) REFERENCES Participants (participantId),
+  FOREIGN KEY (lecturerId) REFERENCES Lecturer (lecturerId)
 );
 
 -- formularz zg³oszenia
@@ -72,7 +80,7 @@ CREATE TABLE FinalThesesReview (
   formDate DATE,
   formStatus INT,
   finalThesisId INT,
-  FOREIGN KEY (finalThesisId) REFERENCES FinalTheses (finalThesisId),
+  FOREIGN KEY (finalThesisId) REFERENCES FinalTheses (finalThesisId)
 );
 
 CREATE TABLE FinalExams (
@@ -100,7 +108,7 @@ CREATE TABLE Courses (
   edNumber INT,
   lecturerId INT,
   FOREIGN KEY (edNumber) REFERENCES Editions (edNumber),
-  FOREIGN KEY (lecturerId) REFERENCES Lecturer (lecturerId)
+  FOREIGN KEY (lecturerId) REFERENCES Lecturers (lecturerId)
 );
 
 CREATE TABLE ClassesUnits (
@@ -123,14 +131,19 @@ CREATE TABLE Attendances (
   FOREIGN KEY (classUnitId) REFERENCES ClassesUnits (classUnitId)
 );
 
+-- lista ocen uczestnika z kursu
+CREATE TABLE ParticipantGradeLists (
+	participantGradeListId INT PRIMARY KEY
+);
+
 -- ocena cz¹stkowa
 CREATE TABLE PartialCourseGrades (
   partialGradeId INT PRIMARY KEY,
   gradeDate DATE,
   gradeValue VARCHAR(15),
-  participantGradeListId INT,
   comment VARCHAR(255),
-  FOREIGN KEY (participantGradeListId) REFERENCES ParticipantGradeList (participantGradeListId),
+  participantGradeListId INT,
+  FOREIGN KEY (participantGradeListId) REFERENCES ParticipantGradeLists (participantGradeListId)
 );
 
 -- po³¹czenie miêdzy uczestnik - kurs
@@ -140,21 +153,7 @@ CREATE TABLE ParticipantsWithCourses (
 	participantGradeListId INT,
 	FOREIGN KEY (participantId) REFERENCES Participants (participantId),
 	FOREIGN KEY (courseId) REFERENCES Courses (courseId),
-	FOREIGN KEY (participantGradeListId) REFERENCES ParticipantGradeList (participantGradeListId)
-);
-
--- lista ocen uczestnika z kursu
-CREATE TABLE ParticipantGradeLists (
-	participantGradeListId INT PRIMARY KEY,
-)
-
-CREATE TABLE FinalTheses (
-  finalThesisId INT PRIMARY KEY,
-  deliveryDeadline DATE,
-  participantId INT,
-  lecturerId INT,
-  FOREIGN KEY (participantId) REFERENCES Participants (participantId),
-  FOREIGN KEY (lecturerId) REFERENCES Lecturer (lecturerId)
+	FOREIGN KEY (participantGradeListId) REFERENCES ParticipantGradeLists (participantGradeListId)
 );
 
 
