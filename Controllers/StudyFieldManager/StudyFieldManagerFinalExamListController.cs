@@ -12,5 +12,21 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
         {
             return View();
         }
+
+        public IActionResult Edit()
+        {
+            return View();
+        }
+
+        public IActionResult EditQuestion()
+        {
+            return View();
+        }
+
+        public IActionResult AddQuestion()
+        {
+            return View();
+        }
+
     }
 }
