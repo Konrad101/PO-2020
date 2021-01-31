@@ -145,6 +145,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 review.ThesisGrade = rdr[8].ToString();
                 review.FormDate = DateTime.Parse(rdr[9].ToString());
                 review.FormStatus = (ThesisStatus)int.Parse(rdr[10].ToString());
+                reviews.Add(review);
             }
             rdr.Close();
             return reviews;
@@ -278,6 +279,8 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 
                 submission.Edition = submissionEdition;
                 reader.Close();
+
+                submissions.Add(submission);
             }
             rdr.Close();
             return submissions;
