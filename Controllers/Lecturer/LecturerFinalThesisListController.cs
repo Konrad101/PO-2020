@@ -12,5 +12,10 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
         {
             return View();
         }
+
+        public IActionResult Edit()
+        {
+            return View();
+        }
     }
 }
