@@ -129,7 +129,21 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 
         public List<Attendance> GetAttendences(Course course)
         {
-            throw new NotImplementedException();
+            List<Attendance> attendences = new List<Attendance>();
+            conn.Open();
+            string sql = $"SELECT U.name, U.surname, COUNT(A.participantId) FROM Courses C JOIN ClassesUnits CU ON C.courseId = CU.courseID " +
+                $"JOIN Attendences A ON A.classUnitId = CU.classUnitId JOIN Participants P " +
+                $"ON P.participantId = A.participantId JOIN Users U ON U.userId = P.userId " +
+                $"WHERE C.courseId = {course.CourseId} GROUP BY P.userId";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                // TO DO
+            }
+            rdr.Close();
+            return attendences;
         }
 
         public List<Course> GetCourses(Participant participant, int edition)
