@@ -12,7 +12,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database.Sql
             throw new NotImplementedException();
         }
 
-        public void AddGrade(Participant participant, PartialGrade grade, Course course)
+        public void AddGrade(Participant participant, PartialCourseGrade grade, Course course)
         {
             throw new NotImplementedException();
         }
@@ -22,7 +22,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database.Sql
             throw new NotImplementedException();
         }
 
-        public void AddReview(Review review)
+        public void AddReview(FinalThesisReview review)
         {
             throw new NotImplementedException();
         }
@@ -32,7 +32,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database.Sql
             throw new NotImplementedException();
         }
 
-        public void EditGrade(Participant participant, PartialGrade grade, Course course)
+        public void EditGrade(Participant participant, PartialCourseGrade grade, Course course)
         {
             throw new NotImplementedException();
         }
@@ -42,7 +42,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database.Sql
             throw new NotImplementedException();
         }
 
-        public void EditReview(Review review)
+        public void EditReview(FinalThesisReview review)
         {
             throw new NotImplementedException();
         }
@@ -149,26 +149,26 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database.Sql
             return participant;
         }
 
-        public List<PartialGrade> GetParticipantsGrades(Participant participant)
+        public List<PartialCourseGrade> GetParticipantsGrades(Participant participant)
         {
             return GenerateGrades(15);
         }
 
-        public List<PartialGrade> GetParticipantsGrades(Participant participant, Course course)
+        public List<PartialCourseGrade> GetParticipantsGrades(Participant participant, Course course)
         {
 
             return GenerateGrades(5);
         }
 
-        private List<PartialGrade> GenerateGrades(int howMany)
+        private List<PartialCourseGrade> GenerateGrades(int howMany)
         {
-            List<PartialGrade> grades = new List<PartialGrade>();
+            List<PartialCourseGrade> grades = new List<PartialCourseGrade>();
             string[] comments = { "Bardzo dobrze", "Dobrze", "Mogło być lepiej", "" };
             Random random = new Random();
 
             for (int i = 0; i < howMany; i++)
             {
-                PartialGrade grade = new PartialGrade();
+                PartialCourseGrade grade = new PartialCourseGrade();
                 grade.GradeDate = new DateTime(2020, random.Next(1, 12), random.Next(1, 29));
                 if (random.Next(2) % 2 == 0)
                 {
@@ -203,14 +203,14 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database.Sql
             return questions;
         }
 
-        public Review GetReview(int reviewId)
+        public FinalThesisReview GetReview(int reviewId)
         {
             return GenerateReview(reviewId);
         }
 
-        public List<Review> GetReviews(Lecturer lecturer)
+        public List<FinalThesisReview> GetReviews(Lecturer lecturer)
         {
-            List<Review> reviews = new List<Review>();
+            List<FinalThesisReview> reviews = new List<FinalThesisReview>();
             const int HOW_MANY = 5;
             for(int i = 0; i < HOW_MANY; i++)
             {
@@ -220,9 +220,9 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database.Sql
             return reviews;
         }
 
-        private Review GenerateReview(int id)
+        private FinalThesisReview GenerateReview(int id)
         {
-            Review review = new Review();
+            FinalThesisReview review = new FinalThesisReview();
             Random random = new Random();
             string[] topics = { "Zastosowania relacyjnych baz danych",
                 "Sztuczna inteligencja w spekulacji na rynku",

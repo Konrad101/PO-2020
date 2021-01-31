@@ -56,7 +56,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return data;
         }
 
-		public void AddReview(Review review)
+		public void AddReview(FinalThesisReview review)
         {
             conn.Open();
             string sql = "INSERT INTO FinalThesesForms " +
@@ -73,17 +73,17 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             conn.Close();
         }
 
-        public void EditReview(Review review)
+        public void EditReview(FinalThesisReview review)
         {
             throw new NotImplementedException();
         }
 
-        public Review GetReview(int reviewId)
+        public FinalThesisReview GetReview(int reviewId)
         {
             throw new NotImplementedException();
         }
 
-        public List<Review> GetReviews(Lecturer lecturer)
+        public List<FinalThesisReview> GetReviews(Lecturer lecturer)
         {
 
             throw new NotImplementedException();
@@ -206,9 +206,9 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return participants;
         }
 
-        public List<PartialGrade> GetGrades(Participant participant)
+        public List<PartialCourseGrade> GetGrades(Participant participant)
         {
-            List<PartialGrade> partialGrades = new List<PartialGrade>();
+            List<PartialCourseGrade> partialGrades = new List<PartialCourseGrade>();
             conn.Open();
 
             string sql = $"SELECT PG.GradeDate, PG.GradeValue, PG.Comment FROM ParticipantsGrades PGS " +
@@ -220,7 +220,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 
             while (rdr.Read())
             {
-                PartialGrade partialGrade = new PartialGrade();
+                PartialCourseGrade partialGrade = new PartialCourseGrade();
                 partialGrade.GradeDate = DateTime.Parse(rdr[0].ToString());
                 partialGrade.GradeValue = GradeConverter.GetGrade(float.Parse(rdr[1].ToString()));
                 partialGrade.Comment = rdr[2].ToString();
@@ -230,9 +230,9 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return partialGrades;
         }
 
-        public List<PartialGrade> GetParticipantsGrades(Participant participant, Course course)
+        public List<PartialCourseGrade> GetParticipantsGrades(Participant participant, Course course)
         {
-            List<PartialGrade> partialGrades = new List<PartialGrade>();
+            List<PartialCourseGrade> partialGrades = new List<PartialCourseGrade>();
             conn.Open();
 
             string sql = $"SELECT PG.GradeDate, PG.GradeValue, PG.Comment FROM ParticipantsGrades PGS " +
@@ -245,7 +245,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 
             while (rdr.Read())
             {
-                PartialGrade partialGrade = new PartialGrade();
+                PartialCourseGrade partialGrade = new PartialCourseGrade();
                 partialGrade.GradeDate = DateTime.Parse(rdr[0].ToString());
                 partialGrade.GradeValue = GradeConverter.GetGrade(float.Parse(rdr[1].ToString()));
                 partialGrade.Comment = rdr[2].ToString();
@@ -260,17 +260,17 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             throw new NotImplementedException();
         }
 
-        public void AddGrade(Participant participant, PartialGrade grade, Course course)
+        public void AddGrade(Participant participant, PartialCourseGrade grade, Course course)
         {
             throw new NotImplementedException();
         }
 
-        public void EditGrade(Participant participant, PartialGrade grade, Course course)
+        public void EditGrade(Participant participant, PartialCourseGrade grade, Course course)
         {
             throw new NotImplementedException();
         }
 
-        public List<PartialGrade> GetParticipantsGrades(Participant participant)
+        public List<PartialCourseGrade> GetParticipantsGrades(Participant participant)
         {
             throw new NotImplementedException();
         }

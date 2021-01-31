@@ -7,9 +7,10 @@ namespace PO_implementacja_StudiaPodyplomowe.Models
 {
     public class ClassesUnit
     {
+        public int ClassUnitId { get; set; }
         public DateTime ClassBeginning { get; set; }
         public DateTime ClassEnding { get; set; }
         public string ClassroomNumber { get; set; }
-        public ClassesForm ClassesUnitForm { get; set; }
+        public ClassesForm ClassesForm { get; set; }
     }
 }

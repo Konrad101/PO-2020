@@ -26,7 +26,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
         // POST: LecturerGradeAddController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(PartialGrade grade)
+        public ActionResult Create(PartialCourseGrade grade)
         {
             try
             {

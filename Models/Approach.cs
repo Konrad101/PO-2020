@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models
 {
-    public class Edition
+    public class Approach
     {
-        public int Number { get; set; }
-        public StudyFieldManager StudyFieldManager { get; set; }
+        public Grade ExamGrade { get; set; }
     }
 }

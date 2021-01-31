@@ -15,7 +15,6 @@ CREATE TABLE Participants (
   secondName VARCHAR(31),
   pesel VARCHAR(12),
   phoneNumber VARCHAR(15),
-  birthdate DATE,
   mathersName VARCHAR(15),
   fathersName VARCHAR(15),
   startDate DATE,
@@ -51,7 +50,7 @@ CREATE TABLE SubmissionTheses (
   topicNumber INT, -- max 5 cyfr
   thesisObjectives VARCHAR(2048),
   thesisScope VARCHAR(2048),
-  submissionStatus VARCHAR(15),
+  submissionStatus INT,
   finalThesisId INT,
   edNumber INT,
   FOREIGN KEY (finalThesisId) REFERENCES FinalTheses (finalThesisId),
@@ -70,7 +69,7 @@ CREATE TABLE FinalThesesReview (
   substantiveThesisGrade VARCHAR(2048),
   thesisGrade VARCHAR(15),
   formDate DATE,
-  formStatus VARCHAR(15),
+  formStatus INT,
   finalThesisId INT,
   FOREIGN KEY (finalThesisId) REFERENCES FinalTheses (finalThesisId),
 );
@@ -98,7 +97,9 @@ CREATE TABLE Courses (
   ectsPoints INT,
   semester INT,
   edNumber INT,
-  FOREIGN KEY (edNumber) REFERENCES Editions (edNumber)
+  lecturerId INT,
+  FOREIGN KEY (edNumber) REFERENCES Editions (edNumber),
+  FOREIGN KEY (lecturerId) REFERENCES Lecturer (lecturerId)
 );
 
 CREATE TABLE ClassesUnits (
@@ -132,7 +133,7 @@ CREATE TABLE PartialCourseGrades (
 );
 
 -- po³¹czenie miêdzy uczestnik - kurs
-CREATE TABLE ParticipantsGrades (
+CREATE TABLE ParticipantsWithCourses (
 	participantId INT,
 	courseId VARCHAR(15),
 	participantGradeListId INT,
@@ -142,7 +143,7 @@ CREATE TABLE ParticipantsGrades (
 );
 
 -- lista ocen uczestnika z kursu
-CREATE TABLE ParticipantGradeList (
+CREATE TABLE ParticipantGradeLists (
 	participantGradeListId INT PRIMARY KEY,
 )
 
@@ -150,7 +151,9 @@ CREATE TABLE FinalTheses (
   finalThesisId INT PRIMARY KEY,
   deliveryDeadline DATE,
   participantId INT,
-  FOREIGN KEY (participantId) REFERENCES Participants (participantId)
+  lecturerId INT,
+  FOREIGN KEY (participantId) REFERENCES Participants (participantId),
+  FOREIGN KEY (lecturerId) REFERENCES Lecturer (lecturerId)
 );
 
 
