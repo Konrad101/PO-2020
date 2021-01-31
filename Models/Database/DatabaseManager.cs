@@ -199,6 +199,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return questions;
         }
 
+        //trzeba parametry dodac, ale dunno jakie
         public void AddFinalThesis()
         {
             throw new NotImplementedException();
@@ -250,7 +251,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 querry = $"SELECT P.participantId, P.participantIndex, P.secondName, " +
                 $"P.pesel, P.phoneNumber, P.mothersName, P.fathersName, P.startDate, P.endDate, " +
                 $"P.activeParticipantStatus, P.ifPassedFinalExam FROM Participants P " +
-                $"JOIN Users U ON U.userId = P.userId " +
                 $"WHERE P.participantId = {participantId}";
                 command = new MySqlCommand(querry, conn);
                 reader = command.ExecuteReader();
@@ -295,16 +295,63 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         {
             List<Attendance> attendences = new List<Attendance>();
             conn.Open();
-            string sql = $"SELECT U.name, U.surname, COUNT(A.participantId) FROM Courses C JOIN ClassesUnits CU ON C.courseId = CU.courseID " +
-                $"JOIN Attendences A ON A.classUnitId = CU.classUnitId JOIN Participants P " +
-                $"ON P.participantId = A.participantId JOIN Users U ON U.userId = P.userId " +
+            // kazde z tych id bedzie mi potrzebne do tworzenia obiektow, kurs sie nie zmienia (parametr)
+            string sql = $"SELECT P.participantId, CU.classUnitId, C.lecturerId, COUNT(A.participantId) FROM Courses C " +
+                $"JOIN ClassesUnits CU ON C.courseId = CU.courseID " +
+                $"JOIN Attendences A ON A.classUnitId = CU.classUnitId " +
+                $"JOIN Participants P ON P.participantId = A.participantId " +
                 $"WHERE C.courseId = {course.CourseId} GROUP BY P.userId";
+
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
-
             while (rdr.Read())
             {
-                // TO DO
+                Attendance attendance = new Attendance();
+
+                // tworze referencje na uczestnika
+                int participantId = int.Parse(rdr[0].ToString());
+                string querry = $"SELECT * FROM Participants " +
+                    $"WHERE participantId = {participantId}";
+                MySqlCommand command = new MySqlCommand(querry, conn);
+                MySqlDataReader reader = command.ExecuteReader();
+                reader.Read();
+                attendance.Participant = GetParticipantFromReader(reader);
+                reader.Close();
+
+                // tworze referencje na jednostke zajec
+                int classUnitId = int.Parse(rdr[1].ToString());
+                querry = $"SELECT * FROM ClassesUnits " +
+                    $"WHERE classUnitId = {classUnitId}";
+                command = new MySqlCommand(querry, conn);
+                reader = command.ExecuteReader();
+                ClassesUnit classesUnit = new ClassesUnit();
+                reader.Read();
+                classesUnit.ClassUnitId = int.Parse(reader[0].ToString());
+                classesUnit.ClassBeginning = DateTime.Parse(reader[1].ToString());
+                classesUnit.ClassEnding = DateTime.Parse(reader[2].ToString());
+                classesUnit.ClassroomNumber = reader[3].ToString();
+                classesUnit.ClassesForm = (ClassesForm) int.Parse(reader[4].ToString());
+                
+                // jednostka zajec ma kurs, wiec kolejna referencja
+                classesUnit.ClassCourse = course;
+                reader.Close();
+
+                // jednostka zajec ma prowadzacego, wiec kolejna
+                int lecturerId = int.Parse(rdr[2].ToString());
+                querry = $"SELECT userId FROM Lecturers " +
+                    $"WHERE classUnitId = {classUnitId}";
+                command = new MySqlCommand(querry, conn);
+                reader = command.ExecuteReader();
+                reader.Read();
+                Lecturer lecturer = new Lecturer();
+                lecturer.LecturerId = lecturerId;
+                lecturer.UserId = int.Parse(reader[0].ToString());
+                reader.Close();
+                FillUserData(lecturer);
+                classesUnit.ClassLecturer = lecturer;
+
+                attendance.ClassesUnit = classesUnit;
+                attendences.Add(attendance);
             }
             rdr.Close();
             return attendences;
@@ -461,7 +508,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         private Participant GetParticipantFromReader(MySqlDataReader rdr)
         {
             Participant participant = new Participant();
-            if (rdr.FieldCount > 16)
+            if (rdr.FieldCount > 10)
             {
                 participant.ParticipantId = int.Parse(rdr[0].ToString());
                 participant.Index = rdr[1].ToString();
