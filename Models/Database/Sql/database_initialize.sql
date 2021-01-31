@@ -49,7 +49,7 @@ CREATE TABLE FinalTheses (
   participantId INT,
   lecturerId INT,
   FOREIGN KEY (participantId) REFERENCES Participants (participantId),
-  FOREIGN KEY (lecturerId) REFERENCES Lecturer (lecturerId)
+  FOREIGN KEY (lecturerId) REFERENCES Lecturers (lecturerId)
 );
 
 -- formularz zg³oszenia
