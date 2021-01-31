@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Configuration;
-using System.Collections.Specialized;
 using System.IO;
 using MySql.Data.MySqlClient;
 
@@ -61,6 +57,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return data;
         }
 
+        // non-tested
         public void AddReview(FinalThesisReview finalThesisReview)
         {
             conn.Open();
@@ -78,6 +75,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             conn.Close();
         }
 
+        // non-tested
         public void EditReview(FinalThesisReview review)
         {
             conn.Open();
@@ -116,7 +114,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 review.SubstantiveThesisGrade = rdr[7].ToString();
                 review.ThesisGrade = rdr[8].ToString();
                 review.FormDate = DateTime.Parse(rdr[9].ToString());
-                review.FormStatus = (ThesisStatus) int.Parse(rdr[10].ToString());
+                review.FormStatus = (ThesisStatus)int.Parse(rdr[10].ToString());
             }
             rdr.Close();
             return review;
@@ -184,8 +182,9 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         {
             List<Question> questions = new List<Question>();
             conn.Open();
-            string sql = $"SELECT Q.questionId, Q.content, Q.points, Q.answer" +
-                "NATURAL JOIN Questions Q " +
+            string sql = $"SELECT Q.questionId, Q.content, Q.points, Q.answer " +
+                $"FROM Questions " +
+                "NATURAL JOIN FinalExams FE " +
                 $"WHERE FE.examId = {finalExam.ExamId}";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
@@ -218,6 +217,9 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         public List<SubmissionThesis> GetSubmissionTheses(int edition)
         {
             List<SubmissionThesis> submissions = new List<SubmissionThesis>();
+            List<int> thesesIds = new List<int>();
+            List<int> editiondsNum = new List<int>();
+
             conn.Open();
             string sql = $"SELECT ST.submissionId, ST.thesisTopic, ST.topicNumber, " +
                 $"ST.thesisObjectives, ST.thesisScope, ST.submissionStatus, ST.finalThesisId, " +
@@ -236,58 +238,75 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 submission.TopicNumber = int.Parse(rdr[2].ToString());
                 submission.ThesisObjectives = rdr[3].ToString();
                 submission.ThesisScope = rdr[4].ToString();
-                submission.Status = (ThesisStatus) int.Parse(rdr[5].ToString());
-
-                int finalThesisId = int.Parse(rdr[6].ToString());
-
-                // create final thesis by id
-                string querry = $"SELECT * FROM FinalTheses " +
-                $"WHERE finalThesisId = {finalThesisId}";
-                MySqlCommand command = new MySqlCommand(querry, conn);
-                MySqlDataReader reader = command.ExecuteReader();
-
-                reader.Read();
-                FinalThesis finalThesis = new FinalThesis();
-                finalThesis.FinalThesisId = int.Parse(reader[0].ToString());
-                finalThesis.DeliveryDeadline = DateTime.Parse(reader[1].ToString());
-                int participantId = int.Parse(reader[2].ToString());
-                reader.Close();
-
-                querry = $"SELECT P.participantId, P.participantIndex, P.secondName, " +
-                $"P.pesel, P.phoneNumber, P.mothersName, P.fathersName, P.startDate, P.endDate, " +
-                $"P.activeParticipantStatus, P.ifPassedFinalExam FROM Participants P " +
-                $"WHERE P.participantId = {participantId}";
-                command = new MySqlCommand(querry, conn);
-                reader = command.ExecuteReader();
-                reader.Read();
-                finalThesis.Participant = GetParticipantFromReader(reader);
-                reader.Close();
-
-                submission.FinalThesis = finalThesis;
-
-                // edition here
-                querry = "SELECT SM.managerId, SM.userId, SM.primaryEmploymentPlace FROM Editions E" +
-                    "NATURAL JOIN StudyfieldManager SM" +
-                    $"WHERE edNumber = {edition}";
-                command = new MySqlCommand(querry, conn);
-                reader = command.ExecuteReader();
-                reader.Read();
-                Edition submissionEdition = new Edition();
-                submissionEdition.Number = edition;
-        
-                StudyFieldManager manager = new StudyFieldManager();
-                manager.ManagerId = int.Parse(reader[0].ToString());
-                manager.UserId = int.Parse(reader[1].ToString());
-                manager.PrimaryEmploymentPlace = reader[2].ToString();
-                FillUserData(manager);
-                submissionEdition.StudyFieldManager = manager;
-
-                submission.Edition = submissionEdition;
-                reader.Close();
-
+                submission.Status = (ThesisStatus)int.Parse(rdr[5].ToString());
+                thesesIds.Add(int.Parse(rdr[6].ToString()));
+                editiondsNum.Add(int.Parse(rdr[7].ToString()));
                 submissions.Add(submission);
             }
             rdr.Close();
+            conn.Close();
+
+            // tworzenie kluczy obcych
+            for (int i = 0; i < submissions.Count; i++)
+            {
+                conn.Open();
+                int finalThesisId = thesesIds[i];
+                // create final thesis by id
+                string querry = $"SELECT * FROM FinalTheses " +
+                $"WHERE finalThesisId = {finalThesisId}";
+                cmd = new MySqlCommand(querry, conn);
+                rdr = cmd.ExecuteReader();
+
+                rdr.Read();
+                FinalThesis finalThesis = new FinalThesis();
+                finalThesis.FinalThesisId = int.Parse(rdr[0].ToString());
+                finalThesis.DeliveryDeadline = DateTime.Parse(rdr[1].ToString());
+
+                int participantId = int.Parse(rdr[2].ToString());
+                rdr.Close();
+                conn.Close();
+
+                conn.Open();
+                querry = $"SELECT * FROM Participants P " +
+                $"WHERE P.participantId = {participantId}";
+                cmd = new MySqlCommand(querry, conn);
+                rdr = cmd.ExecuteReader();
+                rdr.Read();
+                finalThesis.Participant = GetParticipantFromReader(rdr);
+                rdr.Close();
+                conn.Close();
+
+                submissions[i].FinalThesis = finalThesis;
+
+                // edition here
+                conn.Open();
+                querry = "SELECT SM.managerId, SM.userId, SM.primaryEmploymentPlace FROM Editions E" +
+                    "NATURAL JOIN StudyFieldManager SM " +
+                    $"WHERE edNumber = {edition}";
+                cmd = new MySqlCommand(querry, conn);
+                rdr = cmd.ExecuteReader();
+                rdr.Read();
+                Edition submissionEdition = new Edition();
+                submissionEdition.Number = edition;
+
+                StudyFieldManager manager = new StudyFieldManager();
+                manager.ManagerId = int.Parse(rdr[0].ToString());
+                manager.UserId = int.Parse(rdr[1].ToString());
+                manager.PrimaryEmploymentPlace = rdr[2].ToString();
+                submissionEdition.StudyFieldManager = manager;
+
+                submissions[i].Edition = submissionEdition;
+                submissions[i].Edition.StudyFieldManager = manager;
+
+                rdr.Close();
+                conn.Close();
+            }
+
+            foreach (SubmissionThesis s in submissions)
+            {
+                FillUserData(s.Edition.StudyFieldManager);
+            }
+
             return submissions;
         }
 
@@ -295,9 +314,9 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         {
             List<Attendance> participantAttendences = new List<Attendance>();
             List<Attendance> courseAttendences = GetAttendences(course);
-            foreach(Attendance attendance in courseAttendences)
+            foreach (Attendance attendance in courseAttendences)
             {
-                if(attendance.Participant.ParticipantId == participant.ParticipantId)
+                if (attendance.Participant.ParticipantId == participant.ParticipantId)
                 {
                     participantAttendences.Add(attendance);
                 }
@@ -344,8 +363,8 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 classesUnit.ClassBeginning = DateTime.Parse(reader[1].ToString());
                 classesUnit.ClassEnding = DateTime.Parse(reader[2].ToString());
                 classesUnit.ClassroomNumber = reader[3].ToString();
-                classesUnit.ClassesForm = (ClassesForm) int.Parse(reader[4].ToString());
-                
+                classesUnit.ClassesForm = (ClassesForm)int.Parse(reader[4].ToString());
+
                 // jednostka zajec ma kurs, wiec kolejna referencja
                 classesUnit.ClassCourse = course;
                 reader.Close();
@@ -421,6 +440,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             conn.Close();
             return lecturers;
         }
+
 
         public List<Participant> GetParticipants(Course course)
         {
@@ -498,6 +518,30 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return partialGrades;
         }
 
+        public PartialCourseGrade GetGrade(int idGrade)
+        {
+            conn.Open();
+            string sql = $"SELECT * FROM PartialCourseGrades " +
+                $"WHERE partialGradeId = {idGrade}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            PartialCourseGrade grade = new PartialCourseGrade();
+
+            while (rdr.Read())
+            {
+                grade.PartialGradeId = int.Parse(rdr[0].ToString());
+                grade.GradeDate = DateTime.Parse(rdr[1].ToString());
+                Enum.TryParse(rdr[2].ToString(), out Grade myGrade);
+                grade.GradeValue = myGrade;
+
+                //grade.GradeValue = GradeConverter.GetGrade(float.Parse(rdr[2].ToString()));
+                grade.Comment = rdr[3].ToString();
+            }
+            rdr.Close();
+            return grade;
+        }
+
         public List<PartialCourseGrade> GetParticipantsGrades(Participant participant, Course course)
         {
             List<PartialCourseGrade> partialGrades = new List<PartialCourseGrade>();
@@ -526,30 +570,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return partialGrades;
         }
 
-        public PartialCourseGrade GetGrade(int idGrade)
-        {
-            conn.Open();
-            string sql = $"SELECT * FROM PartialCourseGrades " +
-                $"WHERE partialGradeId = {idGrade}";
-            MySqlCommand cmd = new MySqlCommand(sql, conn);
-            MySqlDataReader rdr = cmd.ExecuteReader();
-
-            PartialCourseGrade grade = new PartialCourseGrade();
-
-            while (rdr.Read())
-            {
-                grade.PartialGradeId = int.Parse(rdr[0].ToString());
-                grade.GradeDate = DateTime.Parse(rdr[1].ToString());
-                Enum.TryParse(rdr[2].ToString(), out Grade myGrade);
-                grade.GradeValue = myGrade;
-
-                //grade.GradeValue = GradeConverter.GetGrade(float.Parse(rdr[2].ToString()));
-                grade.Comment = rdr[3].ToString();
-            }
-            rdr.Close();
-            return grade;
-        }
-
         // reader ma miec tylko dane participanta w kolejnosci jak w bazie,
         // bez danych usera - to sie samo uzupelni
         private Participant GetParticipantFromReader(MySqlDataReader rdr)
@@ -558,16 +578,17 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             if (rdr.FieldCount > 10)
             {
                 participant.ParticipantId = int.Parse(rdr[0].ToString());
-                participant.Index = rdr[1].ToString();
-                participant.SecondName = rdr[2].ToString();
-                participant.Pesel = rdr[3].ToString();
-                participant.PhoneNumber = rdr[4].ToString();
-                participant.MothersName = rdr[5].ToString();
-                participant.FathersName = rdr[6].ToString();
-                participant.StartDate = DateTime.Parse(rdr[7].ToString());
-                participant.EndDate = DateTime.Parse(rdr[8].ToString());
-                participant.ActiveParticipantStatus = bool.Parse(rdr[9].ToString());
-                participant.IfPassedFinalExam = bool.Parse(rdr[10].ToString());
+                participant.UserId = int.Parse(rdr[1].ToString());
+                participant.Index = rdr[2].ToString();
+                participant.SecondName = rdr[3].ToString();
+                participant.Pesel = rdr[4].ToString();
+                participant.PhoneNumber = rdr[5].ToString();
+                participant.MothersName = rdr[6].ToString();
+                participant.FathersName = rdr[7].ToString();
+                participant.StartDate = DateTime.Parse(rdr[8].ToString());
+                participant.EndDate = DateTime.Parse(rdr[9].ToString());
+                participant.ActiveParticipantStatus = int.Parse(rdr[10].ToString()) == 1;
+                participant.IfPassedFinalExam = int.Parse(rdr[11].ToString()) == 1;
                 FillUserData(participant);
             }
 
@@ -579,18 +600,19 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         {
             string sql = $"SELECT * FROM Users WHERE userId = {user.UserId}";
 
+            conn.Close();
             conn.Open();
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
             rdr.Read();
-            
+
             user.Name = rdr[1].ToString();
             user.Surname = rdr[2].ToString();
             user.Email = rdr[3].ToString();
             user.Birthdate = DateTime.Parse(rdr[4].ToString());
             user.MailingAddress = rdr[5].ToString();
             user.Degree = rdr[6].ToString();
-            
+
             rdr.Close();
         }
     }
