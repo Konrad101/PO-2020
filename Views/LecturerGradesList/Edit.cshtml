@@ -1,4 +1,5 @@
-﻿
+﻿@model PO_implementacja_StudiaPodyplomowe.Models.PartialCourseGrade
+ 
 @{
     ViewData["Title"] = "Edit";
 }
@@ -228,7 +229,8 @@
             <!-- Komentarz TextArea (Text Area) -->
             <div id="u741" class="ax_default text_area" data-label="Komentarz TextArea">
                 <div id="u741_div" class=""></div>
-                <textarea id="u741_input" class="u741_input">Bardzo dobrze wykonana praca z zachowaniem dbałości o szczegóły.</textarea>
+                <textarea id="u741_input" class="u741_input">@Html.DisplayFor(model => model.Comment)</textarea>
+                
             </div>
 
             <!-- Unnamed (Rectangle) -->

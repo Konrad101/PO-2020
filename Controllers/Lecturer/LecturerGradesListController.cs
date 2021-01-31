@@ -11,6 +11,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
     public class LecturerGradesListController : Controller
     {
         private DatabaseManager manager = new DatabaseManager();
+        
 
 
         public IActionResult Index()
@@ -18,9 +19,10 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
             return View();
         }
 
-        public IActionResult Edit()
+        public IActionResult Edit(int id)
         {
-            return View();
+            PartialCourseGrade grade = manager.GetGrade(id);
+            return View(grade);
         }
 
         public IActionResult Add()

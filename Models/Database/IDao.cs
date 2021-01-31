@@ -21,6 +21,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         public List<Participant> GetParticipants(Course course);
         public void AddGrade(PartialCourseGrade grade);
         public void EditGrade(PartialCourseGrade grade);
+        public PartialCourseGrade GetGrade(int idGrade);
         public List<PartialCourseGrade> GetParticipantsGrades(Participant participant);
         public List<PartialCourseGrade> GetParticipantsGrades(Participant participant, Course course);
     }

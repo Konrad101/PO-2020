@@ -14,6 +14,11 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         private static readonly string CONNECTION_DATA_PATH = "db_conf.txt";
         private MySqlConnection conn;
 
+        public DatabaseManager()
+        {
+            ConnectToDatabase();
+        }
+
         public void ConnectToDatabase()
         {
             List<string> connectionData = ReadConnectionData();
@@ -519,6 +524,30 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             }
             rdr.Close();
             return partialGrades;
+        }
+
+        public PartialCourseGrade GetGrade(int idGrade)
+        {
+            conn.Open();
+            string sql = $"SELECT * FROM PartialCourseGrades " +
+                $"WHERE partialGradeId = {idGrade}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            PartialCourseGrade grade = new PartialCourseGrade();
+
+            while (rdr.Read())
+            {
+                grade.PartialGradeId = int.Parse(rdr[0].ToString());
+                grade.GradeDate = DateTime.Parse(rdr[1].ToString());
+                Enum.TryParse(rdr[2].ToString(), out Grade myGrade);
+                grade.GradeValue = myGrade;
+
+                //grade.GradeValue = GradeConverter.GetGrade(float.Parse(rdr[2].ToString()));
+                grade.Comment = rdr[3].ToString();
+            }
+            rdr.Close();
+            return grade;
         }
 
         // reader ma miec tylko dane participanta w kolejnosci jak w bazie,
