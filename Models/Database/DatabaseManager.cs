@@ -288,7 +288,16 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 
         public List<Attendance> GetAttendences(Participant participant, Course course)
         {
-            throw new NotImplementedException();
+            List<Attendance> participantAttendences = new List<Attendance>();
+            List<Attendance> courseAttendences = GetAttendences(course);
+            foreach(Attendance attendance in courseAttendences)
+            {
+                if(attendance.Participant.ParticipantId == participant.ParticipantId)
+                {
+                    participantAttendences.Add(attendance);
+                }
+            }
+            return participantAttendences;
         }
 
         public List<Attendance> GetAttendences(Course course)
@@ -444,9 +453,18 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             conn.Close();
         }
 
-        public void EditGrade(Participant participant, PartialCourseGrade grade, Course course)
+        // zrobic tez edycje przynaleznosci do ktorej listy ocen nalezy?
+        // brakuje nam usuwania w DAO
+        public void EditGrade(PartialCourseGrade grade)
         {
-            throw new NotImplementedException();
+            conn.Open();
+            string sql = "UPDATE PartialCourseGrades " +
+                $"SET gradeDate = {grade.GradeDate}, gradeValue = {grade.GradeValue}, " +
+                $"comment = {grade.Comment} " +
+                $"WHERE partialGradeId = {grade.PartialGradeId}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
 
         public List<PartialCourseGrade> GetParticipantsGrades(Participant participant)
