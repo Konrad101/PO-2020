@@ -56,33 +56,35 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return data;
         }
 
-		public void AddReview(Review review)
+		public void AddReview(FinalThesisReview finalThesisReview)
         {
             conn.Open();
             string sql = "INSERT INTO FinalThesesReview " +
                 "(formId, titleCompability, thesisStructureComment, newProblem, sourcesUse," +
                 " formalWorkSide, wayToUse, substantiveThesisGrade, thesisGrade, formDate, " +
                 "formStatus, finalThesisId) VALUES " +
-                $"({review.FormId}, {review.TitleCompability}, {review.ThesisStructureComment}, " +
-                $"{review.NewProblem}, {review.SourcesUse}, {review.FormalWorkSide}, " +
-                $"{review.WayToUse}, {review.SubstantiveThesisGrade}, {review.ThesisGrade}, " +
-                $"'{review.FormDate.ToString("yyyy-MM-dd")}', {review.FormStatus}, " +
-                $"{review.FinalThesisId})";
+                $"({finalThesisReview.FormId}, {finalThesisReview.TitleCompability}, {finalThesisReview.ThesisStructureComment}, " +
+                $"{finalThesisReview.NewProblem}, {finalThesisReview.SourcesUse}, {finalThesisReview.FormalWorkSide}, " +
+                $"{finalThesisReview.WayToUse}, {finalThesisReview.SubstantiveThesisGrade}, {finalThesisReview.ThesisGrade}, " +
+                $"'{finalThesisReview.FormDate.ToString("yyyy-MM-dd")}', {finalThesisReview.FormStatus}, " +
+                $"{finalThesisReview.FinalThesis.FinalThesisId})";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             cmd.ExecuteNonQuery();
             conn.Close();
         }
 
-        public void EditReview(Review review)
+        public void EditReview(FinalThesisReview review)
         {
         }
 
-        public Review GetReview(int reviewId)
+        public FinalThesisReview GetReview(int reviewId)
         {
+            throw new NotImplementedException();
         }
 
-        public List<Review> GetReviews(Lecturer lecturer)
+        public List<FinalThesisReview> GetReviews(Lecturer lecturer)
         {
+            throw new NotImplementedException();
         }
 
         public void AddQuestion(Question question)
@@ -106,6 +108,26 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         }
 
         public void EditFinalThesis()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<FinalThesisReview> GetFinalThesesReview(StudyFieldManager studyFieldManager, int edition)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<SubmissionThesis> GetSubmissionTheses(Lecturer lecturer, int edition)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Attendance> GetAttendences(Participant participant, Course course)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Attendance> GetAttendences(Course course)
         {
             throw new NotImplementedException();
         }
@@ -183,7 +205,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 Participant participant = new Participant();
                 participant.ParticipantId = int.Parse(rdr[0].ToString());
                 participant.Index = rdr[1].ToString();
-                participant.SecondNameU = rdr[2].ToString();
+                participant.SecondName = rdr[2].ToString();
                 participant.Pesel = rdr[3].ToString();
                 participant.PhoneNumber = rdr[4].ToString();
                 participant.MothersName = rdr[5].ToString();
@@ -204,19 +226,26 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return participants;
         }
 
-        public void AddGrade(Participant participant, PartialGrade grade, Course course)
+        public void AddGrade(PartialCourseGrade grade)
+        {
+            conn.Open();
+            string sql = "INSERT INTO PartialCourseGrades " +
+                "(partialGradeId, gradeDate, gradeValue, participantGradeListId, comment) VALUES " +
+                $"({grade.PartialGradeId}, {grade.GradeDate.ToString("yyyy-MM-dd")}', " +
+                $"{grade.GradeValue}, {grade.ParticipantGradeList.ParticipantGradeListId}, {grade.Comment})";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+
+        public void EditGrade(Participant participant, PartialCourseGrade grade, Course course)
         {
             throw new NotImplementedException();
         }
 
-        public void EditGrade(Participant participant, PartialGrade grade, Course course)
+        public List<PartialCourseGrade> GetParticipantsGrades(Participant participant)
         {
-            throw new NotImplementedException();
-        }
-
-        public List<PartialGrade> GetParticipantsGrades(Participant participant)
-        {
-            List<PartialGrade> partialGrades = new List<PartialGrade>();
+            List<PartialCourseGrade> partialGrades = new List<PartialCourseGrade>();
             conn.Open();
 
             string sql = $"SELECT PG.GradeDate, PG.GradeValue, PG.Comment FROM PartialCourseGrades PCG " +
@@ -230,7 +259,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 
             while (rdr.Read())
             {
-                PartialGrade partialGrade = new PartialGrade();
+                PartialCourseGrade partialGrade = new PartialCourseGrade();
                 partialGrade.GradeDate = DateTime.Parse(rdr[0].ToString());
                 partialGrade.GradeValue = GradeConverter.GetGrade(float.Parse(rdr[1].ToString()));
                 partialGrade.Comment = rdr[2].ToString();
@@ -240,9 +269,9 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return partialGrades;
         }
 
-        public List<PartialGrade> GetParticipantsGrades(Participant participant, Course course)
+        public List<PartialCourseGrade> GetParticipantsGrades(Participant participant, Course course)
         {
-            List<PartialGrade> partialGrades = new List<PartialGrade>();
+            List<PartialCourseGrade> partialGrades = new List<PartialCourseGrade>();
             conn.Open();
 
             string sql = $"SELECT PG.GradeDate, PG.GradeValue, PG.Comment FROM PartialCourseGrades PCG " +
@@ -258,7 +287,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 
             while (rdr.Read())
             {
-                PartialGrade partialGrade = new PartialGrade();
+                PartialCourseGrade partialGrade = new PartialCourseGrade();
                 partialGrade.GradeDate = DateTime.Parse(rdr[0].ToString());
                 partialGrade.GradeValue = GradeConverter.GetGrade(float.Parse(rdr[1].ToString()));
                 partialGrade.Comment = rdr[2].ToString();
@@ -267,5 +296,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             rdr.Close();
             return partialGrades;
         }
+
+
     }
 }

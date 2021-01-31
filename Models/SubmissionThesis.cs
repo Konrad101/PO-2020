@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models
 {
-    public class ThesisSubmission
+    public class SubmissionThesis
     {
         public int SubmissionId { get; set; }
         public string ThesisTopic { get; set; }

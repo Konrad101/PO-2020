@@ -17,7 +17,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models
         public string SubstantiveThesisGrade { get; set; }
         public string ThesisGrade { get; set; }
         public DateTime FormDate { get; set; }
-        public ThesisStatus Status { get; set; }
+        public ThesisStatus FormStatus { get; set; }
         public FinalThesis FinalThesis { get; set; }
     }
 }
