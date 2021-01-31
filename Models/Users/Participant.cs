@@ -15,6 +15,5 @@ namespace PO_implementacja_StudiaPodyplomowe.Models
         public DateTime EndDate { get; set; }
         public bool ActiveParticipantStatus { get; set; } = true;
         public bool IfPassedFinalExam { get; set; } = false;
-        public User User { get; set; }
     }
 }
