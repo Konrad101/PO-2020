@@ -56,37 +56,33 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return data;
         }
 
-		public void AddReview(FinalThesisReview review)
+		public void AddReview(Review review)
         {
             conn.Open();
-            string sql = "INSERT INTO FinalThesesForms " +
-                "(formId, thesisTopic, participantData, titleCompability," +
-                " thesisStructureComment, newProblem, sourcesUse," +
-                " sourcesCharacteristics, formalWorkSide, substantiveThesisGrade," +
-                " thesisGrade, formDate) VALUES " +
-                $"({review.FormId}, {review.ThesisTopic}, {review.ParticipantData}," +
-                $" {review.TitleCompability}, {review.ThesisStructureComment}, {review.NewProblem}," +
-                $" {review.SourcesUse}, {review.SourcesCharacteristics}, {review.FormalWorkSide}," +
-                $" {review.SubstantiveThesisGrade}, {review.ThesisGrade}, '{review.FormDate.ToString("yyyy-MM-dd")}')";
+            string sql = "INSERT INTO FinalThesesReview " +
+                "(formId, titleCompability, thesisStructureComment, newProblem, sourcesUse," +
+                " formalWorkSide, wayToUse, substantiveThesisGrade, thesisGrade, formDate, " +
+                "formStatus, finalThesisId) VALUES " +
+                $"({review.FormId}, {review.TitleCompability}, {review.ThesisStructureComment}, " +
+                $"{review.NewProblem}, {review.SourcesUse}, {review.FormalWorkSide}, " +
+                $"{review.WayToUse}, {review.SubstantiveThesisGrade}, {review.ThesisGrade}, " +
+                $"'{review.FormDate.ToString("yyyy-MM-dd")}', {review.FormStatus}, " +
+                $"{review.FinalThesisId})";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             cmd.ExecuteNonQuery();
             conn.Close();
         }
 
-        public void EditReview(FinalThesisReview review)
+        public void EditReview(Review review)
         {
-            throw new NotImplementedException();
         }
 
-        public FinalThesisReview GetReview(int reviewId)
+        public Review GetReview(int reviewId)
         {
-            throw new NotImplementedException();
         }
 
-        public List<FinalThesisReview> GetReviews(Lecturer lecturer)
+        public List<Review> GetReviews(Lecturer lecturer)
         {
-
-            throw new NotImplementedException();
         }
 
         public void AddQuestion(Question question)
@@ -114,13 +110,13 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             throw new NotImplementedException();
         }
 
-        public List<Course> GetCourses(Participant participant)
+        public List<Course> GetCourses(Participant participant, int edition)
         {
             List<Course> participantCourses = new List<Course>();
-            conn.Open(); 
-            string sql = $"SELECT * FROM ParticipantsCourses PC" +
-                "NATURAL JOIN Courses C" +
-                $"WHERE participantId = {participant.ParticipantId}";
+            conn.Open();
+            string sql = $"SELECT C.courseId, C.courseName FROM ParticipantsWithCourses PC" +
+                "NATURAL JOIN Courses C NATURAL JOIN Editions E" +
+                $"WHERE PC.participantId = {participant.ParticipantId} AND E.edNumber = {edition}";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
 
@@ -137,13 +133,14 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return participantCourses;
         }
 
-        public List<Lecturer> GetLecturers()
+        public List<Lecturer> GetLecturers(int edition)
         {
             List<Lecturer> lecturers = new List<Lecturer>();
             conn.Open();
             string sql = $"SELECT L.lecturerId, U.userName, U.surname, U.email," +
                 $" U.birthdate, U.mailingAddress, U.degree FROM Lecturers L " +
-                "JOIN Users U ON L.userId = U.userId";
+                "JOIN Users U ON L.userId = U.userId JOIN Courses C ON C.lecturerId = " +
+                "L.lecturerId JOIN Edition E ON E.edNumber = C.edNumber ORDER BY 3";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
 
@@ -173,8 +170,9 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 $"P.pesel, P.phoneNumber, P.mothersName, P.fathersName, P.startDate, P.endDate, " +
                 $"P.activeParticipantStatus, P.ifPassedFinalExam, U.userName, U.surname, U.email, " +
                 $"U.birthdate, U.mailingAddress, U.degree FROM Participants P " +
-                $"JOIN ParticipantsCourses PC ON P.participantId = PC.participantId " +
-                $"JOIN Courses C ON C.courseId = PC.courseId JOIN Users U ON U.userId = P.userId" +
+                $"JOIN ParticipantsWithCourses PC ON P.participantId = PC.participantId " +
+                $"JOIN Courses C ON C.courseId = PC.courseId JOIN Users U ON U.userId = P.userId " +
+                $"JOIN Edition E ON E.edNumber = C.edNumber" +
                 $"WHERE C.courseId = {course.CourseId} ORDER BY 1";
 
             MySqlCommand cmd = new MySqlCommand(sql, conn);
@@ -206,21 +204,33 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return participants;
         }
 
-        public List<PartialCourseGrade> GetGrades(Participant participant)
+        public void AddGrade(Participant participant, PartialGrade grade, Course course)
         {
-            List<PartialCourseGrade> partialGrades = new List<PartialCourseGrade>();
+            throw new NotImplementedException();
+        }
+
+        public void EditGrade(Participant participant, PartialGrade grade, Course course)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<PartialGrade> GetParticipantsGrades(Participant participant)
+        {
+            List<PartialGrade> partialGrades = new List<PartialGrade>();
             conn.Open();
 
-            string sql = $"SELECT PG.GradeDate, PG.GradeValue, PG.Comment FROM ParticipantsGrades PGS " +
-                $"JOIN PartialGrades PG ON PGS.partialGradeId = PG.partialGradeId " +
-                $"WHERE PGS.participantID = {participant.ParticipantId} ORDER BY 1";
+            string sql = $"SELECT PG.GradeDate, PG.GradeValue, PG.Comment FROM PartialCourseGrades PCG " +
+                $"JOIN ParticipantGradeList PGL ON PCG.participantGradeListId = PGL.participantGradeListId " +
+                $"JOIN ParticipantsWithCourses PWC ON PWC.participantGradeListId = PCG.participantGradeListId " +
+                $"JOIN Participants P ON P.participantId = PWC.participantId" +
+                $"WHERE P.participantID = {participant.ParticipantId} ORDER BY 1";
 
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
 
             while (rdr.Read())
             {
-                PartialCourseGrade partialGrade = new PartialCourseGrade();
+                PartialGrade partialGrade = new PartialGrade();
                 partialGrade.GradeDate = DateTime.Parse(rdr[0].ToString());
                 partialGrade.GradeValue = GradeConverter.GetGrade(float.Parse(rdr[1].ToString()));
                 partialGrade.Comment = rdr[2].ToString();
@@ -230,22 +240,25 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return partialGrades;
         }
 
-        public List<PartialCourseGrade> GetParticipantsGrades(Participant participant, Course course)
+        public List<PartialGrade> GetParticipantsGrades(Participant participant, Course course)
         {
-            List<PartialCourseGrade> partialGrades = new List<PartialCourseGrade>();
+            List<PartialGrade> partialGrades = new List<PartialGrade>();
             conn.Open();
 
-            string sql = $"SELECT PG.GradeDate, PG.GradeValue, PG.Comment FROM ParticipantsGrades PGS " +
-                $"JOIN PartialGrades PG ON PGS.partialGradeId = PG.partialGradeId " +
-                $"WHERE PGS.participantID = {participant.ParticipantId} " +
-                $"AND PGS.courseId = {course.CourseId} ORDER BY 1";
+            string sql = $"SELECT PG.GradeDate, PG.GradeValue, PG.Comment FROM PartialCourseGrades PCG " +
+                $"JOIN ParticipantGradeList PGL ON PCG.participantGradeListId = PGL.participantGradeListId " +
+                $"JOIN ParticipantsWithCourses PWC ON PWC.participantGradeListId = PCG.participantGradeListId " +
+                $"JOIN Participants P ON P.participantId = PWC.participantId " +
+                $"JOIN Courses C ON C.courseId = PWC.courseId " +
+                $"WHERE P.participantID = {participant.ParticipantId} AND C.courseId = {course.CourseId}" +
+                $"ORDER BY 1";
 
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
 
             while (rdr.Read())
             {
-                PartialCourseGrade partialGrade = new PartialCourseGrade();
+                PartialGrade partialGrade = new PartialGrade();
                 partialGrade.GradeDate = DateTime.Parse(rdr[0].ToString());
                 partialGrade.GradeValue = GradeConverter.GetGrade(float.Parse(rdr[1].ToString()));
                 partialGrade.Comment = rdr[2].ToString();
@@ -253,26 +266,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             }
             rdr.Close();
             return partialGrades;
-        }
-
-        public List<Grade> GetGrades(Participant participant, Course course)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AddGrade(Participant participant, PartialCourseGrade grade, Course course)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void EditGrade(Participant participant, PartialCourseGrade grade, Course course)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<PartialCourseGrade> GetParticipantsGrades(Participant participant)
-        {
-            throw new NotImplementedException();
         }
     }
 }

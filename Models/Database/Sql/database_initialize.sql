@@ -15,6 +15,7 @@ CREATE TABLE Participants (
   secondName VARCHAR(31),
   pesel VARCHAR(12),
   phoneNumber VARCHAR(15),
+  birthdate DATE,
   mathersName VARCHAR(15),
   fathersName VARCHAR(15),
   startDate DATE,
