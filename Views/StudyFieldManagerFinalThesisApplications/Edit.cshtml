@@ -1,4 +1,5 @@
-﻿
+﻿@model PO_implementacja_StudiaPodyplomowe.Models.SubmissionThesis 
+
 @{
     ViewData["Title"] = "Edit";
 }
@@ -148,13 +149,13 @@
         <!-- Imie_nazwisko_TextField (Text Field) -->
         <div id="u420" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
             <div id="u420_div" class=""></div>
-            <input id="u420_input" type="text" value="1" class="u420_input" />
+            <input id="u420_input" type="text" value="@Html.DisplayFor(model => model.TopicNumber)" class="u420_input" />
         </div>
 
         <!-- Temat_pracy_TextArea (Text Area) -->
         <div id="u421" class="ax_default text_area" data-label="Temat_pracy_TextArea">
             <div id="u421_div" class=""></div>
-            <textarea id="u421_input" class="u421_input">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed bibendum felis ut mi molestie sodales. Suspendisse consectetur pulvinar interdum. Praesent a nisi rutrum, porttitor neque nec, sollicitudin leo.</textarea>
+            <textarea id="u421_input" class="u421_input">@Html.DisplayFor(model => model.ThesisTopic)</textarea>
         </div>
 
         <!-- Unnamed (Rectangle) -->
@@ -209,8 +210,7 @@
         <!-- Temat_pracy_TextArea (Text Area) -->
         <div id="u428" class="ax_default text_area" data-label="Temat_pracy_TextArea">
             <div id="u428_div" class=""></div>
-            <textarea id="u428_input" class="u428_input">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed bibendum felis ut mi molestie sodales. Suspendisse consectetur pulvinar interdum. Praesent a nisi rutrum, porttitor neque nec, sollicitudin leo. Morbi feugiat velit id purus posuere aliquet. Donec ultricies enim sed commodo gravida. Fusce ac tortor felis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent non mauris in metus mattis vehicula. Aenean a libero ut augue imperdiet mollis.
-</textarea>
+            <textarea id="u428_input" class="u428_input">@Html.DisplayFor(model => model.ThesisObjectives)</textarea>
         </div>
 
         <!-- Unnamed (Rectangle) -->
@@ -224,8 +224,7 @@
         <!-- Temat_pracy_TextArea (Text Area) -->
         <div id="u430" class="ax_default text_area" data-label="Temat_pracy_TextArea">
             <div id="u430_div" class=""></div>
-            <textarea id="u430_input" class="u430_input">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed bibendum felis ut mi molestie sodales. Suspendisse consectetur pulvinar interdum. Praesent a nisi rutrum, porttitor neque nec, sollicitudin leo. Morbi feugiat velit id purus posuere aliquet. Donec ultricies enim sed commodo gravida. Fusce ac tortor felis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent non mauris in metus mattis vehicula. Aenean a libero ut augue imperdiet mollis.
-</textarea>
+            <textarea id="u430_input" class="u430_input">@Html.DisplayFor(model => model.ThesisScope)</textarea>
         </div>
 
         <!-- Unnamed (Rectangle) -->

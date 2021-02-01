@@ -116,7 +116,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 review.FormDate = DateTime.Parse(rdr[9].ToString());
                 review.FormStatus = (ThesisStatus)int.Parse(rdr[10].ToString());
             }
-            rdr.Close();
+            conn.Close();
             return review;
         }
 
@@ -150,7 +150,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 review.FormStatus = (ThesisStatus)int.Parse(rdr[10].ToString());
                 reviews.Add(review);
             }
-            rdr.Close();
+            conn.Close();
             return reviews;
         }
 
@@ -199,7 +199,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 question.FinalExams = finalExam;
                 questions.Add(question);
             }
-            rdr.Close();
+            conn.Close();
             return questions;
         }
 
@@ -386,7 +386,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 attendance.ClassesUnit = classesUnit;
                 attendences.Add(attendance);
             }
-            rdr.Close();
+            conn.Close();
             return attendences;
         }
 
@@ -409,7 +409,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 course.Semester = int.Parse(rdr[3].ToString());
                 participantCourses.Add(course);
             }
-            rdr.Close();
+            conn.Close();
             return participantCourses;
         }
 
@@ -436,7 +436,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 lecturer.Degree = rdr[6].ToString();
                 lecturers.Add(lecturer);
             }
-            rdr.Close();
+            
             conn.Close();
             return lecturers;
         }
@@ -462,7 +462,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             {
                 participants.Add(GetParticipantFromReader(rdr));
             }
-            rdr.Close();
+            conn.Close();
             return participants;
         }
 
@@ -514,7 +514,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 partialGrade.Comment = rdr[2].ToString();
                 partialGrades.Add(partialGrade);
             }
-            rdr.Close();
+            conn.Close();
             return partialGrades;
         }
 
@@ -566,10 +566,33 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 partialGrade.Comment = rdr[2].ToString();
                 partialGrades.Add(partialGrade);
             }
-            rdr.Close();
+            conn.Close();
             return partialGrades;
         }
 
+        public PartialCourseGrade GetGrade(int idGrade)
+        {
+            conn.Open();
+            string sql = $"SELECT * FROM PartialCourseGrades " +
+                $"WHERE partialGradeId = {idGrade}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            PartialCourseGrade grade = new PartialCourseGrade();
+
+            while (rdr.Read())
+            {
+                grade.PartialGradeId = int.Parse(rdr[0].ToString());
+                grade.GradeDate = DateTime.Parse(rdr[1].ToString());
+                Enum.TryParse(rdr[2].ToString(), out Grade myGrade);
+                grade.GradeValue = myGrade;
+
+                //grade.GradeValue = GradeConverter.GetGrade(float.Parse(rdr[2].ToString()));
+                grade.Comment = rdr[3].ToString();
+            }
+            conn.Close();
+            return grade;
+        }
         // reader ma miec tylko dane participanta w kolejnosci jak w bazie,
         // bez danych usera - to sie samo uzupelni
         private Participant GetParticipantFromReader(MySqlDataReader rdr)
@@ -612,8 +635,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             user.Birthdate = DateTime.Parse(rdr[4].ToString());
             user.MailingAddress = rdr[5].ToString();
             user.Degree = rdr[6].ToString();
-
-            rdr.Close();
+;
         }
     }
 }
