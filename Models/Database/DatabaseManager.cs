@@ -212,9 +212,28 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             throw new NotImplementedException();
         }
 
-        public void EditFinalThesis()
+        public void EditSubmissionThesis(SubmissionThesis submissionTheses)
         {
-            throw new NotImplementedException();
+            conn.Open();
+            string sql = "UPDATE SubmissionTheses " +
+                $"SET submissionId = '{submissionTheses.SubmissionId}', thesisTopic = '{submissionTheses.ThesisTopic}', " +
+                $"topicNumber = '{submissionTheses.TopicNumber}', thesisObjectives = '{submissionTheses.ThesisObjectives}', " +
+                $"thesisScope = '{submissionTheses.ThesisScope}' " +
+                $"WHERE submissionId = {submissionTheses.SubmissionId}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+
+        public void EditFinalThesisLecturer(int finalThesisId, int lecturerId)
+        {
+            conn.Open();
+            string sql = "UPDATE FinalTheses " +
+                $"SET lecturerId = {lecturerId} " +
+                $"WHERE finalThesisId = {finalThesisId}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
 
         // tested
@@ -314,9 +333,35 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return submissions;
         }
 
-        public SubmissionThesis GetSubmissionThesis(int thesisId)
+        public SubmissionThesis GetSubmissionThesis(int submissionThesisId)
         {
-            throw new NotImplementedException();
+            conn.Open();
+            string sql = $"SELECT ST.submissionId, ST.thesisTopic, ST.topicNumber, ST.thesisObjectives, ST.thesisScope, " +
+                $"ST.finalThesisId, FT.lecturerId, " +
+                $"L.userId FROM SubmissionTheses ST JOIN FinalTheses FT ON ST.finalThesisId = FT.finalThesisId " +
+                $"JOIN Lecturers L ON FT.lecturerId = L.lecturerId " +
+                $"WHERE ST.submissionId = {submissionThesisId}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            rdr.Read();
+            SubmissionThesis submissionThesis = new SubmissionThesis();
+            submissionThesis.SubmissionId = int.Parse(rdr[0].ToString());
+            submissionThesis.ThesisTopic = rdr[1].ToString();
+            submissionThesis.TopicNumber = int.Parse(rdr[2].ToString());
+            submissionThesis.ThesisObjectives = rdr[3].ToString();
+            submissionThesis.ThesisScope = rdr[4].ToString();
+            FinalThesis finalThesis = new FinalThesis();
+            finalThesis.FinalThesisId = int.Parse(rdr[5].ToString());
+            Lecturer lecturer = new Lecturer();
+            lecturer.LecturerId = rdr[6].ToString();
+            lecturer.UserId = int.Parse(rdr[7].ToString());
+            conn.Close();
+            FillUserData(lecturer);
+            finalThesis.Lecturer = lecturer;
+            submissionThesis.FinalThesis = finalThesis;
+            
+            return submissionThesis;
         }
 
         // tested
@@ -368,7 +413,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 
                 // jednostka zajec ma prowadzacego, wiec kolejna
                 Lecturer lecturer = new Lecturer();
-                lecturer.LecturerId = int.Parse(rdr[dataOffset + 5].ToString());
+                lecturer.LecturerId = rdr[dataOffset + 5].ToString();
                 lecturer.UserId = int.Parse(rdr[dataOffset + 6].ToString());
                 classesUnit.ClassLecturer = lecturer;
 
@@ -416,17 +461,17 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         {
             List<Lecturer> lecturers = new List<Lecturer>();
             conn.Open();
-            string sql = $"SELECT L.lecturerId, U.userName, U.surname, U.email," +
+            string sql = $"SELECT L.lecturerId, U.name, U.surname, U.email," +
                 $" U.birthdate, U.mailingAddress, U.degree FROM Lecturers L " +
                 "JOIN Users U ON L.userId = U.userId JOIN Courses C ON C.lecturerId = " +
-                "L.lecturerId JOIN Edition E ON E.edNumber = C.edNumber ORDER BY 3";
+                "L.lecturerId JOIN Editions E ON E.edNumber = C.edNumber ORDER BY 3";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
 
             while (rdr.Read())
             {
                 Lecturer lecturer = new Lecturer();
-                lecturer.LecturerId = int.Parse(rdr[0].ToString());
+                lecturer.LecturerId = rdr[0].ToString();
                 lecturer.Name = rdr[1].ToString();
                 lecturer.Surname = rdr[2].ToString();
                 lecturer.Email = rdr[3].ToString();

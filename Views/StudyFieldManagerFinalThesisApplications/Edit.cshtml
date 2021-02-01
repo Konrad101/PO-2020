@@ -35,7 +35,7 @@
 
         <!-- Unnamed (Image) -->
         <div id="u405" class="ax_default image">
-            <img id="u405_img" class="img " src="../images/studyfieldmanagerfinalthesisapplicationform/u405.png" />
+            <img id="u405_img" class="img " src="/../images/studyfieldmanagerfinalthesisapplicationform/u405.png" />
             <div id="u405_text" class="text " style="display:none; visibility: hidden">
                 <p></p>
             </div>
@@ -61,7 +61,7 @@
 
         <!-- Unnamed (Image) -->
         <div id="u408" class="ax_default image">
-            <img id="u408_img" class="img " src="../images/studyfieldmanagerindex/u179.png" />
+            <img id="u408_img" class="img " src="/../images/studyfieldmanagerindex/u179.png" />
             <div id="u408_text" class="text " style="display:none; visibility: hidden">
                 <p></p>
             </div>
@@ -90,7 +90,7 @@
         <!-- Unnamed (Image) -->
         <div id="u412" class="ax_default image">
             <a asp-controller="Home" asp-action="Index">
-                <img id="u412_img" class="img " src="../images/lecturerfinalthesisformdetails/u13.png" />
+                <img id="u412_img" class="img " src="/../images/lecturerfinalthesisformdetails/u13.png" />
             </a>
         </div>
 
@@ -104,7 +104,7 @@
 
         <!-- Unnamed (Image) -->
         <div id="u414" class="ax_default image">
-            <img id="u414_img" class="img " src="../images/lecturerfinalthesisformdetails/u69.png" />
+            <img id="u414_img" class="img " src="/../images/lecturerfinalthesisformdetails/u69.png" />
             <div id="u414_text" class="text " style="display:none; visibility: hidden">
                 <p></p>
             </div>
@@ -129,111 +129,110 @@
 
     <!-- Content 1 box (Group) -->
     <div id="u417" class="ax_default" data-label="Content 1 box" data-left="410" data-top="148" data-width="1480" data-height="600">
-
-        <!-- Unnamed (Rectangle) -->
-        <div id="u418" class="ax_default box_1">
-            <div id="u418_div" class=""></div>
-            <div id="u418_text" class="text " style="display:none; visibility: hidden">
-                <p></p>
+        @using (Html.BeginForm("Edit", "StudyFieldManagerFinalThesisApplications"))
+        {
+            <!-- Unnamed (Rectangle) -->
+            <div id="u418" class="ax_default box_1">
+                <div id="u418_div" class=""></div>
+                <div id="u418_text" class="text " style="display:none; visibility: hidden">
+                    <p></p>
+                </div>
             </div>
-        </div>
 
-        <!-- Unnamed (Rectangle) -->
-        <div id="u419" class="ax_default label">
-            <div id="u419_div" class=""></div>
-            <div id="u419_text" class="text ">
-                <p><span>Edycja danych dotyczących pracy dyplomowej</span></p>
+            <!-- Unnamed (Rectangle) -->
+            <div id="u419" class="ax_default label">
+                <div id="u419_div" class=""></div>
+                <div id="u419_text" class="text ">
+                    <p><span>Edycja danych dotyczących pracy dyplomowej</span></p>
+                </div>
             </div>
-        </div>
 
-        <!-- Imie_nazwisko_TextField (Text Field) -->
-        <div id="u420" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
-            <div id="u420_div" class=""></div>
-            <input id="u420_input" type="text" value="@Html.DisplayFor(model => model.TopicNumber)" class="u420_input" />
-        </div>
-
-        <!-- Temat_pracy_TextArea (Text Area) -->
-        <div id="u421" class="ax_default text_area" data-label="Temat_pracy_TextArea">
-            <div id="u421_div" class=""></div>
-            <textarea id="u421_input" class="u421_input">@Html.DisplayFor(model => model.ThesisTopic)</textarea>
-        </div>
-
-        <!-- Unnamed (Rectangle) -->
-        <div id="u422" class="ax_default button">
-            <div id="u422_div" class=""></div>
-            <div id="u422_text" class="text ">
-                <p><span>Zapisz</span></p>
+            <!-- Imie_nazwisko_TextField (Text Field) -->
+            <div id="u420" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
+                <div id="u420_div" class=""></div>
+                <input id="u420_input" type="text" value="@Html.DisplayFor(model => model.TopicNumber)" class="u420_input" name="TopicNumber"/>
             </div>
-        </div>
 
-        <!-- Unnamed (Rectangle) -->
-        <div id="u423" class="ax_default label">
-            <div id="u423_div" class=""></div>
-            <div id="u423_text" class="text ">
-                <p><span>Wszystkie pola są obligatoryjne.</span></p>
+            <!-- Temat_pracy_TextArea (Text Area) -->
+            <div id="u421" class="ax_default text_area" data-label="Temat_pracy_TextArea">
+                <div id="u421_div" class=""></div>
+                <textarea id="u421_input" class="u421_input" name="ThesisTopic">@Html.DisplayFor(model => model.ThesisTopic)</textarea>
             </div>
-        </div>
 
-        <!-- Unnamed (Rectangle) -->
-        <div id="u424" class="ax_default label">
-            <div id="u424_div" class=""></div>
-            <div id="u424_text" class="text ">
-                <p><span>Opiekun pracy</span></p>
+
+
+            <!-- Unnamed (Rectangle) -->
+            <div id="u423" class="ax_default label">
+                <div id="u423_div" class=""></div>
+                <div id="u423_text" class="text ">
+                    <p><span>Wszystkie pola są obligatoryjne.</span></p>
+                </div>
             </div>
-        </div>
 
-        <!-- Unnamed (Droplist) -->
-        <div id="u425" class="ax_default droplist">
-            <div id="u425_div" class=""></div>
-            <select id="u425_input" class="u425_input">
-                <option class="u425_input_option" value="Edyta Frąckiewicz">Edyta Frąckiewicz</option>
-                <option class="u425_input_option" value="Studetn 1">Studetn 1</option>
-            </select>
-        </div>
-
-        <!-- Unnamed (Rectangle) -->
-        <div id="u426" class="ax_default label">
-            <div id="u426_div" class=""></div>
-            <div id="u426_text" class="text ">
-                <p><span>Numer tematu</span></p>
+            <!-- Unnamed (Rectangle) -->
+            <div id="u424" class="ax_default label">
+                <div id="u424_div" class=""></div>
+                <div id="u424_text" class="text ">
+                    <p><span>Opiekun pracy</span></p>
+                </div>
             </div>
-        </div>
 
-        <!-- Unnamed (Rectangle) -->
-        <div id="u427" class="ax_default label">
-            <div id="u427_div" class=""></div>
-            <div id="u427_text" class="text ">
-                <p><span>Temat pracy</span></p>
+            <!-- Unnamed (Droplist) -->
+            <div id="u425" class="ax_default droplist">
+                <div id="u425_div" class=""></div>
+                <select id="u425_input" class="u425_input" asp-items="ViewBag.Lecturers" name="LecturerId">
+                </select>
             </div>
-        </div>
 
-        <!-- Temat_pracy_TextArea (Text Area) -->
-        <div id="u428" class="ax_default text_area" data-label="Temat_pracy_TextArea">
-            <div id="u428_div" class=""></div>
-            <textarea id="u428_input" class="u428_input">@Html.DisplayFor(model => model.ThesisObjectives)</textarea>
-        </div>
-
-        <!-- Unnamed (Rectangle) -->
-        <div id="u429" class="ax_default label">
-            <div id="u429_div" class=""></div>
-            <div id="u429_text" class="text ">
-                <p><span>Cele pracy</span></p>
+            <!-- Unnamed (Rectangle) -->
+            <div id="u426" class="ax_default label">
+                <div id="u426_div" class=""></div>
+                <div id="u426_text" class="text ">
+                    <p><span>Numer tematu</span></p>
+                </div>
             </div>
-        </div>
 
-        <!-- Temat_pracy_TextArea (Text Area) -->
-        <div id="u430" class="ax_default text_area" data-label="Temat_pracy_TextArea">
-            <div id="u430_div" class=""></div>
-            <textarea id="u430_input" class="u430_input">@Html.DisplayFor(model => model.ThesisScope)</textarea>
-        </div>
-
-        <!-- Unnamed (Rectangle) -->
-        <div id="u431" class="ax_default label">
-            <div id="u431_div" class=""></div>
-            <div id="u431_text" class="text ">
-                <p><span>Zakres pracy</span></p>
+            <!-- Unnamed (Rectangle) -->
+            <div id="u427" class="ax_default label">
+                <div id="u427_div" class=""></div>
+                <div id="u427_text" class="text ">
+                    <p><span>Temat pracy</span></p>
+                </div>
             </div>
-        </div>
+
+            <!-- Temat_pracy_TextArea (Text Area) -->
+            <div id="u428" class="ax_default text_area" data-label="Temat_pracy_TextArea">
+                <div id="u428_div" class=""></div>
+                <textarea id="u428_input" class="u428_input" name="ThesisObjectives">@Html.DisplayFor(model => model.ThesisObjectives)</textarea>
+            </div>
+
+            <!-- Unnamed (Rectangle) -->
+            <div id="u429" class="ax_default label">
+                <div id="u429_div" class=""></div>
+                <div id="u429_text" class="text ">
+                    <p><span>Cele pracy</span></p>
+                </div>
+            </div>
+
+            <!-- Temat_pracy_TextArea (Text Area) -->
+            <div id="u430" class="ax_default text_area" data-label="Temat_pracy_TextArea">
+                <div id="u430_div" class=""></div>
+                <textarea id="u430_input" class="u430_input" name="ThesisScope">@Html.DisplayFor(model => model.ThesisScope)</textarea>
+            </div>
+
+            <!-- Unnamed (Rectangle) -->
+            <div id="u431" class="ax_default label">
+                <div id="u431_div" class=""></div>
+                <div id="u431_text" class="text ">
+                    <p><span>Zakres pracy</span></p>
+                </div>
+            </div>
+
+            <!-- Unnamed (Rectangle) -->
+            <div id="u422" class="ax_default button">
+                <input id="u422_div" class="" type="submit" value="Zapisz">
+            </div>
+        }
     </div>
 </div>
 <script src="resources/scripts/axure/ios.js"></script>
