@@ -218,7 +218,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             string sql = "UPDATE SubmissionTheses " +
                 $"SET submissionId = '{submissionTheses.SubmissionId}', thesisTopic = '{submissionTheses.ThesisTopic}', " +
                 $"topicNumber = '{submissionTheses.TopicNumber}', thesisObjectives = '{submissionTheses.ThesisObjectives}', " +
-                $"thesisScope = '{submissionTheses.ThesisScope}' " +
+                $"thesisScope = '{submissionTheses.ThesisScope}', submissionStatus = '3' " +
                 $"WHERE submissionId = {submissionTheses.SubmissionId}";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             cmd.ExecuteNonQuery();
@@ -231,6 +231,17 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             string sql = "UPDATE FinalTheses " +
                 $"SET lecturerId = {lecturerId} " +
                 $"WHERE finalThesisId = {finalThesisId}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+
+        public void EditSubmissionThesesStatus(int submissionId, int submissionStatus)
+        {
+            conn.Open();
+            string sql = "UPDATE SubmissionTheses " +
+                $"SET submissionStatus = '{submissionStatus}' " +
+                $"WHERE submissionId = {submissionId}";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             cmd.ExecuteNonQuery();
             conn.Close();
@@ -328,6 +339,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             foreach (SubmissionThesis s in submissions)
             {
                 FillUserData(s.Edition.StudyFieldManager);
+                FillUserData(s.FinalThesis.Participant);
             }
 
             return submissions;
@@ -354,7 +366,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             FinalThesis finalThesis = new FinalThesis();
             finalThesis.FinalThesisId = int.Parse(rdr[5].ToString());
             Lecturer lecturer = new Lecturer();
-            lecturer.LecturerId = rdr[6].ToString();
+            lecturer.LecturerId = int.Parse(rdr[6].ToString());
             lecturer.UserId = int.Parse(rdr[7].ToString());
             conn.Close();
             FillUserData(lecturer);
@@ -413,7 +425,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 
                 // jednostka zajec ma prowadzacego, wiec kolejna
                 Lecturer lecturer = new Lecturer();
-                lecturer.LecturerId = rdr[dataOffset + 5].ToString();
+                lecturer.LecturerId = int.Parse(rdr[dataOffset + 5].ToString());
                 lecturer.UserId = int.Parse(rdr[dataOffset + 6].ToString());
                 classesUnit.ClassLecturer = lecturer;
 
@@ -471,7 +483,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             while (rdr.Read())
             {
                 Lecturer lecturer = new Lecturer();
-                lecturer.LecturerId = rdr[0].ToString();
+                lecturer.LecturerId = int.Parse(rdr[0].ToString());
                 lecturer.Name = rdr[1].ToString();
                 lecturer.Surname = rdr[2].ToString();
                 lecturer.Email = rdr[3].ToString();

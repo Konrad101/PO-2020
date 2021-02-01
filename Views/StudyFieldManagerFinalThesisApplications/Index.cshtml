@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<PO_implementacja_StudiaPodyplomowe.Models.SubmissionThesis>
+
 @{
     ViewData["Title"] = "Index";
 }
@@ -129,556 +130,83 @@
     <!-- Recenzje (Group) -->
     <div id="u481" class="ax_default" data-label="Recenzje" data-left="410" data-top="138" data-width="1469" data-height="490">
 
-        <!-- Recenzja_1 (Group) -->
-        <div id="u482" class="ax_default" data-label="Recenzja_1" data-left="410" data-top="138" data-width="463" data-height="225">
 
-            <!-- Unnamed (Rectangle) -->
-            <div id="u483" class="ax_default box_1">
-                <div id="u483_div" class=""></div>
-                <div id="u483_text" class="text " style="display:none; visibility: hidden">
-                    <p></p>
-                </div>
-            </div>
 
-            <!-- Unnamed (Rectangle) -->
-            <div id="u484" class="ax_default label">
-                <div id="u484_div" class=""></div>
-                <div id="u484_text" class="text ">
-                    <p><span>Status:</span></p>
-                </div>
-            </div>
 
-            <!-- Unnamed (Rectangle) -->
-            <div id="u485" class="ax_default label">
-                <div id="u485_div" class=""></div>
-                <div id="u485_text" class="text ">
-                    <p><span>Autor / Autorzy:</span></p>
-                </div>
-            </div>
 
-            <!-- Unnamed (Rectangle) -->
-            <div id="u486" class="ax_default label">
-                <div id="u486_div" class=""></div>
-                <div id="u486_text" class="text ">
-                    <p><span>Temat:</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Ellipse) -->
-            <div id="u487" class="ax_default ellipse">
-                <img id="u487_img" class="img " src="images/lecturerfinalthesislist/u126.svg" />
-                <div id="u487_text" class="text " style="display:none; visibility: hidden">
-                    <p></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u488" class="ax_default label">
-                <div id="u488_div" class=""></div>
-                <div id="u488_text" class="text ">
-                    <p><span>Przesłano do edycji</span></p><p><span><br></span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u489" class="ax_default label">
-                <div id="u489_div" class=""></div>
-                <div id="u489_text" class="text ">
-                    <p><span>Jan Kowalski</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u490" class="ax_default label">
-                <div id="u490_div" class=""></div>
-                <div id="u490_text" class="text ">
-                    <p><span>Relacyjna baza danych w systemie bankowym</span></p>
-                </div>
-            </div>
-
-            <!-- Dolny_panel (Group) -->
-            <div id="u491" class="ax_default" data-label="Dolny_panel" data-left="537" data-top="308" data-width="232" data-height="45">
-
-                <!-- Unnamed (Image) -->
-                <div id="u492" class="ax_default image">
-                    <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Edit" asp-route-id="1">
-                        <img id="u492_img" class="img " src="images/lecturerfinalthesislist/u131.png" />
-                    </a>
-                    <div id="u492_text" class="text " style="display:none; visibility: hidden">
-                        <p></p>
+        <div class="content_card">
+            @foreach (var item in Model)
+            {
+            <div class="card">
+                <img src="
+                @if (item.Status.ToString() == "APPROVED")
+                {
+                @("images/lecturerfinalthesislist/u162.svg");
+                }
+                else if (item.Status.ToString() == "DISCARD")
+                {
+                @("images/studyfieldmanagerfinalthesisapplications/u505.svg");
+                }
+                else if (item.Status == ThesisStatus.WAITING)
+                {
+                @("images/studyfieldmanagerfinalthesisapplications/u541.svg");
+                }
+                " class="status">
+            <table>
+                <tr>
+                    <td class="column_one">Status:</td>
+                    <td class="column_two">
+                        @if (item.Status.ToString() == "APPROVED")
+                        {
+                            @("Zatwierdzono");
+                        }
+                        else if (item.Status.ToString() == "DISCARD")
+                        {
+                            @("Nie zatwierdzono");
+                        }
+                        else if (item.Status == ThesisStatus.WAITING)
+                        {
+                            @("Oczekuje na Twoją reakcję");
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="column_one">Autor:</td>
+                    <td class="column_two">@item.FinalThesis.Participant.Name</td>
+                </tr>
+                <tr>
+                    <td class="column_one topic_font_size">Temat:</td>
+                    <td class="column_two topic_font_size">@item.ThesisTopic</td>
+                </tr>
+            </table>
+            <div class="button_box">
+                <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Confirm" asp-route-id="1">
+                    <div class="single_button_box">
+                        <img src="images/studyfieldmanagerfinalthesisapplications/u494.png">
+                        <label>Zatwierdź</label>
                     </div>
-                </div>
-
-                <!-- Unnamed (Image) -->
-                <div id="u493" class="ax_default image">
-                    <img id="u493_img" class="img " src="images/lecturerfinalthesislist/u132.png" />
-                    <div id="u493_text" class="text " style="display:none; visibility: hidden">
-                        <p></p>
+                </a>
+                <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Edit" asp-route-id="1">
+                    <div class="single_button_box">
+                        <img src="images/lecturerfinalthesislist/u131.png">
+                        <label>Edytuj</label>
                     </div>
-                </div>
-
-                <!-- Unnamed (Image) -->
-                <div id="u494" class="ax_default image">
-                    <img id="u494_img" class="img " src="images/studyfieldmanagerfinalthesisapplications/u494.png" />
-                    <div id="u494_text" class="text " style="display:none; visibility: hidden">
-                        <p></p>
+                </a>
+                <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Discard" asp-route-id="1">
+                    <div class="single_button_box">
+                        <img src="images/lecturerfinalthesislist/u132.png">
+                        <label>Odrzuć</label>
                     </div>
-                </div>
-
-                <!-- Unnamed (Rectangle) -->
-                <div id="u495" class="ax_default label">
-                    <div id="u495_div" class=""></div>
-                    <div id="u495_text" class="text ">
-                        <p><span>Zatwierdź</span></p>
+                </a>
+                <a asp-controller="" asp-action="" asp-route-id="">
+                    <div class="single_button_box">
+                        <img src="images/lecturerfinalthesislist/u137.png">
+                        <label>Podgląd</label>
                     </div>
-                </div>
-
-                <!-- Unnamed (Rectangle) -->
-                <div id="u496" class="ax_default label">
-                    <div id="u496_div" class=""></div>
-                    <div id="u496_text" class="text ">
-                        <p><span>Edytuj</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Rectangle) -->
-                <div id="u497" class="ax_default label">
-                    <div id="u497_div" class=""></div>
-                    <div id="u497_text" class="text ">
-                        <p><span>Odrzuć</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Image) -->
-                <div id="u498" class="ax_default image">
-                    <img id="u498_img" class="img " src="images/lecturerfinalthesislist/u137.png" />
-                    <div id="u498_text" class="text " style="display:none; visibility: hidden">
-                        <p></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Rectangle) -->
-                <div id="u499" class="ax_default label">
-                    <div id="u499_div" class=""></div>
-                    <div id="u499_text" class="text ">
-                        <p><span>Podgląd</span></p>
-                    </div>
-                </div>
+                </a>
             </div>
-        </div>
-
-        <!-- Recenzja_2 (Group) -->
-        <div id="u500" class="ax_default" data-label="Recenzja_2" data-left="913" data-top="138" data-width="463" data-height="225">
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u501" class="ax_default box_1">
-                <div id="u501_div" class=""></div>
-                <div id="u501_text" class="text " style="display:none; visibility: hidden">
-                    <p></p>
-                </div>
             </div>
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u502" class="ax_default label">
-                <div id="u502_div" class=""></div>
-                <div id="u502_text" class="text ">
-                    <p><span>Status:</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u503" class="ax_default label">
-                <div id="u503_div" class=""></div>
-                <div id="u503_text" class="text ">
-                    <p><span>Autor / Autorzy:</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u504" class="ax_default label">
-                <div id="u504_div" class=""></div>
-                <div id="u504_text" class="text ">
-                    <p><span>Temat:</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Ellipse) -->
-            <div id="u505" class="ax_default ellipse">
-                <img id="u505_img" class="img " src="images/studyfieldmanagerfinalthesisapplications/u505.svg" />
-                <div id="u505_text" class="text " style="display:none; visibility: hidden">
-                    <p></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u506" class="ax_default label">
-                <div id="u506_div" class=""></div>
-                <div id="u506_text" class="text ">
-                    <p><span>Nie zatwierdzono</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u507" class="ax_default label">
-                <div id="u507_div" class=""></div>
-                <div id="u507_text" class="text ">
-                    <p><span>Kajetan Kuź, Marta Kowal</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u508" class="ax_default label">
-                <div id="u508_div" class=""></div>
-                <div id="u508_text" class="text ">
-                    <p><span>Aplikacja mobilna ucząca o zabytkach Wrocławia</span></p>
-                </div>
-            </div>
-
-            <!-- Dolny_panel (Group) -->
-            <div id="u509" class="ax_default" data-label="Dolny_panel" data-left="1029" data-top="308" data-width="232" data-height="45">
-
-                <!-- Unnamed (Image) -->
-                <div id="u510" class="ax_default image">
-                    <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Edit">
-                        <img id="u510_img" class="img " src="images/lecturerfinalthesislist/u131.png" />
-                    </a>
-                    <div id="u510_text" class="text " style="display:none; visibility: hidden">
-                        <p></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Image) -->
-                <div id="u511" class="ax_default image">
-                    <img id="u511_img" class="img " src="images/lecturerfinalthesislist/u132.png" />
-                    <div id="u511_text" class="text " style="display:none; visibility: hidden">
-                        <p></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Image) -->
-                <div id="u512" class="ax_default image">
-                    <img id="u512_img" class="img " src="images/studyfieldmanagerfinalthesisapplications/u494.png" />
-                    <div id="u512_text" class="text " style="display:none; visibility: hidden">
-                        <p></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Rectangle) -->
-                <div id="u513" class="ax_default label">
-                    <div id="u513_div" class=""></div>
-                    <div id="u513_text" class="text ">
-                        <p><span>Zatwierdź</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Rectangle) -->
-                <div id="u514" class="ax_default label">
-                    <div id="u514_div" class=""></div>
-                    <div id="u514_text" class="text ">
-                        <p><span>Edytuj</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Rectangle) -->
-                <div id="u515" class="ax_default label">
-                    <div id="u515_div" class=""></div>
-                    <div id="u515_text" class="text ">
-                        <p><span>Odrzuć</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Image) -->
-                <div id="u516" class="ax_default image">
-                    <img id="u516_img" class="img " src="images/lecturerfinalthesislist/u137.png" />
-                    <div id="u516_text" class="text " style="display:none; visibility: hidden">
-                        <p></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Rectangle) -->
-                <div id="u517" class="ax_default label">
-                    <div id="u517_div" class=""></div>
-                    <div id="u517_text" class="text ">
-                        <p><span>Podgląd</span></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Recenzja_3 (Group) -->
-        <div id="u518" class="ax_default" data-label="Recenzja_3" data-left="1416" data-top="138" data-width="463" data-height="225">
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u519" class="ax_default box_1">
-                <div id="u519_div" class=""></div>
-                <div id="u519_text" class="text " style="display:none; visibility: hidden">
-                    <p></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u520" class="ax_default label">
-                <div id="u520_div" class=""></div>
-                <div id="u520_text" class="text ">
-                    <p><span>Status:</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u521" class="ax_default label">
-                <div id="u521_div" class=""></div>
-                <div id="u521_text" class="text ">
-                    <p><span>Autor / Autorzy:</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u522" class="ax_default label">
-                <div id="u522_div" class=""></div>
-                <div id="u522_text" class="text ">
-                    <p><span>Temat:</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Ellipse) -->
-            <div id="u523" class="ax_default ellipse">
-                <img id="u523_img" class="img " src="images/lecturerfinalthesislist/u162.svg" />
-                <div id="u523_text" class="text " style="display:none; visibility: hidden">
-                    <p></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u524" class="ax_default label">
-                <div id="u524_div" class=""></div>
-                <div id="u524_text" class="text ">
-                    <p><span>Zatwierdzono</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u525" class="ax_default label">
-                <div id="u525_div" class=""></div>
-                <div id="u525_text" class="text ">
-                    <p><span>Janina Nowak</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u526" class="ax_default label">
-                <div id="u526_div" class=""></div>
-                <div id="u526_text" class="text ">
-                    <p><span>Aplikacja mobilna do śledzenia aktywności w ciągu dnia</span></p>
-                </div>
-            </div>
-
-            <!-- Dolny_panel (Group) -->
-            <div id="u527" class="ax_default" data-label="Dolny_panel" data-left="1532" data-top="308" data-width="232" data-height="45">
-
-                <!-- Unnamed (Image) -->
-                <div id="u528" class="ax_default image">
-                    <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Edit">
-                        <img id="u528_img" class="img " src="images/lecturerfinalthesislist/u131.png" />
-                    </a>
-                    <div id="u528_text" class="text " style="display:none; visibility: hidden">
-                        <p></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Image) -->
-                <div id="u529" class="ax_default image">
-                    <img id="u529_img" class="img " src="images/lecturerfinalthesislist/u132.png" />
-                    <div id="u529_text" class="text " style="display:none; visibility: hidden">
-                        <p></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Image) -->
-                <div id="u530" class="ax_default image">
-                    <img id="u530_img" class="img " src="images/studyfieldmanagerfinalthesisapplications/u494.png" />
-                    <div id="u530_text" class="text " style="display:none; visibility: hidden">
-                        <p></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Rectangle) -->
-                <div id="u531" class="ax_default label">
-                    <div id="u531_div" class=""></div>
-                    <div id="u531_text" class="text ">
-                        <p><span>Zatwierdź</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Rectangle) -->
-                <div id="u532" class="ax_default label">
-                    <div id="u532_div" class=""></div>
-                    <div id="u532_text" class="text ">
-                        <p><span>Edytuj</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Rectangle) -->
-                <div id="u533" class="ax_default label">
-                    <div id="u533_div" class=""></div>
-                    <div id="u533_text" class="text ">
-                        <p><span>Odrzuć</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Image) -->
-                <div id="u534" class="ax_default image">
-                    <img id="u534_img" class="img " src="images/lecturerfinalthesislist/u137.png" />
-                    <div id="u534_text" class="text " style="display:none; visibility: hidden">
-                        <p></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Rectangle) -->
-                <div id="u535" class="ax_default label">
-                    <div id="u535_div" class=""></div>
-                    <div id="u535_text" class="text ">
-                        <p><span>Podgląd</span></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Recenzja_4 (Group) -->
-        <div id="u536" class="ax_default" data-label="Recenzja_4" data-left="410" data-top="403" data-width="463" data-height="225">
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u537" class="ax_default box_1">
-                <div id="u537_div" class=""></div>
-                <div id="u537_text" class="text " style="display:none; visibility: hidden">
-                    <p></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u538" class="ax_default label">
-                <div id="u538_div" class=""></div>
-                <div id="u538_text" class="text ">
-                    <p><span>Status:</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u539" class="ax_default label">
-                <div id="u539_div" class=""></div>
-                <div id="u539_text" class="text ">
-                    <p><span>Autor / Autorzy:</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u540" class="ax_default label">
-                <div id="u540_div" class=""></div>
-                <div id="u540_text" class="text ">
-                    <p><span>Temat:</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Ellipse) -->
-            <div id="u541" class="ax_default ellipse">
-                <img id="u541_img" class="img " src="images/studyfieldmanagerfinalthesisapplications/u541.svg" />
-                <div id="u541_text" class="text " style="display:none; visibility: hidden">
-                    <p></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u542" class="ax_default label">
-                <div id="u542_div" class=""></div>
-                <div id="u542_text" class="text ">
-                    <p><span>Oczekuje na Twoją reakcję</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u543" class="ax_default label">
-                <div id="u543_div" class=""></div>
-                <div id="u543_text" class="text ">
-                    <p><span>Jan Kowalski</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u544" class="ax_default label">
-                <div id="u544_div" class=""></div>
-                <div id="u544_text" class="text ">
-                    <p><span>Relacyjna baza danych w systemie bankowym</span></p>
-                </div>
-            </div>
-
-            <!-- Dolny_panel (Group) -->
-            <div id="u545" class="ax_default" data-label="Dolny_panel" data-left="537" data-top="573" data-width="232" data-height="45">
-
-                <!-- Unnamed (Image) -->
-                <div id="u546" class="ax_default image">
-                    <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Edit">
-                        <img id="u546_img" class="img " src="images/lecturerfinalthesislist/u131.png" />
-                    </a>
-                    <div id="u546_text" class="text " style="display:none; visibility: hidden">
-                        <p></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Image) -->
-                <div id="u547" class="ax_default image">
-                    <img id="u547_img" class="img " src="images/lecturerfinalthesislist/u132.png" />
-                    <div id="u547_text" class="text " style="display:none; visibility: hidden">
-                        <p></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Image) -->
-                <div id="u548" class="ax_default image">
-                    <img id="u548_img" class="img " src="images/studyfieldmanagerfinalthesisapplications/u494.png" />
-                    <div id="u548_text" class="text " style="display:none; visibility: hidden">
-                        <p></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Rectangle) -->
-                <div id="u549" class="ax_default label">
-                    <div id="u549_div" class=""></div>
-                    <div id="u549_text" class="text ">
-                        <p><span>Zatwierdź</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Rectangle) -->
-                <div id="u550" class="ax_default label">
-                    <div id="u550_div" class=""></div>
-                    <div id="u550_text" class="text ">
-                        <p><span>Edytuj</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Rectangle) -->
-                <div id="u551" class="ax_default label">
-                    <div id="u551_div" class=""></div>
-                    <div id="u551_text" class="text ">
-                        <p><span>Odrzuć</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Image) -->
-                <div id="u552" class="ax_default image">
-                    <img id="u552_img" class="img " src="images/lecturerfinalthesislist/u137.png" />
-                    <div id="u552_text" class="text " style="display:none; visibility: hidden">
-                        <p></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Rectangle) -->
-                <div id="u553" class="ax_default label">
-                    <div id="u553_div" class=""></div>
-                    <div id="u553_text" class="text ">
-                        <p><span>Podgląd</span></p>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </div>

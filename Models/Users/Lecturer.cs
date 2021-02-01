@@ -2,6 +2,6 @@
 {
     public class Lecturer : User
     {
-        public string LecturerId { get; set; }
+        public int LecturerId { get; set; }
     }
 }

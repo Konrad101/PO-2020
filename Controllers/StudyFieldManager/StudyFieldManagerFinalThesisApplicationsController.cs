@@ -18,7 +18,8 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
 
         public IActionResult Index()
         {
-            return View();
+            List<SubmissionThesis> submissionTheses = manager.GetSubmissionTheses(1);
+            return View(submissionTheses);
         }
 
         public IActionResult Edit(int id)
@@ -49,7 +50,20 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
             submissionThesis.ThesisObjectives = form["ThesisObjectives"];
             submissionThesis.ThesisScope = form["TopicNumber"];
             manager.EditSubmissionThesis(submissionThesis);
-            manager.EditFinalThesisLecturer(id, manager.GetSubmissionThesis(id).FinalThesis.FinalThesisId);
+            int finalThesisId = manager.GetSubmissionThesis(id).FinalThesis.FinalThesisId;
+            manager.EditFinalThesisLecturer(finalThesisId, int.Parse(form["LecturerId"]));
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Confirm(int id)
+        {
+            manager.EditSubmissionThesesStatus(id, (int)ThesisStatus.APPROVED);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Discard(int id)
+        {
+            manager.EditSubmissionThesesStatus(id, (int)ThesisStatus.DISCARD);
             return RedirectToAction("Index");
         }
     }
