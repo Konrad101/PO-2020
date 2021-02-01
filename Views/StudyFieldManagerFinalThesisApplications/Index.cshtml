@@ -180,19 +180,19 @@
                 </tr>
             </table>
             <div class="button_box">
-                <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Confirm" asp-route-id="1">
+                <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Confirm" asp-route-id="@item.SubmissionId">
                     <div class="single_button_box">
                         <img src="images/studyfieldmanagerfinalthesisapplications/u494.png">
                         <label>Zatwierdź</label>
                     </div>
                 </a>
-                <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Edit" asp-route-id="1">
+                <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Edit" asp-route-id="@item.SubmissionId">
                     <div class="single_button_box">
                         <img src="images/lecturerfinalthesislist/u131.png">
                         <label>Edytuj</label>
                     </div>
                 </a>
-                <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Discard" asp-route-id="1">
+                <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Discard" asp-route-id="@item.SubmissionId">
                     <div class="single_button_box">
                         <img src="images/lecturerfinalthesislist/u132.png">
                         <label>Odrzuć</label>
