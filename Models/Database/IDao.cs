@@ -15,8 +15,8 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         public void EditFinalThesis();
         public List<SubmissionThesis> GetSubmissionTheses(int edition);
         public SubmissionThesis GetSubmissionThesis(int thesisId);
-        public List<Attendance> GetAttendences(Participant participant, Course course);
-        public List<Attendance> GetAttendences(Course course);
+        public List<Attendance> GetAttendances(Participant participant, Course course);
+        public List<Attendance> GetAttendances(Course course);
         public List<Course> GetCourses(Participant participant, int edition);
         public List<Lecturer> GetLecturers(int editio);
         public List<Participant> GetParticipants(Course course);
