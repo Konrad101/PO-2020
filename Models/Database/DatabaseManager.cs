@@ -161,12 +161,11 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         {
             List<FinalThesisReview> reviews = new List<FinalThesisReview>();
             conn.Open();
-            string sql = $"SELECT FTR.formId, FTR.titleCompability, FTR.thesisStructureComment, " +
-                $"FTR.newProblem, FTR.sourcesUse, FTR.formalWorkSide, FTR.wayToUse, FTR.substantiveThesisGrade, " +
-                $"FTR.thesisGrade, FTR.formDate, FTR.formStatus, FTR.finalThesisId " +
+            string sql = $"SELECT FTR.*, P.* " +
                 "FROM Lecturers L " +
                 "NATURAL JOIN FinalTheses FT " +
-                "NATURAL JOIN FinalThesesReview FTR " +
+                "JOIN Participants P ON FT.participantId = P.participantId " +
+                "JOIN FinalThesesReview FTR ON FTR.finalThesisId = FT.finalThesisId " +
                 $"WHERE L.lecturerId = {lecturerId}";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
@@ -185,10 +184,20 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 review.ThesisGrade = rdr[8].ToString();
                 review.FormDate = DateTime.Parse(rdr[9].ToString());
                 review.FormStatus = (ThesisStatus)int.Parse(rdr[10].ToString());
+                FinalThesis finalThesis = new FinalThesis();
+                finalThesis.FinalThesisId = int.Parse(rdr[11].ToString());
+                int dataOffset = 12;
+                finalThesis.Participant = GetParticipantFromReader(rdr, dataOffset);
+                review.FinalThesis = finalThesis;
+
                 reviews.Add(review);
             }
             rdr.Close();
             conn.Close();
+            foreach(FinalThesisReview r in reviews)
+            {
+                FillUserData(r.FinalThesis.Participant);
+            }
             return reviews;
         }
 

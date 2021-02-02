@@ -130,24 +130,20 @@
     <!-- Recenzje (Group) -->
     <div id="u481" class="ax_default" data-label="Recenzje" data-left="410" data-top="138" data-width="1469" data-height="490">
 
-
-
-
-
         <div class="content_card">
             @foreach (var item in Model)
             {
             <div class="card">
                 <img src="
-                @if (item.Status.ToString() == "APPROVED")
+                @if (item.Status == ThesisStatus.APPROVED)
                 {
                 @("images/lecturerfinalthesislist/u162.svg");
                 }
-                else if (item.Status.ToString() == "DISCARD")
+                else if (item.Status == ThesisStatus.DISCARD)
                 {
                 @("images/studyfieldmanagerfinalthesisapplications/u505.svg");
                 }
-                else if (item.Status == ThesisStatus.WAITING)
+                else
                 {
                 @("images/studyfieldmanagerfinalthesisapplications/u541.svg");
                 }
@@ -156,15 +152,15 @@
                 <tr>
                     <td class="column_one">Status:</td>
                     <td class="column_two">
-                        @if (item.Status.ToString() == "APPROVED")
+                        @if (item.Status == ThesisStatus.APPROVED)
                         {
                             @("Zatwierdzono");
                         }
-                        else if (item.Status.ToString() == "DISCARD")
+                        else if (item.Status == ThesisStatus.DISCARD)
                         {
                             @("Nie zatwierdzono");
                         }
-                        else if (item.Status == ThesisStatus.WAITING)
+                        else
                         {
                             @("Oczekuje na Twoją reakcję");
                         }
@@ -172,7 +168,7 @@
                 </tr>
                 <tr>
                     <td class="column_one">Autor:</td>
-                    <td class="column_two">@item.FinalThesis.Participant.Name</td>
+                    <td class="column_two">@item.FinalThesis.Participant.Name @item.FinalThesis.Participant.Surname</td>
                 </tr>
                 <tr>
                     <td class="column_one topic_font_size">Temat:</td>

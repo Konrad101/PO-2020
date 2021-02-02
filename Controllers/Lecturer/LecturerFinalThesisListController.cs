@@ -16,6 +16,14 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
         public IActionResult Index()
         {
             List<FinalThesisReview> reviews = manager.GetReviews(1);
+            List<string> topics = new List<string>();
+            for(int i = 0; i < reviews.Count; i++)
+            {
+                SubmissionThesis submission = manager.GetSubmissionForThesisId(reviews[i].FinalThesis.FinalThesisId);
+                topics.Add(submission.ThesisTopic);
+            }
+            ViewBag.topics = topics;
+            
             return View(reviews);
         }
 
