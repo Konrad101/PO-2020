@@ -1,11 +1,10 @@
 .content_card {
 	position: absolute;
-    left: 410px;
-    top: 138px;
-    width: 1500px;
+	left: 410px;
+	top: 138px;
+	width: 1500px;
 	display: block;
 	text-align: left;
-	vertical-align: top;
 }
 
 .content_card .card {
@@ -17,7 +16,6 @@
 	border-radius: 10px;
 	margin-bottom: 30px;
 	margin-right: 20px;
-	vertical-align: top;
 }
 
 .content_card .card table {
@@ -33,7 +31,7 @@
 .content_card .card table .column_one {
 	width: 120px;
 	font-size: 14px;
-    text-align: left;
+	text-align: left;
 	color: #556EE6;
 	margin-top: 10px;
 	margin-bottom: 15px;
@@ -42,7 +40,7 @@
 .content_card .card table .column_two {
 	width: 289px;
 	font-size: 14px;
-    text-align: left;
+	text-align: left;
 }
 
 .content_card .card table .topic_font_size {
@@ -85,3 +83,154 @@
 }
 
 
+
+.content_small_tab {
+	position: absolute;
+	left: 410px;
+	top: 350px;
+	width: 725px;
+	background-color: rgba(255, 255, 255, 1);
+	border: none;
+	border-radius: 10px;
+	color: #495057;
+	padding-bottom: 40px;
+}
+
+.content_small_tab .present {
+	background-color: #95e0c5;
+}
+
+.content_small_tab .absent {
+	background-color: #f9b2b2;
+}
+
+.content_small_tab table {
+	font-weight: 400;
+	font-style: normal;
+	font-size: 13px;
+	text-align: left;
+	margin-left: auto;
+	margin-right: auto;
+	border-spacing: 0;
+}
+
+.content_small_tab table thead {
+	font-weight: 700;
+}
+
+.content_small_tab table td {
+	padding: 10px;
+}
+
+.content_small_tab table .col_1 {
+	width: 80px;
+}
+
+.content_small_tab table .col_2 {
+	width: 120px;
+}
+
+.content_small_tab table .col_3 {
+	width: 120px;
+}
+
+.content_small_tab table .col_4 {
+	width: 120px;
+}
+
+.content_small_tab table .col_5 {
+	width: 130px;
+}
+
+.content_small_tab label {
+	font-family: 'Arial Pogrubiony', 'Arial Normalny', 'Arial', sans-serif;
+	font-weight: 700;
+	font-style: normal;
+	font-size: 15px;
+	color: #495057;
+	text-align: left;
+	display: block;
+	margin-top: 20px;
+	margin-left: 20px;
+	margin-bottom: 20px;
+}
+
+.content_big_tab {
+	position: absolute;
+	left: 410px;
+	top: 148px;
+	width: 1480px;
+	background-color: rgba(255, 255, 255, 1);
+	border: none;
+	border-radius: 10px;
+	color: #495057;
+}
+
+.content_big_tab label {
+	font-family: 'Arial Pogrubiony', 'Arial Normalny', 'Arial', sans-serif;
+	font-weight: 700;
+	font-style: normal;
+	font-size: 15px;
+	color: #495057;
+	text-align: left;
+	display: block;
+	margin-top: 20px;
+	margin-left: 20px;
+	margin-bottom: 20px;
+}
+
+.content_big_tab table {
+	font-weight: 400;
+	font-style: normal;
+	font-size: 13px;
+	text-align: left;
+	margin-left: auto;
+	margin-right: auto;
+	border-spacing: 0;
+}
+
+.content_big_tab table thead {
+	font-weight: 700;
+}
+
+.content_big_tab table td {
+	padding: 10px;
+}
+
+.content_big_tab table .col_1 {
+	width: 40px;
+}
+
+.content_big_tab table .col_2 {
+	width: 205px;
+}
+
+.content_big_tab table .col_3 {
+	width: 110px;
+}
+
+.content_big_tab table .col_4 {
+	width: 220px;
+}
+
+.content_big_tab table .col_5 {
+	width: 660px;
+}
+
+.content_big_tab table .col_6 {
+	width: 100px;
+}
+
+.content_big_tab table img {
+	width: 24px;
+	height: 24px;
+}
+
+.content_big_tab img.add {
+	width: 24px;
+	height: 24px;
+	margin-left: 20px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	display: block;
+}
