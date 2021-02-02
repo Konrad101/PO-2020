@@ -610,8 +610,8 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             conn.Open();
             string sql = "INSERT INTO PartialCourseGrades " +
                 "(partialGradeId, gradeDate, gradeValue, participantGradeListId, comment) VALUES " +
-                $"({grade.PartialGradeId}, {grade.GradeDate.ToString("yyyy-MM-dd")}', " +
-                $"{grade.GradeValue}, {grade.ParticipantGradeList.ParticipantGradeListId}, {grade.Comment})";
+                $"('{grade.PartialGradeId}', '{grade.GradeDate.ToString("yyyy-MM-dd")}', " +
+                $"'{grade.GradeValue}', '{grade.ParticipantGradeList.ParticipantGradeListId}', '{grade.Comment}')";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             cmd.ExecuteNonQuery();
             conn.Close();
