@@ -1,0 +1,87 @@
+.content_card {
+	position: absolute;
+    left: 410px;
+    top: 138px;
+    width: 1500px;
+	display: block;
+	text-align: left;
+	vertical-align: top;
+}
+
+.content_card .card {
+	width: 463px;
+	height: 225px;
+	display: inline-block;
+	color: #495057;
+	background-color: rgba(255, 255, 255, 1);
+	border-radius: 10px;
+	margin-bottom: 30px;
+	margin-right: 20px;
+	vertical-align: top;
+}
+
+.content_card .card table {
+	width: 420px;
+	vertical-align: top;
+	border-spacing: 20px;
+}
+
+.content_card .card table tr td {
+	vertical-align: top;
+}
+
+.content_card .card table .column_one {
+	width: 120px;
+	font-size: 14px;
+    text-align: left;
+	color: #556EE6;
+	margin-top: 10px;
+	margin-bottom: 15px;
+}
+
+.content_card .card table .column_two {
+	width: 289px;
+	font-size: 14px;
+    text-align: left;
+}
+
+.content_card .card table .topic_font_size {
+	font-size: 20px;
+}
+
+.content_card .card img.status {
+	position: relative;
+	right: 20px;
+	top: 10px;
+	height: 25px;
+	width: 25px;
+	float: right;
+}
+
+.content_card .card .button_box {
+	width: 420px;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	bottom: -5px;
+	text-align: center;
+}
+
+.content_card .card .button_box .single_button_box {
+	height: 50px;
+	display: inline-block;
+	text-align: center;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+
+.content_card .card .button_box .single_button_box img {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 24px;
+	height: 24px;
+}
+
+

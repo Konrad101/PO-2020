@@ -150,24 +150,31 @@
 
             <!-- Fields (Group) -->
             <div id="u278" class="ax_default" data-label="Fields" data-left="700" data-top="231" data-width="1170" data-height="270">
+                @using (Html.BeginForm("AddQuestion", "StudyFieldManagerFinalExamList"))
+                {
+                    <!-- Temat_pracy_TextArea (Text Area) -->
+                    <div id="u279" class="ax_default text_area" data-label="Temat_pracy_TextArea">
+                        <div id="u279_div" class=""></div>
+                        <textarea id="u279_input" name="Content" class="u279_input"></textarea>
+                    </div>
 
-                <!-- Temat_pracy_TextArea (Text Area) -->
-                <div id="u279" class="ax_default text_area" data-label="Temat_pracy_TextArea">
-                    <div id="u279_div" class=""></div>
-                    <textarea id="u279_input" class="u279_input"></textarea>
-                </div>
+                    <!-- Imie_nazwisko_TextField (Text Field) -->
+                    <div id="u280" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
+                        <div id="u280_div" class=""></div>
+                        <input id="u280_input" type="text" name="Points" value="" class="u280_input" />
+                    </div>
 
-                <!-- Imie_nazwisko_TextField (Text Field) -->
-                <div id="u280" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
-                    <div id="u280_div" class=""></div>
-                    <input id="u280_input" type="text" value="" class="u280_input" />
-                </div>
+                    <!-- Temat_pracy_TextArea (Text Area) -->
+                    <div id="u281" class="ax_default text_area" data-label="Temat_pracy_TextArea">
+                        <div id="u281_div" class=""></div>
+                        <textarea id="u281_input" class="u281_input" name="Answer"></textarea>
+                    </div>
 
-                <!-- Temat_pracy_TextArea (Text Area) -->
-                <div id="u281" class="ax_default text_area" data-label="Temat_pracy_TextArea">
-                    <div id="u281_div" class=""></div>
-                    <textarea id="u281_input" class="u281_input"></textarea>
-                </div>
+                    <!-- Unnamed (Rectangle) -->
+                    <div id="u286" class="ax_default button">
+                        <input id="u286_div" class="" type="submit" value="Zatwierdź">
+                    </div>
+                }
             </div>
 
             <!-- Labels (Group) -->
@@ -199,13 +206,6 @@
             </div>
         </div>
 
-        <!-- Unnamed (Rectangle) -->
-        <div id="u286" class="ax_default button">
-            <div id="u286_div" class=""></div>
-            <div id="u286_text" class="text ">
-                <p><span>Zatwierdź</span></p>
-            </div>
-        </div>
 
         <!-- Unnamed (Rectangle) -->
         <div id="u287" class="ax_default label">

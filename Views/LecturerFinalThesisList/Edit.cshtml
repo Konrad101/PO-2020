@@ -1,4 +1,5 @@
-﻿
+﻿@model PO_implementacja_StudiaPodyplomowe.Models.FinalThesisReview
+
 @{
     ViewData["Title"] = "Edit";
 }
@@ -34,7 +35,7 @@
 
         <!-- Unnamed (Image) -->
         <div id="u106" class="ax_default image">
-            <img id="u106_img" class="img " src="../images/lecturerfinalthesisformdetails/u4.png" />
+            <img id="u106_img" class="img " src="/../images/lecturerfinalthesisformdetails/u4.png" />
             <div id="u106_text" class="text " style="display:none; visibility: hidden">
                 <p></p>
             </div>
@@ -52,7 +53,7 @@
 
         <!-- Unnamed (Image) -->
         <div id="u108" class="ax_default image">
-            <img id="u108_img" class="img " src="../images/lecturerfinalthesisformdetails/u6.png" />
+            <img id="u108_img" class="img " src="/../images/lecturerfinalthesisformdetails/u6.png" />
             <div id="u108_text" class="text " style="display:none; visibility: hidden">
                 <p></p>
             </div>
@@ -76,7 +77,7 @@
 
         <!-- Unnamed (Image) -->
         <div id="u111" class="ax_default image">
-            <img id="u111_img" class="img " src="../images/lecturerfinalthesisformdetails/u9.png" />
+            <img id="u111_img" class="img " src="/../images/lecturerfinalthesisformdetails/u9.png" />
             <div id="u111_text" class="text " style="display:none; visibility: hidden">
                 <p></p>
             </div>
@@ -105,7 +106,7 @@
         <!-- Unnamed (Image) -->
         <div id="u115" class="ax_default image">
             <a asp-controller="Home" asp-action="Index">
-                <img id="u115_img" class="img " src="../images/lecturerfinalthesisformdetails/u13.png" />
+                <img id="u115_img" class="img " src="/../images/lecturerfinalthesisformdetails/u13.png" />
             </a>
         </div>
 
@@ -119,12 +120,13 @@
 
         <!-- Unnamed (Image) -->
         <div id="u117" class="ax_default image">
-            <img id="u117_img" class="img " src="../images/lecturerfinalthesisformdetails/u15.svg" />
+            <img id="u117_img" class="img " src="/../images/lecturerfinalthesisformdetails/u15.svg" />
             <div id="u117_text" class="text " style="display:none; visibility: hidden">
                 <p></p>
             </div>
         </div>
     </div>
+
 
     <!-- Unnamed (Rectangle) -->
     <div id="u70" class="ax_default box_1">
@@ -163,76 +165,84 @@
 
         <!-- Input (Group) -->
         <div id="u75" class="ax_default" data-label="Input" data-left="430" data-top="231" data-width="1440" data-height="670">
-
-            <!-- Fields (Group) -->
+            @using (Html.BeginForm("Edit", "LecturerFinalThesisList"))
+            {
+                <!-- Fields (Group) -->
             <div id="u76" class="ax_default" data-label="Fields" data-left="700" data-top="231" data-width="1170" data-height="670">
 
                 <!-- Temat_pracy_TextArea (Text Area) -->
                 <div id="u77" class="ax_default text_area" data-label="Temat_pracy_TextArea">
                     <div id="u77_div" class=""></div>
-                    <textarea id="u77_input" class="u77_input"></textarea>
+                    <textarea disabled id="u77_input" class="u77_input">@ViewBag.thesisTitle</textarea>
                 </div>
 
                 <!-- Imie_nazwisko_TextField (Text Field) -->
                 <div id="u78" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
                     <div id="u78_div" class=""></div>
-                    <input id="u78_input" type="text" value="" class="u78_input" />
+                    <input disabled id="u78_input" type="text" value="@ViewBag.name @ViewBag.surname" class="u78_input" />
                 </div>
 
                 <!-- Imie_nazwisko_TextField (Text Field) -->
                 <div id="u79" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
                     <div id="u79_div" class=""></div>
-                    <input id="u79_input" type="text" value="" class="u79_input" />
+                    <input id="u79_input" type="text" name="TitleCompability" value=@Html.DisplayFor(model => model.TitleCompability) class="u79_input" />
                 </div>
 
                 <!-- Imie_nazwisko_TextField (Text Field) -->
                 <div id="u80" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
                     <div id="u80_div" class=""></div>
-                    <input id="u80_input" type="text" value="" class="u80_input" />
+                    <input id="u80_input" type="text" name="ThesisStructureComment" value=@Html.DisplayFor(model => model.ThesisStructureComment) class="u80_input" />
                 </div>
 
                 <!-- Imie_nazwisko_TextField (Text Field) -->
                 <div id="u81" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
                     <div id="u81_div" class=""></div>
-                    <input id="u81_input" type="text" value="" class="u81_input" />
+                    <input id="u81_input" type="text" name="NewProblem" value=@Html.DisplayFor(model => model.NewProblem) class="u81_input" />
                 </div>
 
                 <!-- Imie_nazwisko_TextField (Text Field) -->
                 <div id="u82" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
                     <div id="u82_div" class=""></div>
-                    <input id="u82_input" type="text" value="" class="u82_input" />
+                    <input id="u82_input" type="text" name="SourcesUse" value=@Html.DisplayFor(model => model.SourcesUse) class="u82_input" />
                 </div>
 
                 <!-- Imie_nazwisko_TextField (Text Field) -->
                 <div id="u83" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
                     <div id="u83_div" class=""></div>
-                    <input id="u83_input" type="text" value="" class="u83_input" />
+                    <input id="u83_input" type="text" name="FormalWorkSide" value=@Html.DisplayFor(model => model.FormalWorkSide) class="u83_input" />
                 </div>
 
                 <!-- Imie_nazwisko_TextField (Text Field) -->
                 <div id="u84" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
                     <div id="u84_div" class=""></div>
-                    <input id="u84_input" type="text" value="" class="u84_input" />
+                    <input id="u84_input" type="text" name="WayToUse" value=@Html.DisplayFor(model => model.WayToUse) class="u84_input" />
                 </div>
 
                 <!-- Temat_pracy_TextArea (Text Area) -->
                 <div id="u85" class="ax_default text_area" data-label="Temat_pracy_TextArea">
                     <div id="u85_div" class=""></div>
-                    <textarea id="u85_input" class="u85_input"></textarea>
+                    <textarea id="u85_input" class="u85_input" name="SubstantiveThesisGrade">@Html.DisplayFor(model => model.SubstantiveThesisGrade)</textarea>
                 </div>
 
                 <!-- Imie_nazwisko_TextField (Text Field) -->
                 <div id="u86" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
                     <div id="u86_div" class=""></div>
-                    <input id="u86_input" type="text" value="" class="u86_input" />
+                    <input id="u86_input" type="text" name="ThesisGrade" value=@Html.DisplayFor(model => model.ThesisGrade) class="u86_input" />
                 </div>
 
                 <!-- Imie_nazwisko_TextField (Text Field) -->
                 <div id="u87" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
                     <div id="u87_div" class=""></div>
-                    <input id="u87_input" type="text" value="" class="u87_input" />
+                    <input id="u87_input" type="text" name="FormDate" value=@Html.DisplayFor(model => model.FormDate) class="u87_input" />
                 </div>
+
+                <!-- PRZYCISK (Rectangle) -->
+                <div id="u100" class="ax_default button">
+                    <input id="u286_div" class="" type="submit" value="Zatwierdź">
+                </div>
+
             </div>
+            }
 
             <!-- Labels (Group) -->
             <div id="u88" class="ax_default" data-label="Labels" data-left="430" data-top="240" data-width="250" data-height="651">
@@ -324,14 +334,6 @@
                         <p><span>Data</span></p>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Unnamed (Rectangle) -->
-        <div id="u100" class="ax_default button">
-            <div id="u100_div" class=""></div>
-            <div id="u100_text" class="text ">
-                <p><span>Zatwierdź</span></p>
             </div>
         </div>
 

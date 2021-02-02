@@ -1,4 +1,5 @@
-﻿
+﻿@model PO_implementacja_StudiaPodyplomowe.Models.Question
+
 @{
     ViewData["Title"] = "EditQuestion";
 }
@@ -34,7 +35,7 @@
 
         <!-- Unnamed (Image) -->
         <div id="u365" class="ax_default image">
-            <img id="u365_img" class="img " src="../images/studyfieldmanagerfinalexamquestiondetails/u262.png" />
+            <img id="u365_img" class="img " src="/../images/studyfieldmanagerfinalexamquestiondetails/u262.png" />
             <div id="u365_text" class="text " style="display:none; visibility: hidden">
                 <p></p>
             </div>
@@ -60,7 +61,7 @@
 
         <!-- Unnamed (Image) -->
         <div id="u368" class="ax_default image">
-            <img id="u368_img" class="img " src="../images/studyfieldmanagerindex/u182.png" />
+            <img id="u368_img" class="img " src="/../images/studyfieldmanagerindex/u182.png" />
             <div id="u368_text" class="text " style="display:none; visibility: hidden">
                 <p></p>
             </div>
@@ -89,7 +90,7 @@
         <!-- Unnamed (Image) -->
         <div id="u372" class="ax_default image">
             <a asp-controller="Home" asp-action="Index">
-                <img id="u372_img" class="img " src="../images/lecturerfinalthesisformdetails/u13.png" />
+                <img id="u372_img" class="img " src="/../images/lecturerfinalthesisformdetails/u13.png" />
             </a>
         </div>
 
@@ -103,7 +104,7 @@
 
         <!-- Unnamed (Image) -->
         <div id="u374" class="ax_default image">
-            <img id="u374_img" class="img " src="../images/lecturerfinalthesisformdetails/u15.svg" />
+            <img id="u374_img" class="img " src="/../images/lecturerfinalthesisformdetails/u15.svg" />
             <div id="u374_text" class="text " style="display:none; visibility: hidden">
                 <p></p>
             </div>
@@ -150,25 +151,33 @@
 
             <!-- Fields (Group) -->
             <div id="u278" class="ax_default" data-label="Fields" data-left="700" data-top="231" data-width="1170" data-height="270">
+                @using (Html.BeginForm("EditQuestion", "StudyFieldManagerFinalExamList"))
+                {
+                    <!-- Temat_pracy_TextArea (Text Area) -->
+                    <div id="u279" class="ax_default text_area" data-label="Temat_pracy_TextArea">
+                        <div id="u279_div" class=""></div>
+                        <textarea id="u279_input" class="u279_input" name="Content">@Html.DisplayFor(model => model.Content)</textarea>
+                    </div>
 
-                <!-- Temat_pracy_TextArea (Text Area) -->
-                <div id="u279" class="ax_default text_area" data-label="Temat_pracy_TextArea">
-                    <div id="u279_div" class=""></div>
-                    <textarea id="u279_input" class="u279_input"></textarea>
-                </div>
+                    <!-- Imie_nazwisko_TextField (Text Field) -->
+                    <div id="u280" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
+                        <div id="u280_div" class=""></div>
+                        <input id="u280_input" type="text" value=@Html.DisplayFor(model => model.Points) class="u280_input" name="Points" />
+                    </div>
 
-                <!-- Imie_nazwisko_TextField (Text Field) -->
-                <div id="u280" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
-                    <div id="u280_div" class=""></div>
-                    <input id="u280_input" type="text" value="" class="u280_input" />
-                </div>
+                    <!-- Temat_pracy_TextArea (Text Area) -->
+                    <div id="u281" class="ax_default text_area" data-label="Temat_pracy_TextArea">
+                        <div id="u281_div" class=""></div>
+                        <textarea id="u281_input" class="u281_input" name="Answer">@Html.DisplayFor(model => model.Answer)</textarea>
+                    </div>
 
-                <!-- Temat_pracy_TextArea (Text Area) -->
-                <div id="u281" class="ax_default text_area" data-label="Temat_pracy_TextArea">
-                    <div id="u281_div" class=""></div>
-                    <textarea id="u281_input" class="u281_input"></textarea>
-                </div>
+                    <!-- Unnamed (Rectangle) -->
+                    <div id="u286" class="ax_default button">
+                        <input id="u286_div" class="" type="submit" value="Zatwierdź">
+                    </div>
+                }
             </div>
+                
 
             <!-- Labels (Group) -->
             <div id="u282" class="ax_default" data-label="Labels" data-left="430" data-top="240" data-width="250" data-height="253">
@@ -199,13 +208,7 @@
             </div>
         </div>
 
-        <!-- Unnamed (Rectangle) -->
-        <div id="u286" class="ax_default button">
-            <div id="u286_div" class=""></div>
-            <div id="u286_text" class="text ">
-                <p><span>Zatwierdź</span></p>
-            </div>
-        </div>
+        
 
         <!-- Unnamed (Rectangle) -->
         <div id="u287" class="ax_default label">
