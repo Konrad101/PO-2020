@@ -11,8 +11,10 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         public void AddQuestion(Question question);
         public void EditQuestion(Question question);
         public List<Question> GetQuestions(FinalExam finalExam);
+        public Question GetQuestion(int questionId);
         public void AddFinalThesis();
-        public void EditFinalThesis();
+        public void EditSubmissionThesis(SubmissionThesis submissionThesis);
+        public void EditFinalThesisLecturer(int finalThesisId, int lecturerId);
         public List<SubmissionThesis> GetSubmissionTheses(int edition);
         public SubmissionThesis GetSubmissionThesis(int thesisId);
         public List<Attendance> GetAttendances(Participant participant, Course course);

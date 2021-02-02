@@ -79,13 +79,12 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         public void EditReview(FinalThesisReview review)
         {
             conn.Open();
-            string sql = "UPDATE FinalThesesFinalThesisReview " +
-                $"SET titleCompability = {review.TitleCompability}, thesisStructureComment = {review.ThesisStructureComment}, " +
-                $"newProblem = {review.NewProblem}, sourcesUse = {review.SourcesUse}, " +
-                $"formalWorkSide = {review.FormalWorkSide}, wayToUse = {review.WayToUse}, " +
-                $"substantiveThesisGrade = {review.SubstantiveThesisGrade}, thesisGrade = {review.ThesisGrade}, " +
-                $"formDate = {review.FormDate}, formStatus = {review.FormStatus}, " +
-                $"finalThesisId = {review.FinalThesis.FinalThesisId}" +
+            string sql = "UPDATE FinalThesesReview " +
+                $"SET titleCompability = '{review.TitleCompability}', thesisStructureComment = '{review.ThesisStructureComment}', " +
+                $"newProblem = '{review.NewProblem}', sourcesUse = '{review.SourcesUse}', " +
+                $"formalWorkSide = '{review.FormalWorkSide}', wayToUse = '{review.WayToUse}', " +
+                $"substantiveThesisGrade = '{review.SubstantiveThesisGrade}', thesisGrade = '{review.ThesisGrade}', " +
+                $"formDate = '{review.FormDate:yyyy-MM-dd}', formStatus = '{review.FormStatus}' " +
                 $"WHERE formId = {review.FormId}";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             cmd.ExecuteNonQuery();
@@ -163,19 +162,30 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             conn.Open();
             string sql = "INSERT INTO Questions " +
                 "(questionId, content, points, answer, examId) VALUES " +
-                $"({question.QuestionId}, {question.Content}, {question.Points}," +
-                $" {question.Answer}, {question.FinalExams.ExamId})";
+                $"('{question.QuestionId}', '{question.Content}', '{question.Points}'," +
+                $" '{question.Answer}', '{question.FinalExams.ExamId}')";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             cmd.ExecuteNonQuery();
             conn.Close();
+        }
+
+        public int GetMaxQuestionId()
+        {
+            conn.Open();
+            string sql = $"SELECT MAX(questionId) FROM Questions";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            rdr.Read();
+            return int.Parse(rdr[0].ToString());
         }
 
         public void EditQuestion(Question question)
         {
             conn.Open();
             string sql = "UPDATE Questions " +
-                $"SET content = {question.Content}, points = {question.Points}, " +
-                $"answer = {question.Answer}, examId = {question.FinalExams.ExamId} " +
+                $"SET content = '{question.Content}', points = '{question.Points}', " +
+                $"answer = '{question.Answer}' " +
                 $"WHERE questionId = {question.QuestionId}";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             cmd.ExecuteNonQuery();
@@ -208,15 +218,66 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return questions;
         }
 
+        public Question GetQuestion(int questionId)
+        {
+            Question question = new Question();
+            conn.Open();
+            string sql = $"SELECT * FROM Questions " +
+                $"WHERE questionId = {questionId}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            rdr.Read();
+
+            question.QuestionId = int.Parse(rdr[0].ToString());
+            question.Content = rdr[1].ToString();
+            question.Points = int.Parse(rdr[2].ToString());
+            question.Answer = rdr[3].ToString();
+            
+            rdr.Close();
+            conn.Close();
+            return question;
+        }
+
         //trzeba parametry dodac, ale dunno jakie
         public void AddFinalThesis()
         {
             throw new NotImplementedException();
         }
 
-        public void EditFinalThesis()
+        public void EditSubmissionThesis(SubmissionThesis submissionTheses)
         {
-            throw new NotImplementedException();
+            conn.Open();
+            string sql = "UPDATE SubmissionTheses " +
+                $"SET submissionId = '{submissionTheses.SubmissionId}', thesisTopic = '{submissionTheses.ThesisTopic}', " +
+                $"topicNumber = '{submissionTheses.TopicNumber}', thesisObjectives = '{submissionTheses.ThesisObjectives}', " +
+                $"thesisScope = '{submissionTheses.ThesisScope}', submissionStatus = '3' " +
+                $"WHERE submissionId = {submissionTheses.SubmissionId}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+
+        public void EditFinalThesisLecturer(int finalThesisId, int lecturerId)
+        {
+            conn.Open();
+            string sql = "UPDATE FinalTheses " +
+                $"SET lecturerId = {lecturerId} " +
+                $"WHERE finalThesisId = {finalThesisId}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+
+        public void EditSubmissionThesesStatus(int submissionId, int submissionStatus)
+        {
+            conn.Open();
+            string sql = "UPDATE SubmissionTheses " +
+                $"SET submissionStatus = '{submissionStatus}' " +
+                $"WHERE submissionId = {submissionId}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
 
         // tested
@@ -311,14 +372,41 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             foreach (SubmissionThesis s in submissions)
             {
                 FillUserData(s.Edition.StudyFieldManager);
+                FillUserData(s.FinalThesis.Participant);
             }
 
             return submissions;
         }
 
-        public SubmissionThesis GetSubmissionThesis(int thesisId)
+        public SubmissionThesis GetSubmissionThesis(int submissionThesisId)
         {
-            throw new NotImplementedException();
+            conn.Open();
+            string sql = $"SELECT ST.submissionId, ST.thesisTopic, ST.topicNumber, ST.thesisObjectives, ST.thesisScope, " +
+                $"ST.finalThesisId, FT.lecturerId, " +
+                $"L.userId FROM SubmissionTheses ST JOIN FinalTheses FT ON ST.finalThesisId = FT.finalThesisId " +
+                $"JOIN Lecturers L ON FT.lecturerId = L.lecturerId " +
+                $"WHERE ST.submissionId = {submissionThesisId}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            rdr.Read();
+            SubmissionThesis submissionThesis = new SubmissionThesis();
+            submissionThesis.SubmissionId = int.Parse(rdr[0].ToString());
+            submissionThesis.ThesisTopic = rdr[1].ToString();
+            submissionThesis.TopicNumber = int.Parse(rdr[2].ToString());
+            submissionThesis.ThesisObjectives = rdr[3].ToString();
+            submissionThesis.ThesisScope = rdr[4].ToString();
+            FinalThesis finalThesis = new FinalThesis();
+            finalThesis.FinalThesisId = int.Parse(rdr[5].ToString());
+            Lecturer lecturer = new Lecturer();
+            lecturer.LecturerId = int.Parse(rdr[6].ToString());
+            lecturer.UserId = int.Parse(rdr[7].ToString());
+            conn.Close();
+            FillUserData(lecturer);
+            finalThesis.Lecturer = lecturer;
+            submissionThesis.FinalThesis = finalThesis;
+
+            return submissionThesis;
         }
 
         // tested
@@ -419,10 +507,10 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         {
             List<Lecturer> lecturers = new List<Lecturer>();
             conn.Open();
-            string sql = $"SELECT L.lecturerId, L.userId FROM Lecturers L " +
-                "JOIN Courses C ON C.lecturerId = L.lecturerId " +
-                $"JOIN Editions E ON E.edNumber = C.edNumber " +
-                $"WHERE E.edNumber = {edition}";
+            string sql = $"SELECT L.lecturerId, U.name, U.surname, U.email," +
+                $" U.birthdate, U.mailingAddress, U.degree FROM Lecturers L " +
+                "JOIN Users U ON L.userId = U.userId JOIN Courses C ON C.lecturerId = " +
+                "L.lecturerId JOIN Editions E ON E.edNumber = C.edNumber ORDER BY 3";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
 
@@ -430,15 +518,16 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             {
                 Lecturer lecturer = new Lecturer();
                 lecturer.LecturerId = int.Parse(rdr[0].ToString());
-                lecturer.UserId = int.Parse(rdr[1].ToString());
+                lecturer.Name = rdr[1].ToString();
+                lecturer.Surname = rdr[2].ToString();
+                lecturer.Email = rdr[3].ToString();
+                lecturer.Birthdate = DateTime.Parse(rdr[4].ToString());
+                lecturer.MailingAddress = rdr[5].ToString();
+                lecturer.Degree = rdr[6].ToString();
                 lecturers.Add(lecturer);
             }
             rdr.Close();
             conn.Close();
-            foreach (Lecturer l in lecturers)
-            {
-                FillUserData(l);
-            }
             return lecturers;
         }
 
@@ -488,8 +577,8 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         {
             conn.Open();
             string sql = "UPDATE PartialCourseGrades " +
-                $"SET gradeDate = {grade.GradeDate}, gradeValue = {grade.GradeValue}, " +
-                $"comment = {grade.Comment} " +
+                $"SET gradeDate = '{grade.GradeDate:yyyy-MM-dd}', gradeValue = '{grade.GradeValue}', " +
+                $"comment = '{grade.Comment}' " +
                 $"WHERE partialGradeId = {grade.PartialGradeId}";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             cmd.ExecuteNonQuery();
