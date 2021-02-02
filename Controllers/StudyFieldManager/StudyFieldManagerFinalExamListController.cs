@@ -36,7 +36,8 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
         public IActionResult AddQuestion(IFormCollection form)
         {
             Question question = new Question();
-            question.QuestionId = manager.GetMaxQuestionId();
+            int maxId = manager.GetMaxQuestionId();
+            question.QuestionId = maxId + 1;
             question.Content = form["Content"];
             question.Points = int.Parse(form["Points"]);
             question.Answer = form["Answer"];
@@ -51,7 +52,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
 
         public IActionResult EditQuestion(int id)
         {
-            Console.WriteLine("Edit, ID: " + id);
             IDao dao = new DatabaseManager();
             Question question = dao.GetQuestion(id);
             return View(question);
