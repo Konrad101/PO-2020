@@ -20,8 +20,10 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         public List<Attendance> GetAttendances(Participant participant, Course course);
         public List<Attendance> GetAttendances(Course course);
         public List<Course> GetCourses(Participant participant, int edition);
+		public List<Course> GetCourses(int edition);
         public List<Lecturer> GetLecturers(int editio);
         public List<Participant> GetParticipants(Course course);
+		public List<Participant> GetParticipants();
         public void AddGrade(PartialCourseGrade grade);
         public void EditGrade(PartialCourseGrade grade);
         public PartialCourseGrade GetGrade(int idGrade);

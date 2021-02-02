@@ -523,7 +523,31 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 
             return attendances;
         }
+		
+		public List<Course> GetCourses(int edition)
+        {
+            List<Course> participantCourses = new List<Course>();
+            conn.Open();
+            string sql = $"SELECT C.courseId, C.courseName FROM ParticipantsWithCourses PC " + 
+                "NATURAL JOIN Courses C NATURAL JOIN Editions E " + 
+                $"WHERE E.edNumber = {edition}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
 
+            while (rdr.Read())
+            {
+                Course course = new Course();
+                course.CourseId = rdr[0].ToString();
+                course.Name = rdr[1].ToString();
+                //course.ECTSPoints = int.Parse(rdr[2].ToString());
+                //course.Semester = int.Parse(rdr[3].ToString());
+                participantCourses.Add(course);
+            }
+            rdr.Close();
+            conn.Close();
+            return participantCourses;
+        }
+		
         public List<Course> GetCourses(Participant participant, int edition)
         {
             List<Course> participantCourses = new List<Course>();
@@ -575,6 +599,30 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             rdr.Close();
             conn.Close();
             return lecturers;
+        }
+		
+		public List<Participant> GetParticipants()
+        {
+            List<Participant> participants = new List<Participant>();
+            conn.Open();
+
+            string sql = $"SELECT P.* FROM Participants P " + 
+                $"ORDER BY 1";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                participants.Add(GetParticipantFromReader(rdr));
+            }
+            rdr.Close();
+            conn.Close();
+            foreach (Participant p in participants)
+            {
+                FillUserData(p);
+            }
+            return participants;
         }
 
         // tested
