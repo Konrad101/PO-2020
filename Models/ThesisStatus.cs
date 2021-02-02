@@ -3,8 +3,7 @@
     public enum ThesisStatus
     {
         APPROVED = 1,
-        NOT_APPROVED = 2,
-        IN_PROGRESS = 3,
-        WAITING = 4
+        DISCARD = 2,
+        WAITING = 3
     }
 }
