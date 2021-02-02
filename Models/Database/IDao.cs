@@ -7,7 +7,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         public void AddReview(FinalThesisReview review);
         public void EditReview(FinalThesisReview review);
         public FinalThesisReview GetReview(int reviewId);
-        public List<FinalThesisReview> GetReviews(Lecturer lecturer);
+        public List<FinalThesisReview> GetReviews(int lecturerId);
         public void AddQuestion(Question question);
         public void EditQuestion(Question question);
         public List<Question> GetQuestions(FinalExam finalExam);

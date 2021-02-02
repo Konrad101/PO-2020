@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using MySql.Data.MySqlClient;
@@ -75,7 +75,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             conn.Close();
         }
 
-        // non-tested
+        // tested
         public void EditReview(FinalThesisReview review)
         {
             conn.Open();
@@ -84,8 +84,19 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 $"newProblem = '{review.NewProblem}', sourcesUse = '{review.SourcesUse}', " +
                 $"formalWorkSide = '{review.FormalWorkSide}', wayToUse = '{review.WayToUse}', " +
                 $"substantiveThesisGrade = '{review.SubstantiveThesisGrade}', thesisGrade = '{review.ThesisGrade}', " +
-                $"formDate = '{review.FormDate:yyyy-MM-dd}', formStatus = '{review.FormStatus}' " +
+                $"formDate = '{review.FormDate:yyyy-MM-dd}', formStatus = '3' " +
                 $"WHERE formId = {review.FormId}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+
+        public void EditReviewStatus(int formId, int reviewStatus)
+        {
+            conn.Open();
+            string sql = "UPDATE FinalThesesReview " +
+                $"SET formStatus = '{reviewStatus}' " +
+                $"WHERE formId = {formId}";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             cmd.ExecuteNonQuery();
             conn.Close();
@@ -95,34 +106,58 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         public FinalThesisReview GetReview(int reviewId)
         {
             conn.Open();
-            string sql = $"SELECT * FROM FinalThesesReview " +
+            string sql = $"SELECT FTR.*, P.* FROM FinalThesesReview FTR " +
+                $"JOIN FinalTheses FT ON FTR.finalThesisId = FT.finalThesisId " +
+                $"JOIN Participants P ON P.participantId = FT.participantId " +
                 $"WHERE formId = {reviewId}";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
 
             FinalThesisReview review = new FinalThesisReview();
 
-            while (rdr.Read())
-            {
-                review.FormId = int.Parse(rdr[0].ToString());
-                review.TitleCompability = rdr[1].ToString();
-                review.ThesisStructureComment = rdr[2].ToString();
-                review.NewProblem = rdr[3].ToString();
-                review.SourcesUse = rdr[4].ToString();
-                review.FormalWorkSide = rdr[5].ToString();
-                review.WayToUse = rdr[6].ToString();
-                review.SubstantiveThesisGrade = rdr[7].ToString();
-                review.ThesisGrade = rdr[8].ToString();
-                review.FormDate = DateTime.Parse(rdr[9].ToString());
-                review.FormStatus = (ThesisStatus)int.Parse(rdr[10].ToString());
-            }
+            rdr.Read();
+            review.FormId = int.Parse(rdr[0].ToString());
+            review.TitleCompability = rdr[1].ToString();
+            review.ThesisStructureComment = rdr[2].ToString();
+            review.NewProblem = rdr[3].ToString();
+            review.SourcesUse = rdr[4].ToString();
+            review.FormalWorkSide = rdr[5].ToString();
+            review.WayToUse = rdr[6].ToString();
+            review.SubstantiveThesisGrade = rdr[7].ToString();
+            review.ThesisGrade = rdr[8].ToString();
+            review.FormDate = DateTime.Parse(rdr[9].ToString());
+            review.FormStatus = (ThesisStatus)int.Parse(rdr[10].ToString());
+
+            FinalThesis finalThesis = new FinalThesis();
+            finalThesis.FinalThesisId = int.Parse(rdr[11].ToString());
+            int dataOffset = 12;
+            finalThesis.Participant = GetParticipantFromReader(rdr, dataOffset);
+            review.FinalThesis = finalThesis;
+            
             rdr.Close();
             conn.Close();
+            FillUserData(finalThesis.Participant);
             return review;
         }
 
+        public SubmissionThesis GetSubmissionForThesisId(int finalThesisId)
+        {
+            conn.Open();
+            string sql = $"SELECT ST.submissionId FROM FinalTheses FT " +
+                $"JOIN SubmissionTheses ST ON ST.finalThesisId = FT.finalThesisId " +
+                $"WHERE FT.finalThesisId = {finalThesisId}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            rdr.Read();
+            int submissionThesisId = int.Parse(rdr[0].ToString());
+            rdr.Close();
+            conn.Close();
+            return GetSubmissionThesis(submissionThesisId);
+        }
+
         // tested
-        public List<FinalThesisReview> GetReviews(Lecturer lecturer)
+        public List<FinalThesisReview> GetReviews(int lecturerId)
         {
             List<FinalThesisReview> reviews = new List<FinalThesisReview>();
             conn.Open();
@@ -132,7 +167,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 "FROM Lecturers L " +
                 "NATURAL JOIN FinalTheses FT " +
                 "NATURAL JOIN FinalThesesReview FTR " +
-                $"WHERE L.lecturerId = {lecturer.LecturerId}";
+                $"WHERE L.lecturerId = {lecturerId}";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
 
@@ -177,7 +212,9 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             MySqlDataReader rdr = cmd.ExecuteReader();
 
             rdr.Read();
-            return int.Parse(rdr[0].ToString());
+            int maxId = int.Parse(rdr[0].ToString());
+            conn.Close();
+            return maxId;
         }
 
         public void EditQuestion(Question question)
@@ -678,7 +715,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             Participant participant = new Participant();
             if (rdr.FieldCount > 10)
             {
-                participant.ParticipantId = int.Parse(rdr[0 + dataOffset].ToString());
+                participant.ParticipantId = int.Parse(rdr[dataOffset].ToString());
                 participant.UserId = int.Parse(rdr[1 + dataOffset].ToString());
                 participant.Index = rdr[2 + dataOffset].ToString();
                 participant.SecondName = rdr[3 + dataOffset].ToString();

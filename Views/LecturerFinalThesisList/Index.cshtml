@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<PO_implementacja_StudiaPodyplomowe.Models.FinalThesisReview>
+
 @{
     ViewData["Title"] = "Index";
 }
@@ -243,7 +244,7 @@
                 <div id="u134" class="ax_default label">
                     <div id="u134_div" class=""></div>
                     <div id="u134_text" class="text ">
-                        <p><span>Wyślij</span></p>
+                        <p><a asp-controller="LecturerFinalThesisList" asp-action="Confirm" asp-route-id="1">Wyślij</a></p>
                     </div>
                 </div>
 
@@ -259,7 +260,7 @@
                 <div id="u136" class="ax_default label">
                     <div id="u136_div" class=""></div>
                     <div id="u136_text" class="text ">
-                        <p><span>Usuń</span></p>
+                        <p><a asp-controller="LecturerFinalThesisList" asp-action="Discard" asp-route-id="1">Odrzuć</a></p>
                     </div>
                 </div>
 

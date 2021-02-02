@@ -15,7 +15,7 @@ CREATE TABLE Participants (
   secondName VARCHAR(31),
   pesel VARCHAR(12),
   phoneNumber VARCHAR(15),
-  mathersName VARCHAR(15),
+  mothersName VARCHAR(15),
   fathersName VARCHAR(15),
   startDate DATE,
   endDate DATE,
@@ -113,8 +113,8 @@ CREATE TABLE Courses (
 
 CREATE TABLE ClassesUnits (
   classUnitId INT PRIMARY KEY,
-  classBeginning DATE,
-  classEnding DATE,
+  classBeginning DATETIME,
+  classEnding DATETIME,
   classroomNumber VARCHAR(31),
   classForm INT,
   courseId VARCHAR(15),

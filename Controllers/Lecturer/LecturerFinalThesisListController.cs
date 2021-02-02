@@ -15,18 +15,32 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
 
         public IActionResult Index()
         {
-            return View();
+            List<FinalThesisReview> reviews = manager.GetReviews(1);
+            return View(reviews);
+        }
+
+        public IActionResult Confirm(int id)
+        {
+            manager.EditReviewStatus(id, (int)ThesisStatus.APPROVED);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Discard(int id)
+        {
+            manager.EditReviewStatus(id, (int)ThesisStatus.DISCARD);
+            return RedirectToAction("Index");
         }
 
         public IActionResult Edit(int id)
         {
             IDao dao = new DatabaseManager();
             FinalThesisReview review = dao.GetReview(id);
-            string title = "THESIS TITLE";
-            ViewBag.thesisTitle = title;
-            ViewBag.name = "imieeeee";
-            ViewBag.surname = "nazwisko_student";
-            
+            SubmissionThesis submission = manager.GetSubmissionForThesisId(review.FinalThesis.FinalThesisId);
+                        
+            ViewBag.thesisTopic = submission.ThesisTopic;
+            ViewBag.name = review.FinalThesis.Participant.Name;
+            ViewBag.surname = review.FinalThesis.Participant.Surname;
+
             return View(review);
         }
 
