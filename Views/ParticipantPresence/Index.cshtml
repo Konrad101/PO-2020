@@ -115,7 +115,8 @@
 
         <!-- Wybierz kurs (Group) -->
         <div id="u591" class="ax_default" data-label="Wybierz kurs" data-left="410" data-top="148" data-width="1480" data-height="172">
-
+        @using (Html.BeginForm("Index", "ParticipantPresence"))
+        {
             <!-- Unnamed (Rectangle) -->
             <div id="u592" class="ax_default box_1">
                 <div id="u592_div" class=""></div>
@@ -135,18 +136,12 @@
             <!-- Unnamed (Droplist) -->
             <div id="u594" class="ax_default droplist">
                 <div id="u594_div" class=""></div>
-                <select id="u594_input" class="u594_input">
-                    <option class="u594_input_option" selected value="Metody tworzenia modelu pojęć">Metody tworzenia modelu pojęć</option>
-                    <option class="u594_input_option" value="Studetn 1">Studetn 1</option>
-                </select>
+                <select id="u594_input" class="u594_input" asp-items="ViewBag.Courses" name="CourseId"></select>
             </div>
 
             <!-- Unnamed (Rectangle) -->
             <div id="u595" class="ax_default button">
-                <div id="u595_div" class=""></div>
-                <div id="u595_text" class="text ">
-                    <p><a asp-controller="ParticipantPresence" asp-action="Details">Pokaż</a></p>
-                </div>
+                <input id="u595_div" class="" type="submit" value="Pokaż">
             </div>
 
             <!-- Unnamed (Rectangle) -->
@@ -156,6 +151,7 @@
                     <p><span>Nazwa kursu</span></p>
                 </div>
             </div>
+        }
         </div>
     </div>
 </div>
