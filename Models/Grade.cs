@@ -59,5 +59,29 @@ namespace PO_implementacja_StudiaPodyplomowe.Models
             }
                 
         }
+
+        public static Grade GetGradeString(string gradeValue)
+        {
+            switch (gradeValue)
+            {
+                case "Grade20":
+                    return Grade.Grade20;
+                case "Grade30":
+                    return Grade.Grade30;
+                case "Grade35":
+                    return Grade.Grade35;
+                case "Grade40":
+                    return Grade.Grade40;
+                case "Grade45":
+                    return Grade.Grade45;
+                case "Grade50":
+                    return Grade.Grade50;
+                case "Grade55":
+                    return Grade.Grade55;
+                default:
+                    return Grade.None;
+            }
+
+        }
     }
 }

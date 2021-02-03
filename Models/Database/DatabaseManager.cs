@@ -678,11 +678,24 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             conn.Open();
             string sql = "INSERT INTO PartialCourseGrades " +
                 "(partialGradeId, gradeDate, gradeValue, participantGradeListId, comment) VALUES " +
-                $"({grade.PartialGradeId}, {grade.GradeDate.ToString("yyyy-MM-dd")}', " +
-                $"{grade.GradeValue}, {grade.ParticipantGradeList.ParticipantGradeListId}, {grade.Comment})";
+                $"('{grade.PartialGradeId}', '{grade.GradeDate.ToString("yyyy-MM-dd")}', " +
+                $"'{grade.GradeValue}', '{grade.ParticipantGradeList.ParticipantGradeListId}', '{grade.Comment}')";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             cmd.ExecuteNonQuery();
             conn.Close();
+        }
+
+        public int GetMaxGradeId()
+        {
+            conn.Open();
+            string sql = $"SELECT MAX(partialGradeId) FROM PartialCourseGrades";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            rdr.Read();
+            int maxId = int.Parse(rdr[0].ToString());
+            conn.Close();
+            return maxId;
         }
 
         // zrobic tez edycje przynaleznosci do ktorej listy ocen nalezy?

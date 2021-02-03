@@ -110,10 +110,11 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
         public IActionResult Add(int id,IFormCollection form)
         {
             PartialCourseGrade partialCourseGrade = new PartialCourseGrade();
+            int maxId = manager.GetMaxGradeId();
+            partialCourseGrade.PartialGradeId = maxId + 1;
             partialCourseGrade.GradeDate = Convert.ToDateTime(form["DataTextField"]);
             partialCourseGrade.GradeValue = GradeConverter.GetGradeString(form["GradeId"]);
             partialCourseGrade.Comment = form["ComentTextArea"];
-            partialCourseGrade.PartialGradeId = id;
             // tutaj potrzeba referencji na liste ocen uczestnika
             // my robimy tak, ze zawsze jestes uczestnikiem o id = 1
             // ale którą liste ocen (ParticipantGradeListId) musimy uzyskać wcześniej z widoku, 
