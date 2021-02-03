@@ -1,4 +1,5 @@
-﻿using System;
+﻿//KAMIL
+using System;
 using System.Collections.Generic;
 using System.IO;
 using MySql.Data.MySqlClient;
@@ -133,7 +134,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             int dataOffset = 12;
             finalThesis.Participant = GetParticipantFromReader(rdr, dataOffset);
             review.FinalThesis = finalThesis;
-            
+
             rdr.Close();
             conn.Close();
             FillUserData(finalThesis.Participant);
@@ -194,7 +195,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             }
             rdr.Close();
             conn.Close();
-            foreach(FinalThesisReview r in reviews)
+            foreach (FinalThesisReview r in reviews)
             {
                 FillUserData(r.FinalThesis.Participant);
             }
@@ -279,7 +280,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             question.Content = rdr[1].ToString();
             question.Points = int.Parse(rdr[2].ToString());
             question.Answer = rdr[3].ToString();
-            
+
             rdr.Close();
             conn.Close();
             return question;
@@ -620,6 +621,29 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             conn.Close();
             return lecturers;
         }
+        public List<Participant> GetParticipants()
+        {
+            List<Participant> participants = new List<Participant>();
+            conn.Open();
+
+            string sql = $"SELECT P.* FROM Participants P " +
+                $"ORDER BY 1";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                participants.Add(GetParticipantFromReader(rdr));
+            }
+            rdr.Close();
+            conn.Close();
+            foreach (Participant p in participants)
+            {
+                FillUserData(p);
+            }
+            return participants;
+        }
 
         // tested
         public List<Participant> GetParticipants(Course course)
@@ -642,7 +666,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             }
             rdr.Close();
             conn.Close();
-            foreach(Participant p in participants)
+            foreach (Participant p in participants)
             {
                 FillUserData(p);
             }
@@ -654,11 +678,23 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             conn.Open();
             string sql = "INSERT INTO PartialCourseGrades " +
                 "(partialGradeId, gradeDate, gradeValue, participantGradeListId, comment) VALUES " +
-                $"({grade.PartialGradeId}, {grade.GradeDate.ToString("yyyy-MM-dd")}', " +
-                $"{grade.GradeValue}, {grade.ParticipantGradeList.ParticipantGradeListId}, {grade.Comment})";
+                $"('{grade.PartialGradeId}', '{grade.GradeDate.ToString("yyyy-MM-dd")}', " +
+                $"'{grade.GradeValue}', '{grade.ParticipantGradeList.ParticipantGradeListId}', '{grade.Comment}')";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             cmd.ExecuteNonQuery();
             conn.Close();
+        }
+        public int GetMaxGradeId()
+        {
+            conn.Open();
+            string sql = $"SELECT MAX(partialGradeId) FROM PartialCourseGrades";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            rdr.Read();
+            int maxId = int.Parse(rdr[0].ToString());
+            conn.Close();
+            return maxId;
         }
 
         // zrobic tez edycje przynaleznosci do ktorej listy ocen nalezy?
@@ -807,6 +843,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             conn.Close();
         }
 
-        
+
     }
 }

@@ -156,7 +156,8 @@
 
     <!-- Content 1 box (Group) -->
     <div id="u830" class="ax_default" data-label="Content 1 box" data-left="410" data-top="148" data-width="1480" data-height="502">
-
+        @using (Html.BeginForm("Index", "LecturerGradesList"))
+        {
         <!-- Wprowadź dane (Group) -->
         <div id="u831" class="ax_default" data-label="Wprowadź dane" data-left="410" data-top="148" data-width="1480" data-height="226">
 
@@ -179,17 +180,9 @@
             <!-- Unnamed (Droplist) -->
             <div id="u834" class="ax_default droplist">
                 <div id="u834_div" class=""></div>
-                <select id="u834_input" class="u834_input">
-                    <option class="u834_input_option" selected value="Projektowanie oprogramowania">Projektowanie oprogramowania</option>
+                <select id="u834_input" class="u834_input" name="CourseSelect" asp-items="ViewBag.Courses">
+                    <!-- <option class="u834_input_option" selected value="Projektowanie oprogramowania">Projektowanie oprogramowania</option> -->
                 </select>
-            </div>
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u835" class="ax_default button">
-                <div id="u835_div" class=""></div>
-                <div id="u835_text" class="text ">
-                    <p><a asp-controller="LecturerGradesList" asp-action="Details">Pokaż oceny</a></p>
-                </div>
             </div>
 
             <!-- Unnamed (Rectangle) -->
@@ -203,8 +196,8 @@
             <!-- Unnamed (Droplist) -->
             <div id="u837" class="ax_default droplist">
                 <div id="u837_div" class=""></div>
-                <select id="u837_input" class="u837_input">
-                    <option class="u837_input_option" value="Radosław Ścigała">Radosław Ścigała</option>
+                <select id="u837_input" class="u837_input" name="StudSelect" asp-items="ViewBag.Participants">
+                    <!-- <option class="u837_input_option" value="Radosław Ścigała">Radosław Ścigała</option> -->
                 </select>
             </div>
 
@@ -215,7 +208,14 @@
                     <p><span>Imię i nazwisko:</span></p>
                 </div>
             </div>
+
+            <!-- Unnamed (Rectangle) -->
+            <div id="u835" class="ax_default button">
+                <input id="u835_div" class="" type="submit" value="Pokaż oceny" />
+            </div>
+
         </div>
+        }
     </div>
 </div>
 <script src="resources/scripts/axure/ios.js"></script>

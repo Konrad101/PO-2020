@@ -48,7 +48,7 @@
 
             <!-- Unnamed (Image) -->
             <div id="u815" class="ax_default image">
-                <img id="u815_img" class="img " src="../images/lecturerindex/u238.png" />
+                <img id="u815_img" class="img " src="/../images/lecturerindex/u238.png" />
                 <div id="u815_text" class="text " style="display:none; visibility: hidden">
                     <p></p>
                 </div>
@@ -60,7 +60,7 @@
 
             <!-- Unnamed (Image) -->
             <div id="u817" class="ax_default image">
-                <img id="u817_img" class="img " src="../images/lecturergradedetails/u718.png" />
+                <img id="u817_img" class="img " src="/../images/lecturergradedetails/u718.png" />
                 <div id="u817_text" class="text " style="display:none; visibility: hidden">
                     <p></p>
                 </div>
@@ -88,7 +88,7 @@
 
             <!-- Unnamed (Image) -->
             <div id="u821" class="ax_default image">
-                <img id="u821_img" class="img " src="../images/lecturerfinalthesisformdetails/u9.png" />
+                <img id="u821_img" class="img " src="/../images/lecturerfinalthesisformdetails/u9.png" />
                 <div id="u821_text" class="text " style="display:none; visibility: hidden">
                     <p></p>
                 </div>
@@ -118,7 +118,7 @@
         <!-- Unnamed (Image) -->
         <div id="u825" class="ax_default image">
             <a asp-controller="Home" asp-action="Index">
-                <img id="u825_img" class="img " src="../images/lecturerfinalthesisformdetails/u13.png" />
+                <img id="u825_img" class="img " src="/../images/lecturerfinalthesisformdetails/u13.png" />
             </a>
         </div>
 
@@ -132,7 +132,7 @@
 
         <!-- Unnamed (Image) -->
         <div id="u827" class="ax_default image">
-            <img id="u827_img" class="img " src="../images/lecturerfinalthesisformdetails/u69.png" />
+            <img id="u827_img" class="img " src="/../images/lecturerfinalthesisformdetails/u69.png" />
             <div id="u827_text" class="text " style="display:none; visibility: hidden">
                 <p></p>
             </div>
@@ -157,8 +157,9 @@
 
     <!-- Content 1 box (Group) -->
     <div id="u767" class="ax_default" data-label="Content 1 box" data-left="410" data-top="148" data-width="1480" data-height="382">
-
-        <!-- Unnamed (Rectangle) -->
+        @using (Html.BeginForm("Add", "LecturerGradesList"))
+        {
+            <!-- Unnamed (Rectangle) -->
         <div id="u768" class="ax_default box_1">
             <div id="u768_div" class=""></div>
             <div id="u768_text" class="text " style="display:none; visibility: hidden">
@@ -207,39 +208,27 @@
 
             <!-- Data TextField (Text Field) -->
             <div id="u775" class="ax_default text_field" data-label="Data TextField">
-                <img id="u775_img" class="img " src="../images/lecturergradeadd/data_textfield_u775.svg" />
-                <input id="u775_input" type="text" value="" class="u775_input" />
+                <img id="u775_img" class="img " src="/../images/lecturergradeadd/data_textfield_u775.svg" />
+                <input id="u775_input" type="text" value="" class="u775_input" name="DataTextField" />
             </div>
 
             <!-- Unnamed (Droplist) -->
             <div id="u776" class="ax_default droplist">
                 <div id="u776_div" class=""></div>
-                <select id="u776_input" class="u776_input" asp-items="Html.GetEnumSelectList<Grade>()">
-                    <!--asp-items="Html.GetEnumSelectList<Grade>()" -->
-                    <option class="u776_input_option" selected value="--Wybierz ocenę--">--Wybierz ocenę--</option>
-                    <option class="u776_input_option" value="2.0">2.0</option>
-                    <option class="u776_input_option" value="3.0">3.0</option>
-                    <option class="u776_input_option" value="3.5">3.5</option>
-                    <option class="u776_input_option" value="4.0">4.0</option>
-                    <option class="u776_input_option" value="4.5">4.5</option>
-                    <option class="u776_input_option" value="5.0">5.0</option>
-                    <option class="u776_input_option" value="5.5">5.5</option>
+                <select id="u776_input" class="u776_input"  asp-items="@Html.GetEnumSelectList<Grade>()" name="GradeId">
                 </select>
             </div>
 
             <!-- Komentarz TextArea (Text Area) -->
             <div id="u777" class="ax_default text_area" data-label="Komentarz TextArea">
                 <div id="u777_div" class=""></div>
-                <textarea id="u777_input" class="u777_input"></textarea>
+                <textarea id="u777_input" class="u777_input" name="ComentTextArea"></textarea>
             </div>
         </div>
 
         <!-- Unnamed (Rectangle) -->
         <div id="u778" class="ax_default button">
-            <div id="u778_div" class=""></div>
-            <div id="u778_text" class="text ">
-                <p><span>Zatwierdź</span></p>
-            </div>
+            <input id="u778_div" class="" value="Zatwierdź" type="submit">
         </div>
 
         <!-- Unnamed (Rectangle) -->
@@ -249,6 +238,7 @@
                 <p><span>Wszystkie pola są obligatoryjne.</span></p>
             </div>
         </div>
+        }
     </div>
 </div>
 <script src="resources/scripts/axure/ios.js"></script>
