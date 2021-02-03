@@ -156,6 +156,7 @@
 }
 
 .content_big_tab {
+	font-family: 'Arial Pogrubiony', 'Arial Normalny', 'Arial', sans-serif;
 	position: absolute;
 	left: 410px;
 	top: 148px;
@@ -167,7 +168,6 @@
 }
 
 .content_big_tab label {
-	font-family: 'Arial Pogrubiony', 'Arial Normalny', 'Arial', sans-serif;
 	font-weight: 700;
 	font-style: normal;
 	font-size: 15px;
@@ -220,6 +220,30 @@
 .content_big_tab table .col_6 {
 	width: 100px;
 }
+
+	.content_big_tab table.final_exam .col_1 {
+		width: 60px;
+	}
+
+	.content_big_tab table.final_exam .col_2 {
+		width: 205px;
+	}
+
+	.content_big_tab table.final_exam .col_3 {
+		width: 110px;
+	}
+
+	.content_big_tab table.final_exam .col_4 {
+		width: 220px;
+	}
+
+	.content_big_tab table.final_exam .col_5 {
+		width: 660px;
+	}
+
+	.content_big_tab table.final_exam .col_6 {
+		width: 150px;
+	}
 
 .content_big_tab table img {
 	width: 24px;

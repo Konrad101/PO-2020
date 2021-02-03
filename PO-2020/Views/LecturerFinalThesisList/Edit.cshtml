@@ -179,61 +179,79 @@
                 <!-- Imie_nazwisko_TextField (Text Field) -->
                 <div id="u78" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
                     <div id="u78_div" class=""></div>
-                    <input disabled id="u78_input" type="text" value="@ViewBag.name @ViewBag.surname" class="u78_input" />
+                    <input disabled id="u78_input" type="text" class="u78_input" value="@ViewBag.name @ViewBag.surname" />
                 </div>
 
                 <!-- Imie_nazwisko_TextField (Text Field) -->
                 <div id="u79" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
                     <div id="u79_div" class=""></div>
-                    <input id="u79_input" type="text" name="TitleCompability" value=@Html.DisplayFor(model => model.TitleCompability) class="u79_input" />
+                    <input id="u79_input" type="text" name="TitleCompability" class="u79_input @if (!ViewBag.dataIsValid && !ViewBag.fieldsValidation[0]) @("error")" value="@if (ViewBag.dataIsValid)
+                        { @Html.DisplayFor(model => model.TitleCompability) }
+                        else { @ViewBag.form["TitleCompability"] }" />
                 </div>
 
                 <!-- Imie_nazwisko_TextField (Text Field) -->
                 <div id="u80" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
                     <div id="u80_div" class=""></div>
-                    <input id="u80_input" type="text" name="ThesisStructureComment" value=@Html.DisplayFor(model => model.ThesisStructureComment) class="u80_input" />
+                    <input id="u80_input" type="text" name="ThesisStructureComment" class="u80_input @if (!ViewBag.dataIsValid && !ViewBag.fieldsValidation[1]) @("error")" value="@if (ViewBag.dataIsValid)
+                        { @Html.DisplayFor(model => model.ThesisStructureComment) }
+                        else { @ViewBag.form["ThesisStructureComment"] }" />
                 </div>
 
                 <!-- Imie_nazwisko_TextField (Text Field) -->
                 <div id="u81" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
                     <div id="u81_div" class=""></div>
-                    <input id="u81_input" type="text" name="NewProblem" value=@Html.DisplayFor(model => model.NewProblem) class="u81_input" />
+                    <input id="u81_input" type="text" name="NewProblem" class="u81_input @if (!ViewBag.dataIsValid && !ViewBag.fieldsValidation[2]) @("error")" value="@if (ViewBag.dataIsValid)
+                        { @Html.DisplayFor(model => model.NewProblem) }
+                        else { @ViewBag.form["NewProblem"] }" />
                 </div>
 
                 <!-- Imie_nazwisko_TextField (Text Field) -->
                 <div id="u82" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
                     <div id="u82_div" class=""></div>
-                    <input id="u82_input" type="text" name="SourcesUse" value=@Html.DisplayFor(model => model.SourcesUse) class="u82_input" />
+                    <input id="u82_input" type="text" name="SourcesUse" class="u82_input @if (!ViewBag.dataIsValid && !ViewBag.fieldsValidation[3]) @("error")" value="@if (ViewBag.dataIsValid)
+                        { @Html.DisplayFor(model => model.SourcesUse) }
+                        else { @ViewBag.form["SourcesUse"] }" />
                 </div>
 
                 <!-- Imie_nazwisko_TextField (Text Field) -->
                 <div id="u83" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
                     <div id="u83_div" class=""></div>
-                    <input id="u83_input" type="text" name="FormalWorkSide" value=@Html.DisplayFor(model => model.FormalWorkSide) class="u83_input" />
+                    <input id="u83_input" type="text" name="FormalWorkSide" class="u83_input @if (!ViewBag.dataIsValid && !ViewBag.fieldsValidation[4]) @("error")" value="@if (ViewBag.dataIsValid)
+                        { @Html.DisplayFor(model => model.FormalWorkSide) }
+                        else { @ViewBag.form["FormalWorkSide"] }" />
                 </div>
 
                 <!-- Imie_nazwisko_TextField (Text Field) -->
                 <div id="u84" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
                     <div id="u84_div" class=""></div>
-                    <input id="u84_input" type="text" name="WayToUse" value=@Html.DisplayFor(model => model.WayToUse) class="u84_input" />
+                    <input id="u84_input" type="text" name="WayToUse" class="u84_input @if (!ViewBag.dataIsValid && !ViewBag.fieldsValidation[5]) @("error")" value="@if (ViewBag.dataIsValid)
+                        { @Html.DisplayFor(model => model.WayToUse) }
+                        else { @ViewBag.form["WayToUse"] }" />
                 </div>
 
                 <!-- Temat_pracy_TextArea (Text Area) -->
                 <div id="u85" class="ax_default text_area" data-label="Temat_pracy_TextArea">
                     <div id="u85_div" class=""></div>
-                    <textarea id="u85_input" class="u85_input" name="SubstantiveThesisGrade">@Html.DisplayFor(model => model.SubstantiveThesisGrade)</textarea>
+                    <textarea id="u85_input" class="u85_input @if (!ViewBag.dataIsValid && !ViewBag.fieldsValidation[6]) @("error")" name="SubstantiveThesisGrade">@if (ViewBag.dataIsValid)
+                        { @Html.DisplayFor(model => model.SubstantiveThesisGrade) }
+                        else { @ViewBag.form["SubstantiveThesisGrade"] }</textarea>
                 </div>
 
                 <!-- Imie_nazwisko_TextField (Text Field) -->
                 <div id="u86" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
                     <div id="u86_div" class=""></div>
-                    <input id="u86_input" type="text" name="ThesisGrade" value=@Html.DisplayFor(model => model.ThesisGrade) class="u86_input" />
+                    <input id="u86_input" type="text" name="ThesisGrade" class="u86_input @if (!ViewBag.dataIsValid && !ViewBag.fieldsValidation[7]) @("error")" value="@if (ViewBag.dataIsValid)
+                        { @Html.DisplayFor(model => model.ThesisGrade) }
+                        else { @ViewBag.form["ThesisGrade"] }" />
                 </div>
 
                 <!-- Imie_nazwisko_TextField (Text Field) -->
                 <div id="u87" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
                     <div id="u87_div" class=""></div>
-                    <input id="u87_input" type="text" name="FormDate" value=@Html.DisplayFor(model => model.FormDate) class="u87_input" />
+                    <input id="u87_input" type="text" name="FormDate" class="u87_input @if (!ViewBag.dataIsValid && !ViewBag.fieldsValidation[8]) @("error")" value="@if (ViewBag.dataIsValid)
+                        { @Html.DisplayFor(model => model.FormDate ) }
+                        else { @ViewBag.form["FormDate"] }" />
                 </div>
 
                 <!-- PRZYCISK (Rectangle) -->

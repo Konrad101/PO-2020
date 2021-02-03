@@ -1,5 +1,4 @@
-﻿//KAMIL
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using MySql.Data.MySqlClient;
@@ -134,7 +133,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             int dataOffset = 12;
             finalThesis.Participant = GetParticipantFromReader(rdr, dataOffset);
             review.FinalThesis = finalThesis;
-
+            
             rdr.Close();
             conn.Close();
             FillUserData(finalThesis.Participant);
@@ -195,7 +194,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             }
             rdr.Close();
             conn.Close();
-            foreach (FinalThesisReview r in reviews)
+            foreach(FinalThesisReview r in reviews)
             {
                 FillUserData(r.FinalThesis.Participant);
             }
@@ -239,14 +238,25 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             conn.Close();
         }
 
-        public List<Question> GetQuestions(FinalExam finalExam)
+        public void DeleteQuestion(int questionId)
         {
+            conn.Open();
+            string sql = "DELETE FROM Questions " +
+                $"WHERE questionId = {questionId}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+
+        public List<Question> GetQuestions(int finalExamId)
+        {
+            
             List<Question> questions = new List<Question>();
             conn.Open();
             string sql = $"SELECT Q.questionId, Q.content, Q.points, Q.answer " +
-                $"FROM Questions " +
+                $"FROM Questions Q " +
                 "NATURAL JOIN FinalExams FE " +
-                $"WHERE FE.examId = {finalExam.ExamId}";
+                $"WHERE FE.examId = {finalExamId}";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
 
@@ -257,7 +267,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 question.Content = rdr[1].ToString();
                 question.Points = int.Parse(rdr[2].ToString());
                 question.Answer = rdr[3].ToString();
-                question.FinalExams = finalExam;
                 questions.Add(question);
             }
             rdr.Close();
@@ -280,7 +289,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             question.Content = rdr[1].ToString();
             question.Points = int.Parse(rdr[2].ToString());
             question.Answer = rdr[3].ToString();
-
+            
             rdr.Close();
             conn.Close();
             return question;
@@ -548,7 +557,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return classesUnits;
         }
 
-
         public List<Course> GetCourses(int edition)
         {
             List<Course> participantCourses = new List<Course>();
@@ -621,6 +629,8 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             conn.Close();
             return lecturers;
         }
+
+        // tested
         public List<Participant> GetParticipants()
         {
             List<Participant> participants = new List<Participant>();
@@ -684,6 +694,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             cmd.ExecuteNonQuery();
             conn.Close();
         }
+
         public int GetMaxGradeId()
         {
             conn.Open();
@@ -696,7 +707,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             conn.Close();
             return maxId;
         }
-
+        
         // zrobic tez edycje przynaleznosci do ktorej listy ocen nalezy?
         // brakuje nam usuwania w DAO
         public void EditGrade(PartialCourseGrade grade)
@@ -843,6 +854,52 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             conn.Close();
         }
 
+        public List<FinalExam> GetFinalExams(int managerId)
+        {
+            List<FinalExam> finalExams = new List<FinalExam>();
+            conn.Open();
+            string sql = $"SELECT * FROM FinalExams " +
+                $"WHERE managerId = {managerId}";
 
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                FinalExam finalExam = new FinalExam();
+                finalExam.ExamId = int.Parse(rdr[0].ToString());
+                finalExam.ExamDate = DateTime.Parse(rdr[1].ToString());
+                finalExam.Classroom = rdr[2].ToString();
+
+                StudyFieldManager manager = new StudyFieldManager();
+                manager.ManagerId = int.Parse(rdr[3].ToString());
+                finalExam.StudyFieldManager = manager;
+
+                finalExams.Add(finalExam);
+            }
+            rdr.Close();
+            conn.Close();
+
+            return finalExams;
+        }
+
+        public int GetFinalExamQuestionsAmount(int finalExamId)
+        {
+            conn.Open();
+            string sql = $"SELECT COUNT(FE.examId) FROM FinalExams FE " +
+                $"JOIN Questions Q ON Q.examId = FE.examId " +
+                $"WHERE FE.examId = {finalExamId}";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+            rdr.Read();
+            int questionsAmount = int.Parse(rdr[0].ToString());
+           
+            rdr.Close();
+            conn.Close();
+            return questionsAmount;
+        }
+
+        
     }
 }

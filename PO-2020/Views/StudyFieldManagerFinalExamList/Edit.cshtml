@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<PO_implementacja_StudiaPodyplomowe.Models.Question>
+
 @{
     ViewData["Title"] = "Edit";
 }
@@ -126,200 +127,38 @@
         </div>
     </div>
 
-    <!-- Dane_egzaminu (Group) -->
-    <div id="u335" class="ax_default" data-label="Dane_egzaminu" data-left="410" data-top="148" data-width="1480" data-height="373">
+    <div class="content_big_tab">
+        <label>Lista obecności</label>
+        <table class="final_exam">
+            <thead>
+            <td class="col_1">#</td>
+            <td class="col_2">Liczba punktów</td>
+            <td class="col_4">Treść</td>
+            <td class="col_5">Odpowiedź</td>
+            <td class="col_6"></td>
+            </thead>
 
-        <!-- Unnamed (Rectangle) -->
-        <div id="u336" class="ax_default box_1">
-            <div id="u336_div" class=""></div>
-            <div id="u336_text" class="text " style="display:none; visibility: hidden">
-                <p></p>
-            </div>
-        </div>
-
-        <!-- Lista_pytan (Group) -->
-        <div id="u337" class="ax_default" data-label="Lista_pytan" data-left="430" data-top="265" data-width="1410" data-height="132">
-
-            <!-- Unnamed (Table) -->
-            <div id="u338" class="ax_default">
-
-                <!-- Unnamed (Table Cell) -->
-                <div id="u339" class="ax_default table_cell">
-                    <img id="u339_img" class="img " src="/../images/studyfieldmanagerfinalexamquestions/u339.png" />
-                    <div id="u339_text" class="text ">
-                        <p><span>#</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Table Cell) -->
-                <div id="u340" class="ax_default table_cell">
-                    <img id="u340_img" class="img " src="/../images/studyfieldmanagerfinalexamquestions/u340.png" />
-                    <div id="u340_text" class="text ">
-                        <p><span>Liczba punktów</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Table Cell) -->
-                <div id="u341" class="ax_default table_cell">
-                    <img id="u341_img" class="img " src="/../images/studyfieldmanagerfinalexamquestions/u341.png" />
-                    <div id="u341_text" class="text ">
-                        <p><span>Treść</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Table Cell) -->
-                <div id="u342" class="ax_default table_cell">
-                    <img id="u342_img" class="img " src="/../images/studyfieldmanagerfinalexamquestions/u341.png" />
-                    <div id="u342_text" class="text ">
-                        <p><span>Odpowiedź</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Table Cell) -->
-                <div id="u343" class="ax_default table_cell">
-                    <img id="u343_img" class="img " src="/../images/studyfieldmanagerfinalexamquestions/u343.png" />
-                    <div id="u343_text" class="text ">
-                        <p><span>1</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Table Cell) -->
-                <div id="u344" class="ax_default table_cell">
-                    <img id="u344_img" class="img " src="/../images/studyfieldmanagerfinalexamquestions/u344.png" />
-                    <div id="u344_text" class="text ">
-                        <p><span>2</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Table Cell) -->
-                <div id="u345" class="ax_default table_cell">
-                    <img id="u345_img" class="img " src="/../images/studyfieldmanagerfinalexamquestions/u345.png" />
-                    <div id="u345_text" class="text ">
-                        <p><span>Wyjaśnij terminy: asocjacja, agregacja.</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Table Cell) -->
-                <div id="u346" class="ax_default table_cell">
-                    <img id="u346_img" class="img " src="/../images/studyfieldmanagerfinalexamquestions/u346.png" />
-                    <div id="u346_text" class="text ">
-                        <p><span>Asocjacja jest to... Agregracja jest to..</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Table Cell) -->
-                <div id="u347" class="ax_default table_cell">
-                    <img id="u347_img" class="img " src="/../images/studyfieldmanagerfinalexamquestions/u343.png" />
-                    <div id="u347_text" class="text ">
-                        <p><span>2</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Table Cell) -->
-                <div id="u348" class="ax_default table_cell">
-                    <img id="u348_img" class="img " src="/../images/studyfieldmanagerfinalexamquestions/u344.png" />
-                    <div id="u348_text" class="text ">
-                        <p><span>4</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Table Cell) -->
-                <div id="u349" class="ax_default table_cell">
-                    <img id="u349_img" class="img " src="/../images/studyfieldmanagerfinalexamquestions/u346.png" />
-                    <div id="u349_text" class="text ">
-                        <p><span>Wypisz i opisz 4 najbardziej powszechne wzorce projektowe. </span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (Table Cell) -->
-                <div id="u350" class="ax_default table_cell">
-                    <img id="u350_img" class="img " src="/../images/studyfieldmanagerfinalexamquestions/u346.png" />
-                    <div id="u350_text" class="text ">
-                        <p><span>1. Wzorzec MVC - polega on na...</span></p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- edit_img2 (Image) -->
-            <div id="u351" class="ax_default image" data-label="edit_img2">
-                <a asp-controller="StudyFieldManagerFinalExamList" asp-action="EditQuestion" asp-route-id="1">
-                    <img id="u351_img" class="img " src="/../images/lecturerfinalthesislist/u131.png" />
-                </a>
-                <div id="u351_text" class="text " style="display:none; visibility: hidden">
-                    <p></p>
-                </div>
-            </div>
-
-            <!-- edit_img1 (Image) -->
-            <div id="u352" class="ax_default image" data-label="edit_img1">
-                <a asp-controller="StudyFieldManagerFinalExamList" asp-action="EditQuestion" asp-route-id="1">
-                    <img id="u352_img" class="img " src="/../images/lecturerfinalthesislist/u131.png" />
-                </a>
-                <div id="u352_text" class="text " style="display:none; visibility: hidden">
-                    <p></p>
-                </div>
-            </div>
-
-            <!-- delete_img1 (Image) -->
-            <div id="u353" class="ax_default image" data-label="delete_img1">
-                <img id="u353_img" class="img " src="/../images/lecturerfinalthesislist/u132.png" />
-                <div id="u353_text" class="text " style="display:none; visibility: hidden">
-                    <p></p>
-                </div>
-            </div>
-
-            <!-- delete_img2 (Image) -->
-            <div id="u354" class="ax_default image" data-label="delete_img2">
-                <img id="u354_img" class="img " src="/../images/lecturerfinalthesislist/u132.png" />
-                <div id="u354_text" class="text " style="display:none; visibility: hidden">
-                    <p></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- add_img (Image) -->
-        <div id="u355" class="ax_default image" data-label="add_img">
-            <a asp-controller="StudyFieldManagerFinalExamList" asp-action="AddQuestion">
-                <img id="u355_img" class="img " src="/../images/studyfieldmanagerfinalexamquestions/add_img_u355.png" />
-            </a>
-            <div id="u355_text" class="text " style="display:none; visibility: hidden">
-                <p></p>
-            </div>
-        </div>
-
-        <!-- Unnamed (Rectangle) -->
-        <div id="u356" class="ax_default label">
-            <div id="u356_div" class=""></div>
-            <div id="u356_text" class="text ">
-                <p><span>Dane egzaminu</span></p>
-            </div>
-        </div>
-
-        <!-- Nazwa (Group) -->
-        <div id="u357" class="ax_default" data-label="Nazwa" data-left="430" data-top="200" data-width="650" data-height="34">
-
-            <!-- Unnamed (Text Field) -->
-            <div id="u358" class="ax_default text_field">
-                <div id="u358_div" class=""></div>
-                <input disabled id="u358_input" type="text" value="Egzamin 2020" class="u358_input" />
-            </div>
-
-            <!-- Unnamed (Rectangle) -->
-            <div id="u359" class="ax_default label">
-                <div id="u359_div" class=""></div>
-                <div id="u359_text" class="text ">
-                    <p><span>Nazwa egzaminu</span></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Unnamed (Rectangle) -->
-        <div id="u360" class="ax_default button">
-            <div id="u360_div" class=""></div>
-            <div id="u360_text" class="text ">
-                <p><a asp-controller="StudyFieldManagerFinalExamList" asp-action="Index">Zatwierdź</a></p>
-            </div>
-        </div>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="final_exam" col>@(Model.ToList().IndexOf(item) + 1)</td>
+                    <td class="col_3">@item.Points</td>
+                    <td class="col_4">@item.Content</td>
+                    <td class="col_5">@item.Answer</td>
+                    <td class="col_6">
+                        <a asp-controller="StudyFieldManagerFinalExamList" asp-action="EditQuestion" asp-route-id="@item.QuestionId">
+                            <img src="/../images/lecturerfinalthesislist/u131.png">
+                        </a>
+                        <a asp-controller="StudyFieldManagerFinalExamList" asp-action="DeleteQuestion" asp-route-id="@item.QuestionId">
+                            <img src="/../images/lecturerfinalthesislist/u132.png" style="padding-left: 50px;">
+                        </a>
+                    </td>
+                </tr>
+            }
+        </table>
+        <a asp-controller="StudyFieldManagerFinalExamList" asp-action="AddQuestion">
+            <img src="/../images/studyfieldmanagerfinalexamquestions/add_img_u355.png" class="add">
+        </a>
     </div>
 </div>
 <script src="resources/scripts/axure/ios.js"></script>

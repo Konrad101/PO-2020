@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PO_implementacja_StudiaPodyplomowe.Models;
 using PO_implementacja_StudiaPodyplomowe.Models.Database;
+using PO_implementacja_StudiaPodyplomowe.Models.Validators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,20 +43,36 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
         public IActionResult Edit(int id)
         {
             IDao dao = new DatabaseManager();
-            FinalThesisReview review = dao.GetReview(id);
-            SubmissionThesis submission = manager.GetSubmissionForThesisId(review.FinalThesis.FinalThesisId);
-                        
-            ViewBag.thesisTopic = submission.ThesisTopic;
-            ViewBag.name = review.FinalThesis.Participant.Name;
-            ViewBag.surname = review.FinalThesis.Participant.Surname;
+            UpdateTopicAndName(id);
+            ViewBag.dataIsValid = true;
 
-            return View(review);
+            return View(dao.GetReview(id));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, IFormCollection form)
         {
+            List<bool> fieldsValidation = GetReviewFieldsValidation(form);
+            bool dataIsValid = true;
+            foreach (bool fieldValidation in fieldsValidation)
+            {
+                if (!fieldValidation)
+                {
+                    dataIsValid = false;
+                }
+            }
+
+            UpdateTopicAndName(id);
+            ViewBag.dataIsValid = dataIsValid;
+            ViewBag.form = form;
+
+            if (!dataIsValid)
+            {
+                ViewBag.fieldsValidation = fieldsValidation;
+                return View();
+            }
+
             FinalThesisReview review = new FinalThesisReview();
             review.FormId = id;
             review.TitleCompability = form["TitleCompability"];
@@ -74,6 +91,33 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
             Console.WriteLine("Grade " + review.ThesisGrade);
 
             return RedirectToAction("Index");
+        }
+
+        private void UpdateTopicAndName(int reviewId)
+        {
+            IDao dao = new DatabaseManager();
+            FinalThesisReview review = dao.GetReview(reviewId);
+            SubmissionThesis submission = manager.GetSubmissionForThesisId(review.FinalThesis.FinalThesisId);
+
+            ViewBag.thesisTopic = submission.ThesisTopic;
+            ViewBag.name = review.FinalThesis.Participant.Name;
+            ViewBag.surname = review.FinalThesis.Participant.Surname;
+        }
+
+        private List<bool> GetReviewFieldsValidation(IFormCollection form)
+        {
+            List<bool> fieldsValidation = new List<bool>();
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["TitleCompability"]));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["ThesisStructureComment"]));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["NewProblem"]));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["SourcesUse"]));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["FormalWorkSide"]));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["WayToUse"]));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["SubstantiveThesisGrade"]));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["ThesisGrade"]));
+            fieldsValidation.Add(DataValidator.DateIsValid(form["FormDate"]));
+
+            return fieldsValidation;
         }
     }
 }
