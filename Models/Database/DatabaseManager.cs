@@ -524,6 +524,30 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return attendances;
         }
 
+        public List<ClassesUnit> GetClassesUnitsDate(Course course)
+        {
+            List<ClassesUnit> classesUnits = new List<ClassesUnit>();
+            conn.Open();
+            string sql = $"SELECT CU.classUnitId, CU.classBeginning, CU.classEnding FROM Courses C " +
+                "NATURAL JOIN ClassesUnits CU " +
+                $"WHERE C.courseId = {course.CourseId} ORDER BY 2";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                ClassesUnit classUnit = new ClassesUnit();
+                classUnit.ClassUnitId = int.Parse(rdr[0].ToString());
+                classUnit.ClassBeginning = DateTime.Parse(rdr[1].ToString());
+                classUnit.ClassEnding = DateTime.Parse(rdr[2].ToString());
+                classesUnits.Add(classUnit);
+            }
+            rdr.Close();
+            conn.Close();
+            return classesUnits;
+        }
+
+
         public List<Course> GetCourses(int edition)
         {
             List<Course> participantCourses = new List<Course>();
@@ -546,29 +570,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return participantCourses;
         }
 
-        public List<Course> GetCourses(int edition, User user)
-        {
-            List<Course> participantCourses = new List<Course>();
-            conn.Open();
-            string sql = $"SELECT C.courseId, C.courseName FROM ParticipantsWithCourses PC " +
-                "NATURAL JOIN Courses C NATURAL JOIN Editions E NATURAL JOIN Participants P " +
-                $"WHERE E.edNumber = {edition} AND P.userId = {user.UserId}";
-            MySqlCommand cmd = new MySqlCommand(sql, conn);
-            MySqlDataReader rdr = cmd.ExecuteReader();
-
-            while (rdr.Read())
-            {
-                Course course = new Course();
-                course.CourseId = rdr[0].ToString();
-                course.Name = rdr[1].ToString();
-                participantCourses.Add(course);
-            }
-            rdr.Close();
-            conn.Close();
-            return participantCourses;
-        }
-
-        public List<Course> GetCourses(Participant participant, int edition)
+        public List<Course> GetCourses(int edition, Participant participant)
         {
             List<Course> participantCourses = new List<Course>();
             conn.Open();
@@ -583,8 +585,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 Course course = new Course();
                 course.CourseId = rdr[0].ToString();
                 course.Name = rdr[1].ToString();
-                course.ECTSPoints = int.Parse(rdr[2].ToString());
-                course.Semester = int.Parse(rdr[3].ToString());
                 participantCourses.Add(course);
             }
             rdr.Close();

@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
 using PO_implementacja_StudiaPodyplomowe.Models;
 using PO_implementacja_StudiaPodyplomowe.Models.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace PO_implementacja_StudiaPodyplomowe.Controllers.Participant
 {
@@ -16,9 +19,9 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Participant
 
         public ActionResult Index()
         {
-            User user = new User();
-            user.UserId = 1;
-            List<Models.Course> courses = manager.GetCourses(1, user);
+            Models.Participant participant = new Models.Participant();
+            participant.ParticipantId = 1;
+            List<Models.Course> courses = manager.GetCourses(1, participant);
             IEnumerable<SelectListItem> selectList = from c in courses
                                                      select new SelectListItem
                                                      {
@@ -33,15 +36,20 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Participant
         [HttpPost]
         public ActionResult Index(IFormCollection form)
         {
-            return RedirectToAction("Details","ParticipantPresence", form["CourseId"]);
+            var dict = new Dictionary<String, String>{
+                { "course", form["CourseId"] },
+            };
+            return RedirectToAction("Details","ParticipantPresence", dict);
         }
 
-        public ActionResult Details(int courseId)
+        public ActionResult Details(string course)
         {
-            Console.WriteLine(courseId.ToString());
-            User user = new User();
-            user.UserId = 1;
-            List<Models.Course> courses = manager.GetCourses(1, user);
+            Console.WriteLine(course);
+            Course courseObject = new Course();
+            courseObject.CourseId = course;
+            Models.Participant participant = new Models.Participant();
+            participant.ParticipantId = 1;
+            List<Models.Course> courses = manager.GetCourses(1, participant);
             IEnumerable<SelectListItem> selectList = from c in courses
                                                      select new SelectListItem
                                                      {
@@ -50,7 +58,62 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Participant
                                                      };
             ViewData["Courses"] = new SelectList(selectList, "Value", "Text");
 
-            return View(courses);
+            List<ClassesUnit> classesUnits = manager.GetClassesUnitsDate(courseObject);
+            List<Attendance> attendances = manager.GetAttendances(participant, courseObject);
+            List<bool> attendancesBool = new List<bool>();
+            foreach(ClassesUnit unit in classesUnits)
+            {
+                bool is_find = false;
+                foreach(Attendance item in attendances)
+                {
+                    if(unit.ClassUnitId == item.ClassesUnit.ClassUnitId)
+                    {
+                        is_find = true;
+                        break;
+                    }
+                }
+                if (is_find)
+                {
+                    attendancesBool.Add(true);
+                }
+                else
+                {
+                    attendancesBool.Add(false);
+                }
+            }
+
+            ViewData["classesUnits"] = classesUnits;
+            ViewData["attendancesBool"] = attendancesBool;
+            int presentQuantity = 0;
+            int absentQuantity = 0;
+            foreach(var item in attendancesBool)
+            {
+                if (item)
+                {
+                    presentQuantity++;
+                }
+                else
+                {
+                    absentQuantity++;
+                }
+            }
+            int classUnitQuantity = presentQuantity + absentQuantity;
+
+            int absentPercentage = 0;
+            int presentPercentage = 0;
+            if (classUnitQuantity != 0) { 
+                absentPercentage = (int)(absentQuantity / (double)classUnitQuantity * 100);
+                presentPercentage = (int)(presentQuantity / (double)classUnitQuantity * 100); 
+            }
+            
+            ViewData["presentQuantity"] = presentQuantity;
+            ViewData["absentQuantity"] = absentQuantity;
+            ViewData["classUnitQuantity"] = classUnitQuantity;
+            ViewData["absentPercentage"] = absentPercentage;
+            ViewData["presentPercentage"] = presentPercentage;
+
+            
+            return View();
         }
 
     }

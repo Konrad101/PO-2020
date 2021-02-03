@@ -19,7 +19,9 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         public SubmissionThesis GetSubmissionThesis(int thesisId);
         public List<Attendance> GetAttendances(Participant participant, Course course);
         public List<Attendance> GetAttendances(Course course);
-        public List<Course> GetCourses(Participant participant, int edition);
+        public List<ClassesUnit> GetClassesUnitsDate(Course course);
+        public List<Course> GetCourses(int edition);
+        public List<Course> GetCourses(int edition, Participant participant);
         public List<Lecturer> GetLecturers(int editio);
         public List<Participant> GetParticipants(Course course);
         public void AddGrade(PartialCourseGrade grade);
