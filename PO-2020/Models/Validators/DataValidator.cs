@@ -8,7 +8,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Validators
 {
     public class DataValidator
     {
-        static readonly int MIN_VALID_YEAR = 2000;
+        static readonly int MIN_VALID_YEAR = 1900;
         static readonly int MAX_VALID_YEAR = DateTime.Now.Year + 1;
 
         public static bool DateIsValid(string strDate)
@@ -33,10 +33,15 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Validators
             return isValid;
         }
 
-        public static bool FieldContentIsValid(string fieldContent)
+        public static bool FieldContentIsValid(string fieldContent, int?maxLength=null)
         {
-            fieldContent = RemoveWhiteSpaces(fieldContent);
-            return fieldContent.Length != 0 ? true : false;
+            if (maxLength < 1) throw new ArgumentException();
+            string fieldContentWithoutSpaces = RemoveWhiteSpaces(fieldContent);
+            if(fieldContent.Length > maxLength)
+            {
+                return false;
+            }
+            return fieldContentWithoutSpaces.Length != 0 ? true : false;
         }
 
         public static bool NumberIsValid(string strNumber, int? minRange=null, int?maxRange=null)
