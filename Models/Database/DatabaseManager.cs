@@ -524,12 +524,56 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return attendances;
         }
 
+        public List<Course> GetCourses(int edition)
+        {
+            List<Course> participantCourses = new List<Course>();
+            conn.Open();
+            string sql = $"SELECT C.courseId, C.courseName FROM ParticipantsWithCourses PC " +
+                "NATURAL JOIN Courses C NATURAL JOIN Editions E " +
+                $"WHERE E.edNumber = {edition}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                Course course = new Course();
+                course.CourseId = rdr[0].ToString();
+                course.Name = rdr[1].ToString();
+                participantCourses.Add(course);
+            }
+            rdr.Close();
+            conn.Close();
+            return participantCourses;
+        }
+
+        public List<Course> GetCourses(int edition, User user)
+        {
+            List<Course> participantCourses = new List<Course>();
+            conn.Open();
+            string sql = $"SELECT C.courseId, C.courseName FROM ParticipantsWithCourses PC " +
+                "NATURAL JOIN Courses C NATURAL JOIN Editions E NATURAL JOIN Participants P " +
+                $"WHERE E.edNumber = {edition} AND P.userId = {user.UserId}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                Course course = new Course();
+                course.CourseId = rdr[0].ToString();
+                course.Name = rdr[1].ToString();
+                participantCourses.Add(course);
+            }
+            rdr.Close();
+            conn.Close();
+            return participantCourses;
+        }
+
         public List<Course> GetCourses(Participant participant, int edition)
         {
             List<Course> participantCourses = new List<Course>();
             conn.Open();
-            string sql = $"SELECT C.courseId, C.courseName FROM ParticipantsWithCourses PC" +
-                "NATURAL JOIN Courses C NATURAL JOIN Editions E" +
+            string sql = $"SELECT C.courseId, C.courseName FROM ParticipantsWithCourses PC " +
+                "NATURAL JOIN Courses C NATURAL JOIN Editions E " +
                 $"WHERE PC.participantId = {participant.ParticipantId} AND E.edNumber = {edition}";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
@@ -610,8 +654,8 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             conn.Open();
             string sql = "INSERT INTO PartialCourseGrades " +
                 "(partialGradeId, gradeDate, gradeValue, participantGradeListId, comment) VALUES " +
-                $"('{grade.PartialGradeId}', '{grade.GradeDate.ToString("yyyy-MM-dd")}', " +
-                $"'{grade.GradeValue}', '{grade.ParticipantGradeList.ParticipantGradeListId}', '{grade.Comment}')";
+                $"({grade.PartialGradeId}, {grade.GradeDate.ToString("yyyy-MM-dd")}', " +
+                $"{grade.GradeValue}, {grade.ParticipantGradeList.ParticipantGradeListId}, {grade.Comment})";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             cmd.ExecuteNonQuery();
             conn.Close();
