@@ -26,6 +26,16 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Validators.Tests
         {
             Assert.IsFalse(DataValidator.NumberIsValid(""));
             Assert.IsFalse(DataValidator.NumberIsValid(" "));
+            Assert.IsFalse(DataValidator.NumberIsValid("Szczegóły pytania"));
+            Assert.IsFalse(DataValidator.NumberIsValid("123 pytania"));
+        }
+
+        [TestMethod()]
+        public void FieldContentIsValidTest()
+        {
+            Assert.IsTrue(DataValidator.FieldContentIsValid("123 pytania"));
+            Assert.IsFalse(DataValidator.FieldContentIsValid(""));
+            Assert.IsFalse(DataValidator.FieldContentIsValid(" "));
         }
     }
 }
