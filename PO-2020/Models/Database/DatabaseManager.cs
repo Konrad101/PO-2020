@@ -31,10 +31,8 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 conn = new MySqlConnection();
                 conn.ConnectionString = myConnectionString;
             }
-            catch (MySqlException ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            catch (MySqlException)
+            {}
         }
 
         private List<string> ReadConnectionData()

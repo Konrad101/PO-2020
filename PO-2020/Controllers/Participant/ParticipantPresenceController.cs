@@ -44,7 +44,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Participant
 
         public ActionResult Details(string course)
         {
-            Console.WriteLine(course);
             Course courseObject = new Course();
             courseObject.CourseId = course;
             Models.Participant participant = new Models.Participant();
