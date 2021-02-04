@@ -48,7 +48,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
             submissionThesis.ThesisTopic = form["ThesisTopic"];
             submissionThesis.TopicNumber = int.Parse(form["TopicNumber"]);
             submissionThesis.ThesisObjectives = form["ThesisObjectives"];
-            submissionThesis.ThesisScope = form["TopicNumber"];
+            submissionThesis.ThesisScope = form["ThesisScope"];
             manager.EditSubmissionThesis(submissionThesis);
             int finalThesisId = manager.GetSubmissionThesis(id).FinalThesis.FinalThesisId;
             manager.EditFinalThesisLecturer(finalThesisId, int.Parse(form["LecturerId"]));
@@ -65,6 +65,13 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
         {
             manager.EditSubmissionThesesStatus(id, (int)ThesisStatus.DISCARD);
             return RedirectToAction("Index");
+        }
+
+        public IActionResult Preview(int id)
+        {
+            SubmissionThesis submissionThesis = manager.GetSubmissionThesis(id);
+            ViewData["StudyFieldManager"] = manager.GetStudyFieldManager(1);
+            return View(submissionThesis);
         }
     }
 }

@@ -34,5 +34,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         public List<PartialCourseGrade> GetParticipantsGrades(Participant participant, Course course);
         public List<FinalExam> GetFinalExams(int managerId);
         public int GetFinalExamQuestionsAmount(int finalExamId);
+        public StudyFieldManager GetStudyFieldManager(int editionId);
     }
 }

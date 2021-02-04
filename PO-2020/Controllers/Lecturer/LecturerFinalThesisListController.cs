@@ -30,13 +30,13 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
 
         public IActionResult Confirm(int id)
         {
-            manager.EditReviewStatus(id, (int)ThesisStatus.APPROVED);
+            manager.EditReviewStatus(id, ThesisStatus.APPROVED);
             return RedirectToAction("Index");
         }
 
         public IActionResult Discard(int id)
         {
-            manager.EditReviewStatus(id, (int)ThesisStatus.DISCARD);
+            manager.EditReviewStatus(id, ThesisStatus.DISCARD);
             return RedirectToAction("Index");
         }
 
@@ -118,6 +118,18 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
             fieldsValidation.Add(DataValidator.DateIsValid(form["FormDate"]));
 
             return fieldsValidation;
+        }
+
+        public IActionResult Preview(int id)
+        {
+            if(id != 0)
+            {
+                FinalThesisReview finalThesisReview = manager.GetReview(id);
+                SubmissionThesis submission = manager.GetSubmissionForThesisId(id);
+                ViewBag.topic = submission.ThesisTopic;
+                return View(finalThesisReview);
+            }
+            return View();
         }
     }
 }

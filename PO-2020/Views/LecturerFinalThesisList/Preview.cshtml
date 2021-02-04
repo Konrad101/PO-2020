@@ -1,0 +1,34 @@
+﻿@{
+    Layout = null;
+}
+@model PO_implementacja_StudiaPodyplomowe.Models.FinalThesisReview;
+
+
+<html>
+<head>
+    <link href="/../css/style_pdf.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+    <div class="a4 formularz_oceny_pracy">
+        <h1>Formularz Oceny Pracy</h1>
+        <p>1. Temat pracy: <b>@ViewBag.topic</b></p>
+        <p>2. Imię i nazwisko: <b>@Html.DisplayFor(model => model.FinalThesis.Participant.Name) @Html.DisplayFor(model => model.FinalThesis.Participant.Surname)</b></p>
+        <p>3. Czy treść pracy odpowiada tematowi określonemu w tytule: <b>@Html.DisplayFor(model => model.TitleCompability)</b></p>
+        <p>4. Ocena układu pracy struktury podziału treści, kolejności rozdziałów, kompletności tez: <b>@Html.DisplayFor(model => model.ThesisStructureComment)</b></p>
+        <p>5. Czy i w jakim zakresie praca stanowi nowe ujęcie problemu: <b>@Html.DisplayFor(model => model.NewProblem)</b></p>
+        <p>6. Charakterystyka doboru i wykorzystania źródeł: <b>@Html.DisplayFor(model => model.SourcesUse)</b></p>
+        <p>7. Ocena formalnej strony pracy (poprawności języka, opanowanie techniki pisania pracy, spis rzeczy, odsyłacze): <b>@Html.DisplayFor(model => model.FormalWorkSide)</b></p>
+        <p>8. Sposób wykorzystania pracy (publikacje, udostępnienie instytucjom, materiał źródłowy): <b>@Html.DisplayFor(model => model.WayToUse)</b></p>
+        <p>9. Merytoryczna ocena pracy: <b>@Html.DisplayFor(model => model.SubstantiveThesisGrade)</b></p>
+        <p>10. Ocena pracy: <b>@Html.DisplayFor(model => model.ThesisGrade)</b></p>
+        <div class="data">
+            <p><b>@DateTime.Now</b></p>
+            <p>data</p>
+        </div>
+        <div class="sign">
+            <p><b>@Html.DisplayFor(model => model.FinalThesis.Lecturer.Name) @Html.DisplayFor(model => model.FinalThesis.Lecturer.Surname)</b></p>
+            <p>podpis opiekuna pracy</p>
+        </div>
+    </div>
+</body>
+</html>

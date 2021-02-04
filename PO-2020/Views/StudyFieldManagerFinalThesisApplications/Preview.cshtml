@@ -1,0 +1,38 @@
+﻿@{
+    Layout = null;
+}
+@model PO_implementacja_StudiaPodyplomowe.Models.SubmissionThesis
+
+<html>
+<head>
+    <link href="/../css/style_pdf.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+    <div class="a4 formularz_oceny_pracy">
+        <h1>STUDIA PODYPLOMOWE<br>Analiza Systemowa i Biznesowa</h1>
+        <p>Organizowane przez: <b>Wydział Informatyki i Zarządzania oraz Centrum Kszrałcenia Ustawicznego Politechniki Wrocławskiej</b></p>
+        <p>Opiekun pracy: <b>@Html.DisplayFor(model => model.FinalThesis.Lecturer.Name) @Html.DisplayFor(model => model.FinalThesis.Lecturer.Surname)</b></p>
+        <p>Słuchacz: <b>@Html.DisplayFor(model => model.FinalThesis.Participant.Name) @Html.DisplayFor(model => model.FinalThesis.Participant.Surname)</b></p>
+        <h2>TEMAT PRACY KOŃCOWEJ</h2>
+        <p><b>@Html.DisplayFor(model => model.ThesisTopic)</b></p>
+        <p>Nr tematu: <b>@Html.DisplayFor(model => model.TopicNumber)</b></p>
+        <h2>CHARAKTERYSTYKA PRACY</h2>
+        <p>Cele pracy: <b>@Html.DisplayFor(model => model.ThesisObjectives)</b></p>
+        <p>Zakres pracy: <b>@Html.DisplayFor(model => model.ThesisScope)</b></p>
+        <h2>PODPISY</h2>
+        <div class="data">
+            <p><b>@Html.DisplayFor(model => model.FinalThesis.Lecturer.Name) @Html.DisplayFor(model => model.FinalThesis.Lecturer.Surname)</b></p>
+            <p>Opiekun pracy</p><br>
+            <p><b>@Html.DisplayFor(model => model.FinalThesis.Participant.Name) @Html.DisplayFor(model => model.FinalThesis.Participant.Surname)</b></p>
+            <p><i>Temat pracy końcowej otrzymałem</i></p>
+            <p>Data i podpis słuchacza</p>
+        </div>
+        <div class="sign">
+            <p><b>@ViewBag.StudyFieldManager.Name @ViewBag.StudyFieldManager.Surname</b></p>
+            <p>Kierownik studiów</p><br>
+            <p><b>................................</b></p>
+            <p>Dyrektor CKU</p>
+        </div>
+    </div>
+</body>
+</html>

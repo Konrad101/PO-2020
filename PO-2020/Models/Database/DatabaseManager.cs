@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using MySql.Data.MySqlClient;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 {
     public class DatabaseManager : IDao
     {
-        private static readonly string CONNECTION_DATA_PATH = "db_conf.txt";
+        private static readonly string CONNECTION_DATA_PATH = "C:\\Users\\kogol\\source\\repos\\PO_implementacja_StudiaPodyplomowe\\PO_implementacja_StudiaPodyplomowe\\db_conf.txt";
         private MySqlConnection conn;
 
         public DatabaseManager()
@@ -91,13 +92,34 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             conn.Close();
         }
 
-        public void EditReviewStatus(int formId, int reviewStatus)
+        public void EditReviewStatus(int formId, ThesisStatus reviewStatus)
         {
+            //if(formId < 0)
+            //{
+            //    throw new ArgumentException();
+            //}
             conn.Open();
-            string sql = "UPDATE FinalThesesReview " +
-                $"SET formStatus = '{reviewStatus}' " +
-                $"WHERE formId = {formId}";
+            string sql = $"SELECT COUNT(formId) FROM FinalThesesReview WHERE formId = {formId}";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+            try
+            {
+                int reader = int.Parse(rdr[0].ToString());
+            }
+            catch
+            {
+                rdr.Close();
+                conn.Close();
+                throw new ArgumentException();
+            }
+            rdr.Close();
+            conn.Close();
+
+            conn.Open();
+            sql = "UPDATE FinalThesesReview " +
+                $"SET formStatus = '{(int)reviewStatus}' " +
+                $"WHERE formId = {formId}";
+            cmd = new MySqlCommand(sql, conn);
             cmd.ExecuteNonQuery();
             conn.Close();
         }
@@ -106,9 +128,10 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         public FinalThesisReview GetReview(int reviewId)
         {
             conn.Open();
-            string sql = $"SELECT FTR.*, P.* FROM FinalThesesReview FTR " +
+            string sql = $"SELECT FTR.*, P.*, L.* FROM FinalThesesReview FTR " +
                 $"JOIN FinalTheses FT ON FTR.finalThesisId = FT.finalThesisId " +
                 $"JOIN Participants P ON P.participantId = FT.participantId " +
+                $"JOIN Lecturers L ON L.lecturerId = FT.lecturerId " +
                 $"WHERE formId = {reviewId}";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
@@ -133,10 +156,16 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             int dataOffset = 12;
             finalThesis.Participant = GetParticipantFromReader(rdr, dataOffset);
             review.FinalThesis = finalThesis;
+
+            Lecturer lecturer = new Lecturer();
+            lecturer.LecturerId = int.Parse(rdr[24].ToString());
+            lecturer.UserId = int.Parse(rdr[25].ToString());
             
             rdr.Close();
             conn.Close();
+            FillUserData(lecturer);
             FillUserData(finalThesis.Participant);
+            finalThesis.Lecturer = lecturer;
             return review;
         }
 
@@ -438,9 +467,9 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         {
             conn.Open();
             string sql = $"SELECT ST.submissionId, ST.thesisTopic, ST.topicNumber, ST.thesisObjectives, ST.thesisScope, " +
-                $"ST.finalThesisId, FT.lecturerId, " +
-                $"L.userId FROM SubmissionTheses ST JOIN FinalTheses FT ON ST.finalThesisId = FT.finalThesisId " +
-                $"JOIN Lecturers L ON FT.lecturerId = L.lecturerId " +
+                $"ST.finalThesisId, FT.lecturerId, L.userId, P.participantId, P.userId " +
+                $"FROM SubmissionTheses ST JOIN FinalTheses FT ON ST.finalThesisId = FT.finalThesisId " +
+                $"JOIN Lecturers L ON FT.lecturerId = L.lecturerId JOIN Participants P ON P.participantId = FT.participantId " +
                 $"WHERE ST.submissionId = {submissionThesisId}";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
@@ -457,9 +486,14 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             Lecturer lecturer = new Lecturer();
             lecturer.LecturerId = int.Parse(rdr[6].ToString());
             lecturer.UserId = int.Parse(rdr[7].ToString());
+            Participant participant = new Participant();
+            participant.ParticipantId = int.Parse(rdr[8].ToString());
+            participant.UserId = int.Parse(rdr[9].ToString());
             conn.Close();
             FillUserData(lecturer);
             finalThesis.Lecturer = lecturer;
+            FillUserData(participant);
+            finalThesis.Participant = participant;
             submissionThesis.FinalThesis = finalThesis;
 
             return submissionThesis;
@@ -900,6 +934,28 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return questionsAmount;
         }
 
-        
+        public StudyFieldManager GetStudyFieldManager(int editionId)
+        {
+            conn.Open();
+            string sql = $"SELECT SFM.managerId, SFM.userId FROM StudyFieldManagers SFM " +
+                $"JOIN Editions E ON E.managerId = SFM.managerId " +
+                $"WHERE E.edNumber = {editionId}";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+            rdr.Read();
+
+            StudyFieldManager studyFieldManager = new StudyFieldManager();
+            studyFieldManager.ManagerId = int.Parse(rdr[0].ToString());
+            studyFieldManager.UserId = int.Parse(rdr[1].ToString());
+            rdr.Close();
+            conn.Close();
+
+            FillUserData(studyFieldManager);
+
+            return studyFieldManager;
+        }
+
+
     }
 }

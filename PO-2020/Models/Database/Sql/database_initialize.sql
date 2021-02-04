@@ -30,7 +30,7 @@ CREATE TABLE Lecturers (
   FOREIGN KEY (userId) REFERENCES Users (userId)
 );
 
-CREATE TABLE StudyFieldManager (
+CREATE TABLE StudyFieldManagers (
   managerId INT PRIMARY KEY,
   userId INT,
   primaryEmploymentPlace VARCHAR(127),
