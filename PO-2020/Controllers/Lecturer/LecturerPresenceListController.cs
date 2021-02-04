@@ -87,10 +87,8 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
 
             foreach (var sth in participantAttendances)
             {
-                Console.WriteLine("Panie, oczywiscie, że dziala");
                 foreach (bool item in sth.Item2)
                 {
-                    Console.WriteLine("Albo i nie");
                     if (item)
                     {
                         presentQuantity++;
