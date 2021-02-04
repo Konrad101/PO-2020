@@ -17,10 +17,10 @@
         </div>
 
         <!-- Unnamed (Rectangle) -->
-        <div id="u578" class="ax_default heading_1">
-            <div id="u578_div" class=""></div>
-            <div id="u578_text" class="text ">
-                <p><span>Studia Podyplomowe</span></p>
+        <div id="u104" class="ax_default heading_1">
+            <div id="u104_div" class=""></div>
+            <div id="u104_text" class="text ">
+                <p><a asp-controller="ParticipantIndex" asp-action="Index">Studia Podyplomowe</a></p>
             </div>
         </div>
 
@@ -141,7 +141,7 @@
 
                 <!-- Unnamed (Rectangle) -->
                 <div id="u595" class="ax_default button">
-                    <input id="u595_div" class="" type="submit" value="Pokaż">
+                    <input id="u595_div" class="cursor_pointer" type="submit" value="Pokaż">
                 </div>
 
                 <!-- Unnamed (Rectangle) -->
@@ -268,7 +268,7 @@
                     <div id="u625" class="ax_default table_cell">
                         <img id="u625_img" class="img " src="../images/participantpresence/u621.png" />
                         <div id="u625_text" class="text ">
-                            <p><span>@ViewBag.classUnitQuantity @if (ViewBag.absentQuantity == 1)
+                            <p><span>@ViewBag.classUnitQuantity @if (ViewBag.classUnitQuantity == 1)
                             {@("raz") }
                             else
                             { @("razy")}

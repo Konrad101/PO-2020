@@ -21,7 +21,7 @@
         <div id="u104" class="ax_default heading_1">
             <div id="u104_div" class=""></div>
             <div id="u104_text" class="text ">
-                <p><span>Studia Podyplomowe</span></p>
+                <p><a asp-controller="LecturerIndex" asp-action="Index">Studia Podyplomowe</a></p>
             </div>
         </div>
 
@@ -195,25 +195,25 @@
                         <a asp-controller="LecturerFinalThesisList" asp-action="Confirm" asp-route-id="@item.FormId">
                             <div class="single_button_box">
                                 <img src="images/studyfieldmanagerfinalthesisapplications/u494.png">
-                                <label>Zatwierdź</label>
+                                <label class="cursor_pointer">Zatwierdź</label>
                             </div>
                         </a>
                         <a asp-controller="LecturerFinalThesisList" asp-action="Edit" asp-route-id="@item.FormId">
                             <div class="single_button_box">
                                 <img src="images/lecturerfinalthesislist/u131.png">
-                                <label>Edytuj</label>
+                                <label class="cursor_pointer">Edytuj</label>
                             </div>
                         </a>
                         <a asp-controller="LecturerFinalThesisList" asp-action="Discard" asp-route-id="@item.FormId">
                             <div class="single_button_box">
                                 <img src="images/lecturerfinalthesislist/u132.png">
-                                <label>Odrzuć</label>
+                                <label class="cursor_pointer">Odrzuć</label>
                             </div>
                         </a>
                         <a asp-controller="LecturerFinalThesisList" asp-action="Preview" asp-route-id="@item.FormId">
                             <div class="single_button_box">
                                 <img src="images/lecturerfinalthesislist/u137.png">
-                                <label>Podgląd</label>
+                                <label class="cursor_pointer">Podgląd</label>
                             </div>
                         </a>
                     </div>

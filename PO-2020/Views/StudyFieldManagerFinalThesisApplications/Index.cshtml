@@ -18,10 +18,10 @@
         </div>
 
         <!-- Unnamed (Rectangle) -->
-        <div id="u467" class="ax_default heading_1">
-            <div id="u467_div" class=""></div>
-            <div id="u467_text" class="text ">
-                <p><span>Studia Podyplomowe</span></p>
+        <div id="u104" class="ax_default heading_1">
+            <div id="u104_div" class=""></div>
+            <div id="u104_text" class="text ">
+                <p><a asp-controller="StudyFieldManagerIndex" asp-action="Index">Studia Podyplomowe</a></p>
             </div>
         </div>
 
@@ -179,25 +179,25 @@
                 <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Confirm" asp-route-id="@item.SubmissionId">
                     <div class="single_button_box">
                         <img src="images/studyfieldmanagerfinalthesisapplications/u494.png">
-                        <label>Zatwierdź</label>
+                        <label class="cursor_pointer">Zatwierdź</label>
                     </div>
                 </a>
                 <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Edit" asp-route-id="@item.SubmissionId">
                     <div class="single_button_box">
                         <img src="images/lecturerfinalthesislist/u131.png">
-                        <label>Edytuj</label>
+                        <label class="cursor_pointer">Edytuj</label>
                     </div>
                 </a>
                 <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Discard" asp-route-id="@item.SubmissionId">
                     <div class="single_button_box">
                         <img src="images/lecturerfinalthesislist/u132.png">
-                        <label>Odrzuć</label>
+                        <label class="cursor_pointer">Odrzuć</label>
                     </div>
                 </a>
                 <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Preview" asp-route-id="@item.SubmissionId">
                     <div class="single_button_box">
                         <img src="images/lecturerfinalthesislist/u137.png">
-                        <label>Podgląd</label>
+                        <label class="cursor_pointer">Podgląd</label>
                     </div>
                 </a>
             </div>
