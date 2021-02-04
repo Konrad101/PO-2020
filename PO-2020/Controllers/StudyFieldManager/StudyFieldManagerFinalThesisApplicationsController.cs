@@ -1,15 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using PO_implementacja_StudiaPodyplomowe.Models;
 using PO_implementacja_StudiaPodyplomowe.Models.Database;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Hosting;
-using System.IO;
-using Microsoft.AspNetCore.Http;
 using PO_implementacja_StudiaPodyplomowe.Models.Validators;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
 {
@@ -86,7 +82,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
             ViewData["StudyFieldManager"] = manager.GetStudyFieldManager(1);
             return View(submissionThesis);
         }
-            
+
 
         private void UpdateLecturersList(SubmissionThesis submissionThesis)
         {

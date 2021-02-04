@@ -1,7 +1,7 @@
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using MySql.Data.MySqlClient;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 {
@@ -32,7 +32,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 conn.ConnectionString = myConnectionString;
             }
             catch (MySqlException)
-            {}
+            { }
         }
 
         private List<string> ReadConnectionData()

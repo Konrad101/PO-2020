@@ -1,15 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Routing;
 using PO_implementacja_StudiaPodyplomowe.Models;
 using PO_implementacja_StudiaPodyplomowe.Models.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace PO_implementacja_StudiaPodyplomowe.Controllers.Participant
 {
@@ -39,7 +35,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Participant
             var dict = new Dictionary<String, String>{
                 { "course", form["CourseId"] },
             };
-            return RedirectToAction("Details","ParticipantPresence", dict);
+            return RedirectToAction("Details", "ParticipantPresence", dict);
         }
 
         public ActionResult Details(string course)
@@ -60,12 +56,12 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Participant
             List<ClassesUnit> classesUnits = manager.GetClassesUnitsDate(courseObject);
             List<Attendance> attendances = manager.GetAttendances(participant, courseObject);
             List<bool> attendancesBool = new List<bool>();
-            foreach(ClassesUnit unit in classesUnits)
+            foreach (ClassesUnit unit in classesUnits)
             {
                 bool is_find = false;
-                foreach(Attendance item in attendances)
+                foreach (Attendance item in attendances)
                 {
-                    if(unit.ClassUnitId == item.ClassesUnit.ClassUnitId)
+                    if (unit.ClassUnitId == item.ClassesUnit.ClassUnitId)
                     {
                         is_find = true;
                         break;
@@ -85,7 +81,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Participant
             ViewData["attendancesBool"] = attendancesBool;
             int presentQuantity = 0;
             int absentQuantity = 0;
-            foreach(var item in attendancesBool)
+            foreach (var item in attendancesBool)
             {
                 if (item)
                 {
@@ -100,18 +96,19 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Participant
 
             int absentPercentage = 0;
             int presentPercentage = 0;
-            if (classUnitQuantity != 0) { 
+            if (classUnitQuantity != 0)
+            {
                 absentPercentage = (int)(absentQuantity / (double)classUnitQuantity * 100);
-                presentPercentage = (int)(presentQuantity / (double)classUnitQuantity * 100); 
+                presentPercentage = (int)(presentQuantity / (double)classUnitQuantity * 100);
             }
-            
+
             ViewData["presentQuantity"] = presentQuantity;
             ViewData["absentQuantity"] = absentQuantity;
             ViewData["classUnitQuantity"] = classUnitQuantity;
             ViewData["absentPercentage"] = absentPercentage;
             ViewData["presentPercentage"] = presentPercentage;
 
-            
+
             return View();
         }
 

@@ -6,7 +6,6 @@ using PO_implementacja_StudiaPodyplomowe.Models.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
 {
@@ -57,14 +56,14 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
             List<bool> attendancesBool = new List<bool>();
             List<Tuple<Models.Participant, List<bool>>> participantAttendances = new List<Tuple<Models.Participant, List<bool>>>();
 
-            foreach(Models.Participant part in participants)
+            foreach (Models.Participant part in participants)
             {
                 bool is_find = false;
-                foreach(ClassesUnit clas in classesUnits)
+                foreach (ClassesUnit clas in classesUnits)
                 {
-                    foreach(Attendance att in attendances)
+                    foreach (Attendance att in attendances)
                     {
-                        if(clas.ClassUnitId == att.ClassesUnit.ClassUnitId)
+                        if (clas.ClassUnitId == att.ClassesUnit.ClassUnitId)
                         {
                             is_find = true;
                             break;

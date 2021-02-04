@@ -5,8 +5,6 @@ using PO_implementacja_StudiaPodyplomowe.Models.Database;
 using PO_implementacja_StudiaPodyplomowe.Models.Validators;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
 {
@@ -18,13 +16,13 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
         {
             List<FinalThesisReview> reviews = manager.GetReviews(1);
             List<string> topics = new List<string>();
-            for(int i = 0; i < reviews.Count; i++)
+            for (int i = 0; i < reviews.Count; i++)
             {
                 SubmissionThesis submission = manager.GetSubmissionForThesisId(reviews[i].FinalThesis.FinalThesisId);
                 topics.Add(submission.ThesisTopic);
             }
             ViewBag.topics = topics;
-            
+
             return View(reviews);
         }
 
@@ -119,7 +117,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
 
         public IActionResult Preview(int id)
         {
-            if(id != 0)
+            if (id != 0)
             {
                 FinalThesisReview finalThesisReview = manager.GetReview(id);
                 SubmissionThesis submission = manager.GetSubmissionForThesisId(id);

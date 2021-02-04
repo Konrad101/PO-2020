@@ -1,14 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using PO_implementacja_StudiaPodyplomowe.Models;
+using PO_implementacja_StudiaPodyplomowe.Models.Database;
+using PO_implementacja_StudiaPodyplomowe.Models.Validators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using PO_implementacja_StudiaPodyplomowe.Models;
-using PO_implementacja_StudiaPodyplomowe.Models.Database;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Primitives;
-using PO_implementacja_StudiaPodyplomowe.Models.Validators;
 
 namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
 {
@@ -75,7 +73,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
         {
             Console.WriteLine(form["DataTextField"]);
             List<bool> fieldsValidation = GetGradeFieldsValidation(form);
-            bool dataIsValid = ValidateGradeData(form, fieldsValidation);            
+            bool dataIsValid = ValidateGradeData(form, fieldsValidation);
             if (!dataIsValid)
             {
                 ViewBag.fieldsValidation = fieldsValidation;
@@ -153,7 +151,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
             partialCourseGrade.GradeDate = Convert.ToDateTime(form["DataTextField"]);
             partialCourseGrade.GradeValue = GradeConverter.GetGradeString(form["GradeId"]);
             partialCourseGrade.Comment = form["ComentTextArea"];
-            
+
             Models.Participant participant = new Models.Participant();
             Course course = new Course();
             participant.ParticipantId = staticParticipantId;
@@ -163,7 +161,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
 
             partialCourseGrade.ParticipantGradeList = list;
 
-            
+
 
             manager.AddGrade(partialCourseGrade);
             return RedirectToAction("Index");
@@ -240,7 +238,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
             fieldsValidation.Add(DataValidator.DateIsValid(form["DataTextField"]));
             fieldsValidation.Add(DataValidator.FieldContentIsValid(form["GradeId"], maxLength: 15));
             fieldsValidation.Add(DataValidator.FieldContentIsValid(form["ComentTextArea"], maxLength: 255));
-            
+
             return fieldsValidation;
         }
 

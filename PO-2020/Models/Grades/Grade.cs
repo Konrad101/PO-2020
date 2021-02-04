@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace PO_implementacja_StudiaPodyplomowe.Models
+﻿namespace PO_implementacja_StudiaPodyplomowe.Models
 {
     public enum Grade
     {
@@ -57,7 +52,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models
                 default:
                     return Grade.None;
             }
-                
+
         }
 
         public static Grade GetGradeString(string gradeValue)

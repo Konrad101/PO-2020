@@ -3,10 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PO_implementacja_StudiaPodyplomowe.Models;
 using PO_implementacja_StudiaPodyplomowe.Models.Database;
 using PO_implementacja_StudiaPodyplomowe.Models.Validators;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
 {
@@ -21,7 +18,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
             // musze pobrac ile pytan ma egzamin o danym id
             // data ostatniej modyfikacji i komentarz - pola do zmiany
             List<int> examsQuestionsAmount = new List<int>();
-            for(int i = 0; i < exams.Count; i++)
+            for (int i = 0; i < exams.Count; i++)
             {
                 examsQuestionsAmount.Add(manager.GetFinalExamQuestionsAmount(exams[i].ExamId));
             }
@@ -83,7 +80,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
             return View(question);
         }
 
-        [HttpPost]  
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult EditQuestion(int id, IFormCollection form)
         {
@@ -103,7 +100,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
 
             manager.EditQuestion(question);
 
-            return RedirectToAction("Edit", new { id = examId} );
+            return RedirectToAction("Edit", new { id = examId });
         }
 
         private List<bool> GetQuestionFieldsValidation(IFormCollection form)

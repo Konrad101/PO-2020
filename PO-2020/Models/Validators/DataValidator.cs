@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models.Validators
 {
@@ -18,14 +15,16 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Validators
             if (strDate.Length != 10)
             {
                 isValid = false;
-            } else 
+            }
+            else
             {
                 strDate = strDate.Replace("-", ".");
                 DateTime time = new DateTime();
                 if (!DateTime.TryParse(strDate, out time))
                 {
                     isValid = false;
-                } else if (time.Year < MIN_VALID_YEAR || time.Year > MAX_VALID_YEAR)
+                }
+                else if (time.Year < MIN_VALID_YEAR || time.Year > MAX_VALID_YEAR)
                 {
                     isValid = false;
                 }
@@ -34,20 +33,20 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Validators
             return isValid;
         }
 
-        public static bool FieldContentIsValid(string fieldContent, int?maxLength=null)
+        public static bool FieldContentIsValid(string fieldContent, int? maxLength = null)
         {
             if (maxLength < 1) throw new ArgumentException();
             string fieldContentWithoutSpaces = RemoveWhiteSpaces(fieldContent);
-            if(fieldContent.Length > maxLength)
+            if (fieldContent.Length > maxLength)
             {
                 return false;
             }
             return fieldContentWithoutSpaces.Length != 0 ? true : false;
         }
 
-        public static bool NumberIsValid(string strNumber, int? minRange=null, int?maxRange=null)
+        public static bool NumberIsValid(string strNumber, int? minRange = null, int? maxRange = null)
         {
-            if(minRange != null && maxRange != null)
+            if (minRange != null && maxRange != null)
             {
                 throw new ArgumentException("Min range must be smaller than max range");
             }
@@ -55,16 +54,18 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Validators
             strNumber = RemoveWhiteSpaces(strNumber);
             bool isValid = strNumber.Length > 0;
             int number;
-            if(isValid && int.TryParse(strNumber, out number))
+            if (isValid && int.TryParse(strNumber, out number))
             {
-                if(minRange != null && number < minRange)
-                {
-                    isValid = false;
-                } else if(maxRange != null && number > maxRange)
+                if (minRange != null && number < minRange)
                 {
                     isValid = false;
                 }
-            } else
+                else if (maxRange != null && number > maxRange)
+                {
+                    isValid = false;
+                }
+            }
+            else
             {
                 isValid = false;
             }
