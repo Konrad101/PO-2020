@@ -83,9 +83,10 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
 
         {
             SubmissionThesis submissionThesis = manager.GetSubmissionThesis(id);
+            ViewData["StudyFieldManager"] = manager.GetStudyFieldManager(1);
             return View(submissionThesis);
         }
-            ViewData["StudyFieldManager"] = manager.GetStudyFieldManager(1);
+            
 
         private void UpdateLecturersList(SubmissionThesis submissionThesis)
         {
@@ -97,9 +98,10 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
                                                          Value = l.LecturerId.ToString(),
                                                          Text = l.Name + " " + l.Surname
                                                      };
+            ViewData["Lecturers"] = new SelectList(selectList, "Value", "Text", lecturer.LecturerId);
+
         }
 
-            ViewData["Lecturers"] = new SelectList(selectList, "Value", "Text", lecturer.LecturerId);
         private List<bool> GetSubmissionFieldsValidation(IFormCollection form)
         {
             List<bool> fieldsValidation = new List<bool>();
