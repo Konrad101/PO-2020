@@ -171,7 +171,21 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return review;
         }
 
+        public SubmissionThesis GetSubmissionForThesisId(int finalThesisId)
+        {
+            conn.Open();
+            string sql = $"SELECT ST.submissionId FROM FinalTheses FT " +
+                $"JOIN SubmissionTheses ST ON ST.finalThesisId = FT.finalThesisId " +
+                $"WHERE FT.finalThesisId = {finalThesisId}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
 
+            rdr.Read();
+            int submissionThesisId = int.Parse(rdr[0].ToString());
+            rdr.Close();
+            conn.Close();
+            return GetSubmissionThesis(submissionThesisId);
+        }
 
         // tested
         public List<FinalThesisReview> GetReviews(int lecturerId)
@@ -284,6 +298,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 question.Content = rdr[1].ToString();
                 question.Points = int.Parse(rdr[2].ToString());
                 question.Answer = rdr[3].ToString();
+
                 questions.Add(question);
             }
             rdr.Close();
@@ -487,22 +502,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return submissionThesis;
         }
 
-        public SubmissionThesis GetSubmissionForThesisId(int finalThesisId)
-        {
-            conn.Open();
-            string sql = $"SELECT ST.submissionId FROM FinalTheses FT " +
-                $"JOIN SubmissionTheses ST ON ST.finalThesisId = FT.finalThesisId " +
-                $"WHERE FT.finalThesisId = {finalThesisId}";
-            MySqlCommand cmd = new MySqlCommand(sql, conn);
-            MySqlDataReader rdr = cmd.ExecuteReader();
-
-            rdr.Read();
-            int submissionThesisId = int.Parse(rdr[0].ToString());
-            rdr.Close();
-            conn.Close();
-            return GetSubmissionThesis(submissionThesisId);
-        }
-
         // tested
         public List<Attendance> GetAttendances(Participant participant, Course course)
         {
@@ -601,7 +600,8 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             conn.Open();
             string sql = $"SELECT C.courseId, C.courseName FROM ParticipantsWithCourses PC " +
                 "NATURAL JOIN Courses C NATURAL JOIN Editions E " +
-                $"WHERE E.edNumber = {edition}";
+                $"WHERE E.edNumber = {edition} " +
+                "GROUP BY 1";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
 
@@ -760,6 +760,16 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             conn.Close();
         }
 
+        public void DeleteGrade(int idGrade)
+        {
+            conn.Open();
+            string sql = "DELETE FROM PartialCourseGrades " +
+                $"WHERE partialGradeId = {idGrade}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+
         // tested
         public List<PartialCourseGrade> GetParticipantsGrades(Participant participant)
         {
@@ -818,10 +828,10 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         public List<PartialCourseGrade> GetParticipantsGrades(Participant participant, Course course)
         {
             List<PartialCourseGrade> partialGrades = new List<PartialCourseGrade>();
-            conn.Close();
+
             conn.Open();
 
-            string sql = $"SELECT PCG.gradeDate, PCG.gradeValue, PCG.comment FROM PartialCourseGrades PCG " +
+            string sql = $"SELECT PCG.PartialGradeId, PCG.gradeDate, PCG.gradeValue, PCG.comment FROM PartialCourseGrades PCG " +
                 $"JOIN ParticipantGradeLists PGL ON PCG.participantGradeListId = PGL.participantGradeListId " +
                 $"JOIN ParticipantsWithCourses PWC ON PWC.participantGradeListId = PCG.participantGradeListId " +
                 $"JOIN Participants P ON P.participantId = PWC.participantId " +
@@ -835,15 +845,91 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             while (rdr.Read())
             {
                 PartialCourseGrade partialGrade = new PartialCourseGrade();
-                partialGrade.GradeDate = DateTime.Parse(rdr[0].ToString());
-                Enum.TryParse(rdr[1].ToString(), out Grade myGrade);
+                partialGrade.PartialGradeId = int.Parse(rdr[0].ToString());
+                partialGrade.GradeDate = DateTime.Parse(rdr[1].ToString());
+                Enum.TryParse(rdr[2].ToString(), out Grade myGrade);
                 partialGrade.GradeValue = myGrade;
-                partialGrade.Comment = rdr[2].ToString();
+                partialGrade.Comment = rdr[3].ToString();
                 partialGrades.Add(partialGrade);
             }
             rdr.Close();
             conn.Close();
             return partialGrades;
+        }
+
+        public ParticipantGradeList GetParticipantGradeList(Participant participant, Course course)
+        {
+            ParticipantGradeList list = new ParticipantGradeList();
+            conn.Open();
+
+            string sql = $"SELECT PGL.participantGradeListId FROM ParticipantGradeLists PGL " +
+                $"JOIN ParticipantsWithCourses PWC ON PGL.participantGradeListId = PWC.participantGradeListId " +
+                $"JOIN Participants P ON PWC.participantId = P.participantId " +
+                $"WHERE P.participantId = {participant.ParticipantId} AND PWC.courseId = {course.CourseId}";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            if (rdr.Read())
+            {
+                list.ParticipantGradeListId = int.Parse(rdr[0].ToString());
+            }
+            else
+            {
+                rdr.Close();
+
+                sql = $"SELECT MAX(participantGradeListId) FROM ParticipantGradeLists";
+
+                cmd = new MySqlCommand(sql, conn);
+                rdr = cmd.ExecuteReader();
+
+                if (rdr.Read())
+                {
+                    list.ParticipantGradeListId = int.Parse(rdr[0].ToString()) + 1;
+                    rdr.Close();
+
+                    sql = $"INSERT INTO ParticipantGradeLists (participantGradeListId) VALUES " +
+                        $"('{list.ParticipantGradeListId}')";
+                    cmd = new MySqlCommand(sql, conn);
+                    cmd.ExecuteNonQuery();
+
+                    conn.Close();
+                    AddParticipantWithCourse(participant, course, list);
+                    return list;
+                }
+                else
+                {
+                    list.ParticipantGradeListId = 0;
+                    rdr.Close();
+
+                    sql = $"INSERT INTO ParticipantGradeLists (participantGradeListId) VALUES " +
+                        $"('{list.ParticipantGradeListId}')";
+                    cmd = new MySqlCommand(sql, conn);
+                    cmd.ExecuteNonQuery();
+
+                    conn.Close();
+                    AddParticipantWithCourse(participant, course, list);
+                    return list;
+                }
+            }
+
+
+            rdr.Close();
+            conn.Close();
+
+            return list;
+        }
+
+        public void AddParticipantWithCourse(Participant participant, Course course, ParticipantGradeList list)
+        {
+            conn.Open();
+            string sql = "INSERT INTO ParticipantsWithCourses " +
+                "(participantId, courseId, participantGradeListId) VALUES " +
+                $"('{participant.ParticipantId}', '{course.CourseId}', '{list.ParticipantGradeListId}')";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
 
         // reader ma miec tylko dane participanta w kolejnosci jak w bazie,

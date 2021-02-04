@@ -89,9 +89,16 @@
 }
 textarea, select, input, button { outline: none; }
 
-    .error {
-        border-width: 1px !important;
-        border-style: solid !important;
-        border-color: rgba(244, 106, 106, 1) !important;
-        border-radius: 10px !important;
-    }
+.error {
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-color: rgba(244, 106, 106, 1) !important;
+    border-radius: 10px !important;
+}
+
+.correct_data {
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-color: rgba(52, 195, 143, 1) !important;
+    border-radius: 10px !important;
+}

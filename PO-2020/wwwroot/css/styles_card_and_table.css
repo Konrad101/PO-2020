@@ -9,13 +9,13 @@
 
 .content_card .card {
 	width: 463px;
+	height: 225px;
 	display: inline-block;
 	color: #495057;
 	background-color: rgba(255, 255, 255, 1);
 	border-radius: 10px;
 	margin-bottom: 30px;
 	margin-right: 20px;
-	padding-bottom: 20px;
 }
 
 .content_card .card table {
@@ -198,52 +198,52 @@
 }
 
 .content_big_tab table .col_1 {
-	width: 40px;
+	width: 66px;
 }
 
 .content_big_tab table .col_2 {
-	width: 205px;
+	width: 134px;
 }
 
 .content_big_tab table .col_3 {
-	width: 110px;
+	width: 118px;
 }
 
 .content_big_tab table .col_4 {
-	width: 220px;
+	width: 957px;
 }
 
 .content_big_tab table .col_5 {
-	width: 660px;
+	width: 82px;
 }
 
 .content_big_tab table .col_6 {
-	width: 100px;
+	width: 82px;
 }
 
-	.content_big_tab table.final_exam .col_1 {
-		width: 60px;
-	}
+.content_big_tab table.final_exam .col_1 {
+	width: 60px;
+}
 
-	.content_big_tab table.final_exam .col_2 {
-		width: 205px;
-	}
+.content_big_tab table.final_exam .col_2 {
+	width: 205px;
+}
 
-	.content_big_tab table.final_exam .col_3 {
-		width: 110px;
-	}
+.content_big_tab table.final_exam .col_3 {
+	width: 110px;
+}
 
-	.content_big_tab table.final_exam .col_4 {
-		width: 220px;
-	}
+.content_big_tab table.final_exam .col_4 {
+	width: 220px;
+}
 
-	.content_big_tab table.final_exam .col_5 {
-		width: 660px;
-	}
+.content_big_tab table.final_exam .col_5 {
+	width: 660px;
+}
 
-	.content_big_tab table.final_exam .col_6 {
-		width: 150px;
-	}
+.content_big_tab table.final_exam .col_6 {
+	width: 150px;
+}
 
 .content_big_tab table img {
 	width: 24px;

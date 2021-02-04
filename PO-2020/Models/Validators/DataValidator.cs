@@ -14,6 +14,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Validators
         public static bool DateIsValid(string strDate)
         {
             bool isValid = true;
+            strDate = RemoveWhiteSpaces(strDate);
             if (strDate.Length != 10)
             {
                 isValid = false;
@@ -29,7 +30,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Validators
                     isValid = false;
                 }
             }
-
             return isValid;
         }
 

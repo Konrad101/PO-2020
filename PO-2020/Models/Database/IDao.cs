@@ -25,17 +25,21 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         public SubmissionThesis GetSubmissionForThesisId(int finalThesisId);
         public List<Attendance> GetAttendances(Participant participant, Course course);
         public List<Attendance> GetAttendances(Course course);
-        public List<ClassesUnit> GetClassesUnitsDate(Course course);
-        public List<Course> GetCourses(int edition);
         public List<Course> GetCourses(int edition, Participant participant);
+        public List<Course> GetCourses(int edition);
+        public List<ClassesUnit> GetClassesUnitsDate(Course course);
         public List<Lecturer> GetLecturers(int edition);
         public List<Participant> GetParticipants();
-        public List<Participant> GetParticipants(Course course);
+        public List<Participant> GetParticipants(Course course)
+
         public void AddGrade(PartialCourseGrade grade);
         public void EditGrade(PartialCourseGrade grade);
         public PartialCourseGrade GetGrade(int idGrade);
+        public void DeleteGrade(int idGrade);
         public List<PartialCourseGrade> GetParticipantsGrades(Participant participant);
         public List<PartialCourseGrade> GetParticipantsGrades(Participant participant, Course course);
+        public ParticipantGradeList GetParticipantGradeList(Participant participant, Course course);
+        public void AddParticipantWithCourse(Participant participant, Course course, ParticipantGradeList list);
         public List<FinalExam> GetFinalExams(int managerId);
         public int GetFinalExamQuestionsAmount(int finalExamId);
         public StudyFieldManager GetStudyFieldManager(int editionId);

@@ -156,7 +156,8 @@
 
     <!-- Content 1 box (Group) -->
     <div id="u647" class="ax_default" data-label="Content 1 box" data-left="410" data-top="148" data-width="1480" data-height="411">
-
+        @using (Html.BeginForm("Index", "LecturerPresenceList"))
+        {
         <!-- Wprowadź dane (Group) -->
         <div id="u648" class="ax_default" data-label="Wprowadź dane" data-left="410" data-top="148" data-width="1480" data-height="173">
 
@@ -179,17 +180,13 @@
             <!-- Unnamed (Droplist) -->
             <div id="u651" class="ax_default droplist">
                 <div id="u651_div" class=""></div>
-                <select id="u651_input" class="u651_input">
-                    <option class="u651_input_option" selected value="Projektowanie oprogramowania">Projektowanie oprogramowania</option>
+                <select id="u651_input" class="u651_input" asp-items="ViewBag.Courses" name="CourseId">
                 </select>
             </div>
 
             <!-- Unnamed (Rectangle) -->
             <div id="u652" class="ax_default button">
-                <div id="u652_div" class=""></div>
-                <div id="u652_text" class="text ">
-                    <p><a asp-controller="LecturerPresenceList" asp-action="Details">Pokaż</a></p>
-                </div>
+                <input id="u652_div" class="" type="submit" value="Pokaż" />
             </div>
 
             <!-- Unnamed (Rectangle) -->
@@ -200,6 +197,7 @@
                 </div>
             </div>
         </div>
+        }
     </div>
 </div>
 <script src="resources/scripts/axure/ios.js"></script>
