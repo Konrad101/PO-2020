@@ -30,6 +30,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Validators
                     isValid = false;
                 }
             }
+
             return isValid;
         }
 
