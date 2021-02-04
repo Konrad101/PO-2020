@@ -18,8 +18,8 @@ CREATE TABLE Participants (
   fathersName VARCHAR(15),
   startDate DATE,
   endDate DATE,
-  activeParticipantStatus TINYINT,
-  ifPassedFinalExam TINYINT,
+  activeParticipantStatus TINYINT DEFAULT 1,
+  ifPassedFinalExam TINYINT DEFAULT 0,
   userId INT,
   FOREIGN KEY (userId) REFERENCES Users (userId)
 );
@@ -45,7 +45,7 @@ CREATE TABLE Editions (
 
 CREATE TABLE FinalTheses (
   finalThesisId INT PRIMARY KEY,
-  deliveryDeadline DATE,
+  deliveryDeadline DATE DEFAULT NULL,
   participantId INT,
   lecturerId INT,
   FOREIGN KEY (participantId) REFERENCES Participants (participantId),
@@ -59,7 +59,7 @@ CREATE TABLE SubmissionTheses (
   topicNumber INT, -- max 5 cyfr
   thesisObjectives VARCHAR(2047),
   thesisScope VARCHAR(2047),
-  submissionStatus INT,
+  submissionStatus INT(1),
   finalThesisId INT,
   edNumber INT,
   FOREIGN KEY (finalThesisId) REFERENCES FinalTheses (finalThesisId),
@@ -76,17 +76,17 @@ CREATE TABLE FinalThesesReview (
   formalWorkSide VARCHAR(255),
   wayToUse VARCHAR(255),
   substantiveThesisGrade VARCHAR(2047),
-  thesisGrade VARCHAR(15),
-  formDate DATE,
-  formStatus INT,
+  thesisGrade VARCHAR(15) DEFAULT 'Brak',
+  formDate DATE DEFAULT NULL,
+  formStatus INT(1),
   finalThesisId INT,
   FOREIGN KEY (finalThesisId) REFERENCES FinalTheses (finalThesisId)
 );
 
 CREATE TABLE FinalExams (
   examId INT PRIMARY KEY,
-  examDate DATE,
-  classroom VARCHAR(15),
+  examDate DATE DEFAULT NULL,
+  classroom VARCHAR(15) DEFAULT NULL,
   managerId INT,
   FOREIGN KEY (managerId) REFERENCES StudyFieldManager (managerId)
 );

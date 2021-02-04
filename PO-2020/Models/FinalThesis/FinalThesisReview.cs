@@ -14,10 +14,10 @@ namespace PO_implementacja_StudiaPodyplomowe.Models
         public string FormalWorkSide { get; set; }
         public string WayToUse { get; set; }
         public string SubstantiveThesisGrade { get; set; }
-        public string ThesisGrade { get; set; }
+        public string ThesisGrade { get; set; } = "Brak";
 
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime FormDate { get; set; }
+        public DateTime? FormDate { get; set; } = null;
         public ThesisStatus FormStatus { get; set; }
         public FinalThesis FinalThesis { get; set; }
     }

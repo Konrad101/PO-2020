@@ -1,3 +1,5 @@
+using System;
+
 namespace PO_implementacja_StudiaPodyplomowe.Models
 {
     public class ErrorViewModel

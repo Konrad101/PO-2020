@@ -66,7 +66,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 $"({finalThesisReview.FormId}, {finalThesisReview.TitleCompability}, {finalThesisReview.ThesisStructureComment}, " +
                 $"{finalThesisReview.NewProblem}, {finalThesisReview.SourcesUse}, {finalThesisReview.FormalWorkSide}, " +
                 $"{finalThesisReview.WayToUse}, {finalThesisReview.SubstantiveThesisGrade}, {finalThesisReview.ThesisGrade}, " +
-                $"'{finalThesisReview.FormDate.ToString("yyyy-MM-dd")}', {finalThesisReview.FormStatus}, " +
+                $"'{finalThesisReview.FormDate?.ToString("yyyy-MM-dd")}', {finalThesisReview.FormStatus}, " +
                 $"{finalThesisReview.FinalThesis.FinalThesisId})";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             cmd.ExecuteNonQuery();
