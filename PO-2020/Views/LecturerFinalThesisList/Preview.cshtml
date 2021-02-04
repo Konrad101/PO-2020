@@ -22,7 +22,7 @@
         <p>9. Merytoryczna ocena pracy: <b>@Html.DisplayFor(model => model.SubstantiveThesisGrade)</b></p>
         <p>10. Ocena pracy: <b>@Html.DisplayFor(model => model.ThesisGrade)</b></p>
         <div class="data">
-            <p><b>@DateTime.Now</b></p>
+            <p><b>@DateTime.Now.ToString("dd.MM.yyyy")</b></p>
             <p>data</p>
         </div>
         <div class="sign">
