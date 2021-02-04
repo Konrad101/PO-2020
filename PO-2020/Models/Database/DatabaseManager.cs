@@ -91,11 +91,11 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             conn.Close();
         }
 
-        public void EditReviewStatus(int formId, int reviewStatus)
+        public void EditReviewStatus(int formId, ThesisStatus reviewStatus)
         {
             conn.Open();
             string sql = "UPDATE FinalThesesReview " +
-                $"SET formStatus = '{reviewStatus}' " +
+                $"SET formStatus = '{(int) reviewStatus}' " +
                 $"WHERE formId = {formId}";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             cmd.ExecuteNonQuery();
@@ -138,22 +138,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             conn.Close();
             FillUserData(finalThesis.Participant);
             return review;
-        }
-
-        public SubmissionThesis GetSubmissionForThesisId(int finalThesisId)
-        {
-            conn.Open();
-            string sql = $"SELECT ST.submissionId FROM FinalTheses FT " +
-                $"JOIN SubmissionTheses ST ON ST.finalThesisId = FT.finalThesisId " +
-                $"WHERE FT.finalThesisId = {finalThesisId}";
-            MySqlCommand cmd = new MySqlCommand(sql, conn);
-            MySqlDataReader rdr = cmd.ExecuteReader();
-
-            rdr.Read();
-            int submissionThesisId = int.Parse(rdr[0].ToString());
-            rdr.Close();
-            conn.Close();
-            return GetSubmissionThesis(submissionThesisId);
         }
 
         // tested
@@ -463,6 +447,22 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             submissionThesis.FinalThesis = finalThesis;
 
             return submissionThesis;
+        }
+
+        public SubmissionThesis GetSubmissionForThesisId(int finalThesisId)
+        {
+            conn.Open();
+            string sql = $"SELECT ST.submissionId FROM FinalTheses FT " +
+                $"JOIN SubmissionTheses ST ON ST.finalThesisId = FT.finalThesisId " +
+                $"WHERE FT.finalThesisId = {finalThesisId}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            rdr.Read();
+            int submissionThesisId = int.Parse(rdr[0].ToString());
+            rdr.Close();
+            conn.Close();
+            return GetSubmissionThesis(submissionThesisId);
         }
 
         // tested

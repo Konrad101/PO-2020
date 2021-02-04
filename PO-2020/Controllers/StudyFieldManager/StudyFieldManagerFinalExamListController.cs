@@ -109,8 +109,8 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
         private List<bool> GetQuestionFieldsValidation(IFormCollection form)
         {
             List<bool> fieldsValidation = new List<bool>();
-            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["Content"]));
-            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["Answer"]));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["Content"], maxLength: 1023));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["Answer"], maxLength: 2047));
             fieldsValidation.Add(DataValidator.NumberIsValid(form["Points"], 1));
 
             return fieldsValidation;

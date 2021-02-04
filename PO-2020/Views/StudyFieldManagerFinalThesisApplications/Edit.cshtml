@@ -148,19 +148,44 @@
                 </div>
             </div>
 
-            <!-- Imie_nazwisko_TextField (Text Field) -->
-            <div id="u420" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
-                <div id="u420_div" class=""></div>
-                <input id="u420_input" type="text" value="@Html.DisplayFor(model => model.TopicNumber)" class="u420_input" name="TopicNumber"/>
+            <!-- Unnamed (Droplist) -->
+            <div id="u425" class="ax_default droplist">
+                <div id="u425_div" class=""></div>
+                <select id="u425_input" class="u425_input @if (!ViewBag.dataIsValid) { @("correct_data") }" asp-items="ViewBag.Lecturers" name="LecturerId">
+                </select>
             </div>
 
             <!-- Temat_pracy_TextArea (Text Area) -->
             <div id="u421" class="ax_default text_area" data-label="Temat_pracy_TextArea">
                 <div id="u421_div" class=""></div>
-                <textarea id="u421_input" class="u421_input" name="ThesisTopic">@Html.DisplayFor(model => model.ThesisTopic)</textarea>
+                <textarea id="u421_input" class="u421_input @if (!ViewBag.dataIsValid) if (!ViewBag.fieldsValidation[0]) { @("error") } else { @("correct_data") }" name="ThesisTopic">@if (ViewBag.dataIsValid)
+                        { @Html.DisplayFor(model => model.ThesisTopic) }
+                        else { @ViewBag.form["ThesisTopic"] }</textarea>
             </div>
 
+            <!-- Imie_nazwisko_TextField (Text Field) -->
+            <div id="u420" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
+                <div id="u420_div" class=""></div>
+                <input id="u420_input" type="text" value="@if (ViewBag.dataIsValid)
+                        { @Html.DisplayFor(model => model.TopicNumber) }
+                        else { @ViewBag.form["TopicNumber"] }" class="u420_input @if (!ViewBag.dataIsValid) if (!ViewBag.fieldsValidation[1]) { @("error") } else { @("correct_data") }" name="TopicNumber" />
+            </div>
 
+            <!-- Temat_pracy_TextArea (Text Area) -->
+            <div id="u428" class="ax_default text_area" data-label="Temat_pracy_TextArea">
+                <div id="u428_div" class=""></div>
+                <textarea id="u428_input" class="u428_input @if (!ViewBag.dataIsValid) if (!ViewBag.fieldsValidation[2]) { @("error") } else { @("correct_data") }" name="ThesisObjectives">@if (ViewBag.dataIsValid)
+                        { @Html.DisplayFor(model => model.ThesisObjectives) }
+                        else { @ViewBag.form["ThesisObjectives"] }</textarea>
+            </div>
+
+            <!-- Temat_pracy_TextArea (Text Area) -->
+            <div id="u430" class="ax_default text_area" data-label="Temat_pracy_TextArea">
+                <div id="u430_div" class=""></div>
+                <textarea id="u430_input" class="u430_input @if (!ViewBag.dataIsValid) if (!ViewBag.fieldsValidation[3]) { @("error") } else { @("correct_data") }" name="ThesisScope">@if (ViewBag.dataIsValid)
+                        { @Html.DisplayFor(model => model.ThesisScope) }
+                        else { @ViewBag.form["ThesisScope"] }</textarea>
+            </div>
 
             <!-- Unnamed (Rectangle) -->
             <div id="u423" class="ax_default label">
@@ -178,12 +203,6 @@
                 </div>
             </div>
 
-            <!-- Unnamed (Droplist) -->
-            <div id="u425" class="ax_default droplist">
-                <div id="u425_div" class=""></div>
-                <select id="u425_input" class="u425_input" asp-items="ViewBag.Lecturers" name="LecturerId">
-                </select>
-            </div>
 
             <!-- Unnamed (Rectangle) -->
             <div id="u426" class="ax_default label">
@@ -201,11 +220,6 @@
                 </div>
             </div>
 
-            <!-- Temat_pracy_TextArea (Text Area) -->
-            <div id="u428" class="ax_default text_area" data-label="Temat_pracy_TextArea">
-                <div id="u428_div" class=""></div>
-                <textarea id="u428_input" class="u428_input" name="ThesisObjectives">@Html.DisplayFor(model => model.ThesisObjectives)</textarea>
-            </div>
 
             <!-- Unnamed (Rectangle) -->
             <div id="u429" class="ax_default label">
@@ -215,11 +229,6 @@
                 </div>
             </div>
 
-            <!-- Temat_pracy_TextArea (Text Area) -->
-            <div id="u430" class="ax_default text_area" data-label="Temat_pracy_TextArea">
-                <div id="u430_div" class=""></div>
-                <textarea id="u430_input" class="u430_input" name="ThesisScope">@Html.DisplayFor(model => model.ThesisScope)</textarea>
-            </div>
 
             <!-- Unnamed (Rectangle) -->
             <div id="u431" class="ax_default label">

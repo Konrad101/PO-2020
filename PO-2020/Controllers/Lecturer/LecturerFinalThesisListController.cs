@@ -12,7 +12,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
 {
     public class LecturerFinalThesisListController : Controller
     {
-        private DatabaseManager manager = new DatabaseManager();
+        private IDao manager = new DatabaseManager();
 
         public IActionResult Index()
         {
@@ -30,13 +30,13 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
 
         public IActionResult Confirm(int id)
         {
-            manager.EditReviewStatus(id, (int)ThesisStatus.APPROVED);
+            manager.EditReviewStatus(id, ThesisStatus.APPROVED);
             return RedirectToAction("Index");
         }
 
         public IActionResult Discard(int id)
         {
-            manager.EditReviewStatus(id, (int)ThesisStatus.DISCARD);
+            manager.EditReviewStatus(id, ThesisStatus.DISCARD);
             return RedirectToAction("Index");
         }
 
@@ -86,9 +86,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
             review.FormDate = DateTime.Parse(form["FormDate"]);
 
             manager.EditReview(review);
-            Console.WriteLine("ID: " + review.FormId);
-            Console.WriteLine("Title compability: " + review.TitleCompability);
-            Console.WriteLine("Grade " + review.ThesisGrade);
 
             return RedirectToAction("Index");
         }
@@ -107,14 +104,14 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
         private List<bool> GetReviewFieldsValidation(IFormCollection form)
         {
             List<bool> fieldsValidation = new List<bool>();
-            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["TitleCompability"]));
-            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["ThesisStructureComment"]));
-            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["NewProblem"]));
-            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["SourcesUse"]));
-            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["FormalWorkSide"]));
-            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["WayToUse"]));
-            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["SubstantiveThesisGrade"]));
-            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["ThesisGrade"]));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["TitleCompability"], maxLength: 128));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["ThesisStructureComment"], maxLength: 128));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["NewProblem"], maxLength: 128));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["SourcesUse"], maxLength: 128));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["FormalWorkSide"], maxLength: 256));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["WayToUse"], maxLength: 256));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["SubstantiveThesisGrade"], maxLength: 2048));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["ThesisGrade"], maxLength: 15));
             fieldsValidation.Add(DataValidator.DateIsValid(form["FormDate"]));
 
             return fieldsValidation;
