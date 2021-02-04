@@ -215,7 +215,7 @@
             <!-- Unnamed (Droplist) -->
             <div id="u776" class="ax_default droplist">
                 <div id="u776_div" class=""></div>
-                <select id="u776_input" class="u776_input"  asp-items="ViewBag.Grades" name="GradeId">
+                <select id="u776_input" class="u776_input @if (!ViewBag.dataIsValid) if (!ViewBag.fieldsValidation[1]) { @("error") } else { @("correct_data") }"  asp-items="ViewBag.Grades" name="GradeId">
                 </select>
             </div>
 
