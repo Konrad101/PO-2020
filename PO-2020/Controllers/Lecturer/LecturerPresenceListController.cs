@@ -86,10 +86,8 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
 
             foreach (var sth in participantAttendances)
             {
-                Console.WriteLine("Panie, oczywiscie, że dziala");
                 foreach (bool item in sth.Item2)
                 {
-                    Console.WriteLine("Albo i nie");
                     if (item)
                     {
                         presentQuantity++;
@@ -123,7 +121,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
 
             ViewData["presentQuantity"] = totalPresentQuantity;
             ViewData["absentQuantity"] = totalAbsentQuantity;
-            ViewData["classUnitQuantity"] = totalQuantity;
+            ViewData["totalQuantity"] = totalQuantity;
             ViewData["absentPercentage"] = absentPercentage;
             ViewData["presentPercentage"] = presentPercentage;
 

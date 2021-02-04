@@ -263,7 +263,7 @@
                     <div id="u678" class="ax_default table_cell">
                         <img id="u678_img" class="img " src="../images/participantpresence/u621.png" />
                         <div id="u678_text" class="text ">
-                            <p><span>@ViewBag.totalPresentQuantity @if (ViewBag.totalPresentQuantity == 1)
+                            <p><span>@ViewBag.presentQuantity @if (ViewBag.presentQuantity == 1)
                             {@("raz") }
                             else
                             { @("razy")} / @ViewBag.presentPercentage%</span></p>
@@ -282,7 +282,7 @@
                     <div id="u680" class="ax_default table_cell">
                         <img id="u680_img" class="img " src="../images/participantpresence/u621.png" />
                         <div id="u680_text" class="text ">
-                            <p><span>@ViewBag.totalAbsentQuantity @if (ViewBag.totalAbsentQuantity == 1)
+                            <p><span>@ViewBag.absentQuantity @if (ViewBag.absentQuantity == 1)
                             {@("raz") }
                             else
                             { @("razy")} / @ViewBag.absentPercentage%</span></p>

@@ -71,7 +71,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, IFormCollection form)
         {
-            Console.WriteLine(form["DataTextField"]);
             List<bool> fieldsValidation = GetGradeFieldsValidation(form);
             bool dataIsValid = ValidateGradeData(form, fieldsValidation);
             if (!dataIsValid)
@@ -100,7 +99,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
             partialCourseGrade.GradeDate = Convert.ToDateTime(form["DataTextField"]);
             partialCourseGrade.GradeValue = GradeConverter.GetGradeString(form["GradeId"]);
             partialCourseGrade.Comment = form["ComentTextArea"];
-            Console.WriteLine(form["GradeId"]);
             manager.EditGrade(partialCourseGrade);
             return RedirectToAction("Index");
         }
@@ -183,7 +181,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
             foreach (PartialCourseGrade partial in grades)
             {
                 finalList.Add(new Tuple<DateTime, Grade, string, PartialCourseGrade>(partial.GradeDate, partial.GradeValue, partial.Comment, partial));
-                Console.WriteLine(partial.PartialGradeId);
             }
 
             ViewData["finalList"] = finalList;
@@ -234,7 +231,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
         private List<bool> GetGradeFieldsValidation(IFormCollection form)
         {
             List<bool> fieldsValidation = new List<bool>();
-            Console.WriteLine(form["DataTextField"]);
             fieldsValidation.Add(DataValidator.DateIsValid(form["DataTextField"]));
             fieldsValidation.Add(DataValidator.FieldContentIsValid(form["GradeId"], maxLength: 15));
             fieldsValidation.Add(DataValidator.FieldContentIsValid(form["ComentTextArea"], maxLength: 255));
@@ -247,7 +243,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
             bool dataIsValid = true;
             foreach (bool fieldValidation in fieldsValidation)
             {
-                Console.WriteLine(fieldValidation);
                 if (!fieldValidation)
                 {
                     dataIsValid = false;
