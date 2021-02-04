@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 using MySql.Data.MySqlClient;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 {
     public class DatabaseManager : IDao
     {
-        private static readonly string CONNECTION_DATA_PATH = "C:\\Users\\kogol\\source\\repos\\PO_implementacja_StudiaPodyplomowe\\PO_implementacja_StudiaPodyplomowe\\db_conf.txt";
+        private static readonly string CONNECTION_DATA_PATH = "db_conf.txt";
         private MySqlConnection conn;
 
         public DatabaseManager()
@@ -100,6 +99,8 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             //}
             conn.Open();
             string sql = $"SELECT COUNT(formId) FROM FinalThesesReview WHERE formId = {formId}";
+
+
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
             try
@@ -160,7 +161,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             Lecturer lecturer = new Lecturer();
             lecturer.LecturerId = int.Parse(rdr[24].ToString());
             lecturer.UserId = int.Parse(rdr[25].ToString());
-            
+
             rdr.Close();
             conn.Close();
             FillUserData(lecturer);
@@ -169,21 +170,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return review;
         }
 
-        public SubmissionThesis GetSubmissionForThesisId(int finalThesisId)
-        {
-            conn.Open();
-            string sql = $"SELECT ST.submissionId FROM FinalTheses FT " +
-                $"JOIN SubmissionTheses ST ON ST.finalThesisId = FT.finalThesisId " +
-                $"WHERE FT.finalThesisId = {finalThesisId}";
-            MySqlCommand cmd = new MySqlCommand(sql, conn);
-            MySqlDataReader rdr = cmd.ExecuteReader();
 
-            rdr.Read();
-            int submissionThesisId = int.Parse(rdr[0].ToString());
-            rdr.Close();
-            conn.Close();
-            return GetSubmissionThesis(submissionThesisId);
-        }
 
         // tested
         public List<FinalThesisReview> GetReviews(int lecturerId)
@@ -223,7 +210,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             }
             rdr.Close();
             conn.Close();
-            foreach(FinalThesisReview r in reviews)
+            foreach (FinalThesisReview r in reviews)
             {
                 FillUserData(r.FinalThesis.Participant);
             }
@@ -279,7 +266,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 
         public List<Question> GetQuestions(int finalExamId)
         {
-            
+
             List<Question> questions = new List<Question>();
             conn.Open();
             string sql = $"SELECT Q.questionId, Q.content, Q.points, Q.answer " +
@@ -318,7 +305,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             question.Content = rdr[1].ToString();
             question.Points = int.Parse(rdr[2].ToString());
             question.Answer = rdr[3].ToString();
-            
+
             rdr.Close();
             conn.Close();
             return question;
@@ -497,6 +484,22 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             submissionThesis.FinalThesis = finalThesis;
 
             return submissionThesis;
+        }
+
+        public SubmissionThesis GetSubmissionForThesisId(int finalThesisId)
+        {
+            conn.Open();
+            string sql = $"SELECT ST.submissionId FROM FinalTheses FT " +
+                $"JOIN SubmissionTheses ST ON ST.finalThesisId = FT.finalThesisId " +
+                $"WHERE FT.finalThesisId = {finalThesisId}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            rdr.Read();
+            int submissionThesisId = int.Parse(rdr[0].ToString());
+            rdr.Close();
+            conn.Close();
+            return GetSubmissionThesis(submissionThesisId);
         }
 
         // tested
@@ -741,7 +744,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             conn.Close();
             return maxId;
         }
-        
+
         // zrobic tez edycje przynaleznosci do ktorej listy ocen nalezy?
         // brakuje nam usuwania w DAO
         public void EditGrade(PartialCourseGrade grade)
@@ -928,7 +931,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             MySqlDataReader rdr = cmd.ExecuteReader();
             rdr.Read();
             int questionsAmount = int.Parse(rdr[0].ToString());
-           
+
             rdr.Close();
             conn.Close();
             return questionsAmount;

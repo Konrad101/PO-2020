@@ -155,19 +155,19 @@
                     <!-- Temat_pracy_TextArea (Text Area) -->
                     <div id="u279" class="ax_default text_area" data-label="Temat_pracy_TextArea">
                         <div id="u279_div" class=""></div>
-                        <textarea id="u279_input" name="Content" class="u279_input @if (!ViewBag.dataIsValid && !ViewBag.fieldsValidation[0]) @("error")">@if (!ViewBag.dataIsValid){@(ViewBag.form["Content"])}</textarea>
+                        <textarea id="u279_input" name="Content" class="u279_input @if (!ViewBag.dataIsValid) if (!ViewBag.fieldsValidation[0]) { @("error") } else { @("correct_data") }">@if (!ViewBag.dataIsValid){@(ViewBag.form["Content"])}</textarea>
                     </div>
 
                     <!-- Temat_pracy_TextArea (Text Area) -->
                     <div id="u281" class="ax_default text_area" data-label="Temat_pracy_TextArea">
                         <div id="u281_div" class=""></div>
-                        <textarea id="u281_input" class="u281_input @if (!ViewBag.dataIsValid && !ViewBag.fieldsValidation[1]) @("error")" name="Answer">@if (!ViewBag.dataIsValid){@(ViewBag.form["Answer"])}</textarea>
+                        <textarea id="u281_input" class="u281_input @if (!ViewBag.dataIsValid) if (!ViewBag.fieldsValidation[1]) { @("error") } else { @("correct_data") }" name="Answer">@if (!ViewBag.dataIsValid){@(ViewBag.form["Answer"])}</textarea>
                     </div>
 
                     <!-- Imie_nazwisko_TextField (Text Field) -->
                     <div id="u280" class="ax_default text_field" data-label="Imie_nazwisko_TextField">
                         <div id="u280_div" class=""></div>
-                        <input id="u280_input" type="text" name="Points" class="u280_input @if (!ViewBag.dataIsValid && !ViewBag.fieldsValidation[2]) @("error")" value="@if (!ViewBag.dataIsValid){@(ViewBag.form["Points"])}" />
+                        <input id="u280_input" type="text" name="Points" class="u280_input @if (!ViewBag.dataIsValid) if (!ViewBag.fieldsValidation[2]) { @("error") } else { @("correct_data") }" value="@if (!ViewBag.dataIsValid){@(ViewBag.form["Points"])}" />
                     </div>
 
                     <!-- Unnamed (Rectangle) -->

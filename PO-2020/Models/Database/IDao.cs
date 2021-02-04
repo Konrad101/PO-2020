@@ -8,6 +8,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         public void EditReview(FinalThesisReview review);
         public FinalThesisReview GetReview(int reviewId);
         public List<FinalThesisReview> GetReviews(int lecturerId);
+        public void EditReviewStatus(int formId, ThesisStatus reviewStatus);
         public void AddQuestion(Question question);
         public int GetMaxGradeId();
         public void EditQuestion(Question question);
@@ -17,8 +18,10 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         public void AddFinalThesis();
         public void EditSubmissionThesis(SubmissionThesis submissionThesis);
         public void EditFinalThesisLecturer(int finalThesisId, int lecturerId);
+        public void EditSubmissionThesesStatus(int submissionId, int submissionStatus);
         public List<SubmissionThesis> GetSubmissionTheses(int edition);
         public SubmissionThesis GetSubmissionThesis(int thesisId);
+        public SubmissionThesis GetSubmissionForThesisId(int finalThesisId);
         public List<Attendance> GetAttendances(Participant participant, Course course);
         public List<Attendance> GetAttendances(Course course);
         public List<ClassesUnit> GetClassesUnitsDate(Course course);
