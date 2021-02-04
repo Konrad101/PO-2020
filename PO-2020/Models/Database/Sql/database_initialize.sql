@@ -10,7 +10,6 @@ CREATE TABLE Users (
 
 CREATE TABLE Participants (
   participantId INT PRIMARY KEY,
-  userId INT,
   participantIndex VARCHAR(6),
   secondName VARCHAR(31),
   pesel VARCHAR(12),
@@ -21,6 +20,7 @@ CREATE TABLE Participants (
   endDate DATE,
   activeParticipantStatus TINYINT,
   ifPassedFinalExam TINYINT,
+  userId INT,
   FOREIGN KEY (userId) REFERENCES Users (userId)
 );
 
@@ -32,8 +32,8 @@ CREATE TABLE Lecturers (
 
 CREATE TABLE StudyFieldManagers (
   managerId INT PRIMARY KEY,
-  userId INT,
   primaryEmploymentPlace VARCHAR(127),
+  userId INT,
   FOREIGN KEY (userId) REFERENCES Users (userId)
 );
 
@@ -52,13 +52,13 @@ CREATE TABLE FinalTheses (
   FOREIGN KEY (lecturerId) REFERENCES Lecturers (lecturerId)
 );
 
--- formularz zgï¿½oszenia
+-- formularz zg³oszenia
 CREATE TABLE SubmissionTheses (
   submissionId INT PRIMARY KEY,
-  thesisTopic VARCHAR(2048),
+  thesisTopic VARCHAR(2047),
   topicNumber INT, -- max 5 cyfr
-  thesisObjectives VARCHAR(2048),
-  thesisScope VARCHAR(2048),
+  thesisObjectives VARCHAR(2047),
+  thesisScope VARCHAR(2047),
   submissionStatus INT,
   finalThesisId INT,
   edNumber INT,
@@ -66,16 +66,16 @@ CREATE TABLE SubmissionTheses (
   FOREIGN KEY (edNumber) REFERENCES Editions (edNumber)
 );
 
--- formularz recenzji pracy koï¿½cowej
+-- formularz recenzji pracy koñcowej
 CREATE TABLE FinalThesesReview (
   formId INT PRIMARY KEY,
-  titleCompability VARCHAR(128),
-  thesisStructureComment VARCHAR(128),
-  newProblem VARCHAR(128),
-  sourcesUse VARCHAR(128),
-  formalWorkSide VARCHAR(256),
-  wayToUse VARCHAR(256),
-  substantiveThesisGrade VARCHAR(2048),
+  titleCompability VARCHAR(127),
+  thesisStructureComment VARCHAR(127),
+  newProblem VARCHAR(127),
+  sourcesUse VARCHAR(127),
+  formalWorkSide VARCHAR(255),
+  wayToUse VARCHAR(255),
+  substantiveThesisGrade VARCHAR(2047),
   thesisGrade VARCHAR(15),
   formDate DATE,
   formStatus INT,
@@ -123,7 +123,7 @@ CREATE TABLE ClassesUnits (
   FOREIGN KEY (lecturerId) REFERENCES Lecturers (lecturerId)
 );
 
--- obecnoï¿½ci studentï¿½w na zajeciach
+-- obecnoœci studentów na zajeciach
 CREATE TABLE Attendances (
   participantId INT,
   classUnitId INT,
@@ -136,17 +136,17 @@ CREATE TABLE ParticipantGradeLists (
 	participantGradeListId INT PRIMARY KEY
 );
 
--- ocena czï¿½stkowa
+-- ocena cz¹stkowa
 CREATE TABLE PartialCourseGrades (
   partialGradeId INT PRIMARY KEY,
   gradeDate DATE,
-  gradeValue VARCHAR(15),
+  gradeValue VARCHAR(7),
   comment VARCHAR(255),
   participantGradeListId INT,
   FOREIGN KEY (participantGradeListId) REFERENCES ParticipantGradeLists (participantGradeListId)
 );
 
--- poï¿½ï¿½czenie miï¿½dzy uczestnik - kurs
+-- po³¹czenie miêdzy uczestnik - kurs
 CREATE TABLE ParticipantsWithCourses (
 	participantId INT,
 	courseId VARCHAR(15),
