@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 {
@@ -12,7 +12,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         public void AddQuestion(Question question);
         public int GetMaxQuestionId();
         public int GetMaxGradeId();
-        public void EditQuestion(Question question);
+        public bool EditQuestion(Question question);
         public void DeleteQuestion(int questionId);
         public List<Question> GetQuestions(int finalExamId);
         public Question GetQuestion(int questionId);
@@ -30,7 +30,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         public List<ClassesUnit> GetClassesUnitsDate(Course course);
         public List<Lecturer> GetLecturers(int edition);
         public List<Participant> GetParticipants();
-        public List<Participant> GetParticipants(Course course)
+        public List<Participant> GetParticipants(Course course);
 
         public void AddGrade(PartialCourseGrade grade);
         public void EditGrade(PartialCourseGrade grade);

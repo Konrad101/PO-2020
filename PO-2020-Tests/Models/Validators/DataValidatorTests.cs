@@ -14,12 +14,14 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Validators.Tests
         public void DateIsValidTest()
         {
             Assert.IsTrue(DataValidator.DateIsValid("31-01-2020"));
-            Assert.IsFalse(DataValidator.DateIsValid("16.05.2081"));
             Assert.IsTrue(DataValidator.DateIsValid("2020-04-16"));
             Assert.IsTrue(DataValidator.DateIsValid("2018.11-25"));
             Assert.IsTrue(DataValidator.DateIsValid("19-05-2001"));
-            Assert.IsFalse(DataValidator.DateIsValid("32.01.2020"));
             Assert.IsTrue(DataValidator.DateIsValid("31.01.2020"));
+            Assert.IsTrue(DataValidator.DateIsValid("30.05.2020   "));
+
+            Assert.IsFalse(DataValidator.DateIsValid("16.05.2081"));
+            Assert.IsFalse(DataValidator.DateIsValid("32.01.2020"));
             Assert.IsFalse(DataValidator.DateIsValid("29.02.2021"));
             Assert.IsFalse(DataValidator.DateIsValid("01.02.2023"));
             Assert.IsFalse(DataValidator.DateIsValid("30.02.2023"));
@@ -58,7 +60,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Validators.Tests
             Assert.IsFalse(DataValidator.FieldContentIsValid("     "));
             Assert.IsTrue(DataValidator.FieldContentIsValid("Sara"));
             Assert.IsTrue(DataValidator.FieldContentIsValid("adamandy"));
-            Assert.IsTrue(DataValidator.FieldContentIsValid("YOLO"));
+            Assert.IsTrue(DataValidator.FieldContentIsValid("SARA"));
             Assert.IsTrue(DataValidator.FieldContentIsValid("21321234"));
             Assert.IsTrue(DataValidator.FieldContentIsValid("Sasa21"));
             Assert.IsFalse(DataValidator.FieldContentIsValid("Lorem ipsum dolor sit amet, consectetur adipiscing elit.", maxLength:20));
@@ -67,16 +69,14 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Validators.Tests
             {
                 DataValidator.FieldContentIsValid("sda", maxLength: -20);
                 Assert.Fail();
-
             }
             catch (ArgumentException)
             {
             }
             try
             {
-                DataValidator.FieldContentIsValid("sda", maxLength: Int32.MinValue);
+                DataValidator.FieldContentIsValid("sda", maxLength: int.MinValue);
                 Assert.Fail();
-
             }
             catch (ArgumentException)
             {
@@ -85,7 +85,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Validators.Tests
             {
                 DataValidator.FieldContentIsValid("sda", maxLength: 0);
                 Assert.Fail();
-
             }
             catch (ArgumentException)
             {
@@ -100,7 +99,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Validators.Tests
             }
             try
             {
-                DataValidator.FieldContentIsValid("sda", maxLength: Int32.MaxValue);
+                DataValidator.FieldContentIsValid("sda", maxLength: int.MaxValue);
             }
             catch (ArgumentException)
             {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using MySql.Data.MySqlClient;
@@ -93,13 +93,12 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 
         public void EditReviewStatus(int formId, ThesisStatus reviewStatus)
         {
-            //if(formId < 0)
-            //{
-            //    throw new ArgumentException();
-            //}
+            if (formId < 0)
+            {
+                throw new ArgumentException();
+            }
             conn.Open();
             string sql = $"SELECT COUNT(formId) FROM FinalThesesReview WHERE formId = {formId}";
-
 
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
@@ -171,21 +170,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return review;
         }
 
-        public SubmissionThesis GetSubmissionForThesisId(int finalThesisId)
-        {
-            conn.Open();
-            string sql = $"SELECT ST.submissionId FROM FinalTheses FT " +
-                $"JOIN SubmissionTheses ST ON ST.finalThesisId = FT.finalThesisId " +
-                $"WHERE FT.finalThesisId = {finalThesisId}";
-            MySqlCommand cmd = new MySqlCommand(sql, conn);
-            MySqlDataReader rdr = cmd.ExecuteReader();
 
-            rdr.Read();
-            int submissionThesisId = int.Parse(rdr[0].ToString());
-            rdr.Close();
-            conn.Close();
-            return GetSubmissionThesis(submissionThesisId);
-        }
 
         // tested
         public List<FinalThesisReview> GetReviews(int lecturerId)
@@ -257,16 +242,32 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return maxId;
         }
 
-        public void EditQuestion(Question question)
+        public bool EditQuestion(Question question)
         {
             conn.Open();
-            string sql = "UPDATE Questions " +
+            string sql = $"SELECT COUNT(questionId) FROM Questions WHERE questionId = {question.QuestionId}";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            rdr.Read();
+            int count = int.Parse(rdr[0].ToString());
+            rdr.Close();
+            if (count == 0)
+            {
+                conn.Close();
+                return false;
+            }
+
+            sql = "UPDATE Questions " +
                 $"SET content = '{question.Content}', points = '{question.Points}', " +
                 $"answer = '{question.Answer}' " +
                 $"WHERE questionId = {question.QuestionId}";
-            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            cmd = new MySqlCommand(sql, conn);
             cmd.ExecuteNonQuery();
             conn.Close();
+
+            return true;
         }
 
         public void DeleteQuestion(int questionId)
@@ -298,7 +299,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
                 question.Content = rdr[1].ToString();
                 question.Points = int.Parse(rdr[2].ToString());
                 question.Answer = rdr[3].ToString();
-
                 questions.Add(question);
             }
             rdr.Close();
@@ -500,6 +500,22 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             submissionThesis.FinalThesis = finalThesis;
 
             return submissionThesis;
+        }
+
+        public SubmissionThesis GetSubmissionForThesisId(int finalThesisId)
+        {
+            conn.Open();
+            string sql = $"SELECT ST.submissionId FROM FinalTheses FT " +
+                $"JOIN SubmissionTheses ST ON ST.finalThesisId = FT.finalThesisId " +
+                $"WHERE FT.finalThesisId = {finalThesisId}";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            rdr.Read();
+            int submissionThesisId = int.Parse(rdr[0].ToString());
+            rdr.Close();
+            conn.Close();
+            return GetSubmissionThesis(submissionThesisId);
         }
 
         // tested
@@ -828,7 +844,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         public List<PartialCourseGrade> GetParticipantsGrades(Participant participant, Course course)
         {
             List<PartialCourseGrade> partialGrades = new List<PartialCourseGrade>();
-
             conn.Open();
 
             string sql = $"SELECT PCG.PartialGradeId, PCG.gradeDate, PCG.gradeValue, PCG.comment FROM PartialCourseGrades PCG " +

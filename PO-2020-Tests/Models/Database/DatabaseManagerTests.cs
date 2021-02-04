@@ -13,15 +13,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database.Tests
     [TestClass()]
     public class DatabaseManagerTests
     {
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void EditReviewStatusTest()
-        {
-            DatabaseManager manager = new DatabaseManager();
-            manager.EditReviewStatus(1, ThesisStatus.DISCARD);
-        }
-
-        /*
         [TestMethod()]
         public void EditReviewStatusTest()
         {
@@ -34,7 +25,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database.Tests
             catch
             {
             }
-            Thread.Sleep(500);
             try
             {
                 manager.EditReviewStatus(100000, ThesisStatus.APPROVED);
@@ -43,34 +33,58 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database.Tests
             catch
             {
             }
-            Thread.Sleep(5000);
             try
             {
                 manager.EditReviewStatus(1, ThesisStatus.DISCARD);
+                FinalThesisReview review = manager.GetReview(1);
+                Assert.IsTrue(review.FormStatus == ThesisStatus.DISCARD);
             }
             catch
             {
                 Assert.Fail();
             }
-            Thread.Sleep(500);
             try
             {
                 manager.EditReviewStatus(1, ThesisStatus.WAITING);
+                FinalThesisReview review = manager.GetReview(1);
+                Assert.IsTrue(review.FormStatus == ThesisStatus.WAITING);
             }
             catch
             {
                 Assert.Fail();
             }
-            Thread.Sleep(500);
             try
             {
                 manager.EditReviewStatus(1, ThesisStatus.APPROVED);
+                FinalThesisReview review = manager.GetReview(1);
+                Assert.IsTrue(review.FormStatus == ThesisStatus.APPROVED);
             }
             catch
             {
                 Assert.Fail();
-            }           
+            }
         }
-        */
+
+        [TestMethod()]
+        public void EditQuestionTest()
+        {
+            DatabaseManager manager = new DatabaseManager();
+
+            Question question = new Question();
+            question.QuestionId = 1;
+            question.Content = "Tresc";
+            question.Answer = "Odp";
+
+            FinalExam finalExam = new FinalExam();
+            finalExam.ExamId = 1;
+            question.FinalExams = finalExam;
+
+            Assert.IsTrue(manager.EditQuestion(question));
+
+            Assert.IsFalse(manager.EditQuestion(new Question()));
+            Question incorrectQuestion = new Question();
+            incorrectQuestion.QuestionId = -1;
+            Assert.IsFalse(manager.EditQuestion(incorrectQuestion));
+        }
     }
 }
