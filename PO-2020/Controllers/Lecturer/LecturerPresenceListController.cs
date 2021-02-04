@@ -124,7 +124,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
 
             ViewData["presentQuantity"] = totalPresentQuantity;
             ViewData["absentQuantity"] = totalAbsentQuantity;
-            ViewData["classUnitQuantity"] = totalQuantity;
+            ViewData["totalQuantity"] = totalQuantity;
             ViewData["absentPercentage"] = absentPercentage;
             ViewData["presentPercentage"] = presentPercentage;
 
