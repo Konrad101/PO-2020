@@ -15,8 +15,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
         public IActionResult Index()
         {
             List<FinalExam> exams = manager.GetFinalExams(1);
-            // musze pobrac ile pytan ma egzamin o danym id
-            // data ostatniej modyfikacji i komentarz - pola do zmiany
             List<int> examsQuestionsAmount = new List<int>();
             for (int i = 0; i < exams.Count; i++)
             {
@@ -108,7 +106,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
             List<bool> fieldsValidation = new List<bool>();
             fieldsValidation.Add(DataValidator.FieldContentIsValid(form["Content"], maxLength: 1023));
             fieldsValidation.Add(DataValidator.FieldContentIsValid(form["Answer"], maxLength: 2047));
-            fieldsValidation.Add(DataValidator.NumberIsValid(form["Points"], 1));
+            fieldsValidation.Add(DataValidator.NumberIsValid(form["Points"], minRange: 1));
 
             return fieldsValidation;
         }

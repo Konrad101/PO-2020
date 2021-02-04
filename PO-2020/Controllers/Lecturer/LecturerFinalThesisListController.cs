@@ -102,13 +102,13 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
         private List<bool> GetReviewFieldsValidation(IFormCollection form)
         {
             List<bool> fieldsValidation = new List<bool>();
-            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["TitleCompability"], maxLength: 128));
-            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["ThesisStructureComment"], maxLength: 128));
-            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["NewProblem"], maxLength: 128));
-            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["SourcesUse"], maxLength: 128));
-            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["FormalWorkSide"], maxLength: 256));
-            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["WayToUse"], maxLength: 256));
-            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["SubstantiveThesisGrade"], maxLength: 2048));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["TitleCompability"], maxLength: 127));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["ThesisStructureComment"], maxLength: 127));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["NewProblem"], maxLength: 127));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["SourcesUse"], maxLength: 127));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["FormalWorkSide"], maxLength: 255));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["WayToUse"], maxLength: 255));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["SubstantiveThesisGrade"], maxLength: 2047));
             fieldsValidation.Add(DataValidator.FieldContentIsValid(form["ThesisGrade"], maxLength: 15));
             fieldsValidation.Add(DataValidator.DateIsValid(form["FormDate"]));
 

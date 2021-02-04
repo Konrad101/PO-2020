@@ -101,10 +101,10 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
         private List<bool> GetSubmissionFieldsValidation(IFormCollection form)
         {
             List<bool> fieldsValidation = new List<bool>();
-            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["ThesisTopic"], maxLength: 2048));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["ThesisTopic"], maxLength: 2047));
             fieldsValidation.Add(DataValidator.NumberIsValid(form["TopicNumber"], maxRange: 99999));
-            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["ThesisObjectives"], maxLength: 2048));
-            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["ThesisScope"], maxLength: 2048));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["ThesisObjectives"], maxLength: 2047));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["ThesisScope"], maxLength: 2047));
 
             return fieldsValidation;
         }

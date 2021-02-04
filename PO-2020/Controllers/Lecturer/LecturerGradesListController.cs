@@ -232,7 +232,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
         {
             List<bool> fieldsValidation = new List<bool>();
             fieldsValidation.Add(DataValidator.DateIsValid(form["DataTextField"]));
-            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["GradeId"], maxLength: 15));
+            fieldsValidation.Add(DataValidator.FieldContentIsValid(form["GradeId"], maxLength: 7));
             fieldsValidation.Add(DataValidator.FieldContentIsValid(form["ComentTextArea"], maxLength: 255));
 
             return fieldsValidation;
