@@ -10,6 +10,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         public List<FinalThesisReview> GetReviews(int lecturerId);
         public void EditReviewStatus(int formId, ThesisStatus reviewStatus);
         public void AddQuestion(Question question);
+        public int GetMaxQuestionId();
         public int GetMaxGradeId();
         public void EditQuestion(Question question);
         public void DeleteQuestion(int questionId);

@@ -105,6 +105,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             MySqlDataReader rdr = cmd.ExecuteReader();
             try
             {
+                rdr.Read();
                 int reader = int.Parse(rdr[0].ToString());
             }
             catch
