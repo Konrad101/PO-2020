@@ -16,6 +16,8 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
         public IActionResult Index()
         {
             List<SubmissionThesis> submissionTheses = manager.GetSubmissionTheses(1);
+            ViewBag.isDataAvailable = submissionTheses.Count > 0;
+
             return View(submissionTheses);
         }
 

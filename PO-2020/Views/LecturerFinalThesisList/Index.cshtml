@@ -145,8 +145,12 @@
 
     <!-- Recenzje (Group) -->
     <div id="u120" class="ax_default" data-label="Recenzje" data-left="410" data-top="138" data-width="1469" data-height="225">
-
+        
         <div class="content_card">
+            @if (!ViewBag.isDataAvailable)
+            {
+                <h1 style="text-align: center;">Brak recenzji</h1>
+            }
             @foreach (var item in Model)
             {
                 <div class="card">

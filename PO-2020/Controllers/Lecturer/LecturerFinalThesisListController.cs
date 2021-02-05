@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PO_implementacja_StudiaPodyplomowe.Models;
 using PO_implementacja_StudiaPodyplomowe.Models.Database;
@@ -15,6 +15,8 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
         public IActionResult Index()
         {
             List<FinalThesisReview> reviews = manager.GetReviews(1);
+
+            ViewBag.isDataAvailable = reviews.Count > 0;
             List<string> topics = new List<string>();
             for (int i = 0; i < reviews.Count; i++)
             {

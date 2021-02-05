@@ -18,23 +18,38 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
 
         public IActionResult Index()
         {
-            List<Models.Course> courses = manager.GetCourses(1, 1);
-            IEnumerable<SelectListItem> selectList = from c in courses
-                                                     select new SelectListItem
-                                                     {
-                                                         Value = c.CourseId.ToString(),
-                                                         Text = c.Name.ToString()
-                                                     };
-            ViewData["Courses"] = new SelectList(selectList, "Value", "Text", courses[0].CourseId.ToString());
+            List<Course> courses = manager.GetCourses(1, 1);
+            ViewBag.coursesDataAvailable = courses.Count > 0;
+            if (courses.Count > 0)
+            {
+                IEnumerable<SelectListItem> selectListCourses = from c in courses
+                                                         select new SelectListItem
+                                                         {
+                                                             Value = c.CourseId.ToString(),
+                                                             Text = c.Name.ToString()
+                                                         };
+                ViewData["Courses"] = new SelectList(selectListCourses, "Value", "Text", courses[0].CourseId.ToString());
+            } else
+            {
+                ViewData["Courses"] = new SelectList(GetEmptySelectList(), "Value", "Text");
+            }
 
             List<Models.Participant> participants = manager.GetParticipants();
-            IEnumerable<SelectListItem> selectListParticipants = from p in participants
-                                                                 select new SelectListItem
-                                                                 {
-                                                                     Value = p.ParticipantId.ToString(),
-                                                                     Text = p.Name.ToString() + " " + p.Surname.ToString()
-                                                                 };
-            ViewData["Participants"] = new SelectList(selectListParticipants, "Value", "Text");
+            ViewBag.participantsDataAvailable = participants.Count > 0;
+            if (participants.Count > 0)
+            {
+                IEnumerable<SelectListItem> selectListParticipants = from p in participants
+                                                                     select new SelectListItem
+                                                                     {
+                                                                         Value = p.ParticipantId.ToString(),
+                                                                         Text = p.Name.ToString() + " " + p.Surname.ToString()
+                                                                     };
+                ViewData["Participants"] = new SelectList(selectListParticipants, "Value", "Text");
+            } else
+            {
+                ViewData["Participants"] = new SelectList(GetEmptySelectList(), "Value", "Text");
+            }
+           
             return View();
         }
 
@@ -251,6 +266,18 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
             ViewBag.dataIsValid = dataIsValid;
             ViewBag.form = form;
             return dataIsValid;
+        }
+
+        private List<SelectListItem> GetEmptySelectList()
+        {
+            List<SelectListItem> selectList = new List<SelectListItem>();
+            selectList.Add(new SelectListItem
+            {
+                Text = "Brak",
+                Value = "0"
+            });
+
+            return selectList;
         }
     }
 }

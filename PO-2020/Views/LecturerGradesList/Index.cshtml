@@ -180,9 +180,18 @@
             <!-- Unnamed (Droplist) -->
             <div id="u834" class="ax_default droplist">
                 <div id="u834_div" class=""></div>
-                <select id="u834_input" class="u834_input" name="CourseSelect" asp-items="ViewBag.Courses">
-                    <!-- <option class="u834_input_option" selected value="Projektowanie oprogramowania">Projektowanie oprogramowania</option> -->
-                </select>
+                @if (ViewBag.coursesDataAvailable)
+                {
+                    <select id="u834_input" class="u834_input" name="CourseSelect" asp-items="ViewBag.Courses">
+                        <!-- <option class="u834_input_option" selected value="Projektowanie oprogramowania">Projektowanie oprogramowania</option> -->
+                    </select>
+                }
+                else
+                {
+                    <select id="u834_input" class="u834_input" name="CourseSelect" asp-items="ViewBag.Courses" disabled>
+                        <!-- <option class="u834_input_option" selected value="Projektowanie oprogramowania">Projektowanie oprogramowania</option> -->
+                    </select>
+                }
             </div>
 
             <!-- Unnamed (Rectangle) -->
@@ -196,9 +205,17 @@
             <!-- Unnamed (Droplist) -->
             <div id="u837" class="ax_default droplist">
                 <div id="u837_div" class=""></div>
+                @if (ViewBag.participantsDataAvailable)
+                {
                 <select id="u837_input" class="u837_input" name="StudSelect" asp-items="ViewBag.Participants">
                     <!-- <option class="u837_input_option" value="Radosław Ścigała">Radosław Ścigała</option> -->
                 </select>
+                } else
+                {
+                <select id="u837_input" class="u837_input" name="StudSelect" asp-items="ViewBag.Participants" disabled>
+                    <!-- <option class="u837_input_option" value="Radosław Ścigała">Radosław Ścigała</option> -->
+                </select>
+                }
             </div>
 
             <!-- Unnamed (Rectangle) -->
@@ -211,10 +228,11 @@
 
             <!-- Unnamed (Rectangle) -->
             <div id="u835" class="ax_default button">
-                <input id="u835_div" class="cursor_pointer" type="submit" value="Pokaż oceny" />
-            </div>
+                <input id="u835_div" class="@if (!ViewBag.participantsDataAvailable || !ViewBag.coursesDataAvailable) { @("cursor_disabled") } else { @("cursor_pointer") } " type="submit" value="Pokaż oceny" @if (!ViewBag.participantsDataAvailable || !ViewBag.coursesDataAvailable) @("disabled")/>
+</div>
 
-        </div>
+
+</div>
         }
     </div>
 </div>

@@ -127,14 +127,18 @@
         </div>
     </div>
 
-    <!-- Recenzje (Group) -->
+    <!-- Zgloszenia (Group) -->
     <div id="u481" class="ax_default" data-label="Recenzje" data-left="410" data-top="138" data-width="1469" data-height="490">
 
         <div class="content_card">
+            @if (!ViewBag.isDataAvailable)
+            {
+                <h1 style="text-align: center;">Brak zgłoszeń</h1>
+            }
             @foreach (var item in Model)
             {
-            <div class="card">
-                <img src="
+                <div class="card">
+                    <img src="
                 @if (item.Status == ThesisStatus.APPROVED)
                 {
                 @("images/lecturerfinalthesislist/u162.svg");
@@ -148,60 +152,60 @@
                 @("images/studyfieldmanagerfinalthesisapplications/u541.svg");
                 }
                 " class="status">
-            <table>
-                <tr>
-                    <td class="column_one">Status:</td>
-                    <td class="column_two" id="status">
-                        @if (item.Status == ThesisStatus.APPROVED)
-                        {
-                            @("Zatwierdzono");
-                        }
-                        else if (item.Status == ThesisStatus.DISCARD)
-                        {
-                            @("Nie zatwierdzono");
-                        }
-                        else
-                        {
-                            @("Oczekuje na Twoją reakcję");
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td class="column_one">Autor:</td>
-                    <td class="column_two">@item.FinalThesis.Participant.Name @item.FinalThesis.Participant.Surname</td>
-                </tr>
-                <tr>
-                    <td class="column_one topic_font_size">Temat:</td>
-                    <td class="column_two topic_font_size">@item.ThesisTopic</td>
-                </tr>
-            </table>
-            <div class="button_box">
-                <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Confirm" asp-route-id="@item.SubmissionId">
-                    <div class="single_button_box">
-                        <img src="images/studyfieldmanagerfinalthesisapplications/u494.png">
-                        <label class="cursor_pointer">Zatwierdź</label>
+                    <table>
+                        <tr>
+                            <td class="column_one">Status:</td>
+                            <td class="column_two" id="status">
+                                @if (item.Status == ThesisStatus.APPROVED)
+                                {
+                                    @("Zatwierdzono");
+                                }
+                                else if (item.Status == ThesisStatus.DISCARD)
+                                {
+                                    @("Nie zatwierdzono");
+                                }
+                                else
+                                {
+                                    @("Oczekuje na Twoją reakcję");
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="column_one">Autor:</td>
+                            <td class="column_two">@item.FinalThesis.Participant.Name @item.FinalThesis.Participant.Surname</td>
+                        </tr>
+                        <tr>
+                            <td class="column_one topic_font_size">Temat:</td>
+                            <td class="column_two topic_font_size">@item.ThesisTopic</td>
+                        </tr>
+                    </table>
+                    <div class="button_box">
+                        <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Confirm" asp-route-id="@item.SubmissionId">
+                            <div class="single_button_box">
+                                <img src="images/studyfieldmanagerfinalthesisapplications/u494.png">
+                                <label class="cursor_pointer">Zatwierdź</label>
+                            </div>
+                        </a>
+                        <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Edit" asp-route-id="@item.SubmissionId">
+                            <div class="single_button_box">
+                                <img src="images/lecturerfinalthesislist/u131.png">
+                                <label class="cursor_pointer">Edytuj</label>
+                            </div>
+                        </a>
+                        <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Discard" asp-route-id="@item.SubmissionId">
+                            <div class="single_button_box">
+                                <img src="images/lecturerfinalthesislist/u132.png">
+                                <label class="cursor_pointer">Odrzuć</label>
+                            </div>
+                        </a>
+                        <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Preview" asp-route-id="@item.SubmissionId">
+                            <div class="single_button_box">
+                                <img src="images/lecturerfinalthesislist/u137.png">
+                                <label class="cursor_pointer">Podgląd</label>
+                            </div>
+                        </a>
                     </div>
-                </a>
-                <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Edit" asp-route-id="@item.SubmissionId">
-                    <div class="single_button_box">
-                        <img src="images/lecturerfinalthesislist/u131.png">
-                        <label class="cursor_pointer">Edytuj</label>
-                    </div>
-                </a>
-                <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Discard" asp-route-id="@item.SubmissionId">
-                    <div class="single_button_box">
-                        <img src="images/lecturerfinalthesislist/u132.png">
-                        <label class="cursor_pointer">Odrzuć</label>
-                    </div>
-                </a>
-                <a asp-controller="StudyFieldManagerFinalThesisApplications" asp-action="Preview" asp-route-id="@item.SubmissionId">
-                    <div class="single_button_box">
-                        <img src="images/lecturerfinalthesislist/u137.png">
-                        <label class="cursor_pointer">Podgląd</label>
-                    </div>
-                </a>
-            </div>
-            </div>
+                </div>
             }
         </div>
     </div>
