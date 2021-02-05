@@ -1,3 +1,5 @@
+//Kamil
+
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -259,7 +261,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             {
                 conn.Close();
                 return false;
-            } 
+            }
 
             sql = "UPDATE Questions " +
                 $"SET content = '{question.Content}', points = '{question.Points}', " +
@@ -626,14 +628,14 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return classesUnits;
         }
 
-        public List<Course> GetCourses(int edition)
+        public List<Course> GetCourses(int edition, int lecturerId)
         {
             List<Course> participantCourses = new List<Course>();
             conn.Open();
-            string sql = $"SELECT C.courseId, C.courseName FROM ParticipantsWithCourses PC " +
-                "NATURAL JOIN Courses C NATURAL JOIN Editions E " +
-                $"WHERE E.edNumber = {edition} " +
-                "GROUP BY 1";
+            string sql = $"SELECT C.courseId, C.courseName FROM Courses C " +
+                $"NATURAL JOIN Editions E NATURAL JOIN Lecturers L " +
+                $"WHERE E.edNumber = {edition} AND L.lecturerId = {lecturerId} " +
+                "GROUP BY 1 ORDER BY 2";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
 
