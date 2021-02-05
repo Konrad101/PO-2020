@@ -24,7 +24,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
         public IActionResult Edit(int id)
         {
             SubmissionThesis submissionThesis = manager.GetSubmissionThesis(id);
-            UpdateLecturersList(submissionThesis);
+            UpdateLecturersList(submissionThesis.FinalThesis.Lecturer.LecturerId);
             ViewBag.dataIsValid = true;
 
             return View(submissionThesis);
@@ -49,7 +49,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
             if (!dataIsValid)
             {
                 SubmissionThesis submission = manager.GetSubmissionThesis(id);
-                UpdateLecturersList(submission);
+                UpdateLecturersList(int.Parse(form["LecturerId"]));
                 ViewBag.fieldsValidation = fieldsValidation;
                 return View(submission);
             }
@@ -86,9 +86,8 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
         }
 
 
-        private void UpdateLecturersList(SubmissionThesis submissionThesis)
+        private void UpdateLecturersList(int lecturerId)
         {
-            Models.Lecturer lecturer = submissionThesis.FinalThesis.Lecturer;
             List<Models.Lecturer> lecturers = manager.GetLecturers(1);
             IEnumerable<SelectListItem> selectList = from l in lecturers
                                                      select new SelectListItem
@@ -96,8 +95,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
                                                          Value = l.LecturerId.ToString(),
                                                          Text = l.Name + " " + l.Surname
                                                      };
-            ViewData["Lecturers"] = new SelectList(selectList, "Value", "Text", lecturer.LecturerId);
-
+            ViewData["Lecturers"] = new SelectList(selectList, "Value", "Text", lecturerId);
         }
 
         private List<bool> GetSubmissionFieldsValidation(IFormCollection form)

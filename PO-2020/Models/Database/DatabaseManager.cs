@@ -1,5 +1,3 @@
-//Kamil
-
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -333,7 +331,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 
         public bool EditSubmissionThesis(SubmissionThesis submissionTheses)
         {
-            if (submissionTheses.SubmissionId < 0 || submissionTheses.FinalThesis.FinalThesisId < 0)
+            if (submissionTheses.SubmissionId < 0)
             {
                 throw new ArgumentException();
             }
@@ -682,7 +680,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             string sql = $"SELECT L.lecturerId, U.name, U.surname, U.email," +
                 $" U.birthdate, U.mailingAddress, U.degree FROM Lecturers L " +
                 "JOIN Users U ON L.userId = U.userId JOIN Courses C ON C.lecturerId = " +
-                "L.lecturerId JOIN Editions E ON E.edNumber = C.edNumber ORDER BY 3";
+                "L.lecturerId JOIN Editions E ON E.edNumber = C.edNumber GROUP BY 1 ORDER BY 3";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
 

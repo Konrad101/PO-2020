@@ -90,10 +90,11 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
             bool dataIsValid = ValidateGradeData(form, fieldsValidation);
             if (!dataIsValid)
             {
+                var gradeValue = GradeConverter.GetGradeString(form["GradeId"]);
                 ViewBag.fieldsValidation = fieldsValidation;
 
                 PartialCourseGrade grade = manager.GetGrade(id);
-                List<Models.Grade> grades = Enum.GetValues(typeof(Grade))
+                List<Grade> grades = Enum.GetValues(typeof(Grade))
                     .Cast<Grade>()
                     .ToList();
                 IEnumerable<SelectListItem> selectList = from g in grades
@@ -102,7 +103,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
                                                              Value = g.ToString(),
                                                              Text = GradeConverter.ParseGrade(g).ToString()
                                                          };
-                ViewData["Grades"] = new SelectList(selectList, "Value", "Text", grade.GradeValue);
+                ViewData["Grades"] = new SelectList(selectList, "Value", "Text", gradeValue);
                 ViewData["Date"] = form["DataTextField"];
                 ViewData["Coment"] = form["ComentTextArea"];
 
@@ -143,9 +144,11 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
             bool dataIsValid = ValidateGradeData(form, fieldsValidation);
             if (!dataIsValid)
             {
+                var gradeValue = GradeConverter.GetGradeString(form["GradeId"]);
+
                 ViewBag.fieldsValidation = fieldsValidation;
                 ViewBag.form = form;
-                List<Models.Grade> grades = Enum.GetValues(typeof(Grade))
+                List<Grade> grades = Enum.GetValues(typeof(Grade))
                 .Cast<Grade>()
                 .ToList();
                 IEnumerable<SelectListItem> selectList = from g in grades
@@ -154,7 +157,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
                                                              Value = g.ToString(),
                                                              Text = GradeConverter.ParseGrade(g).ToString()
                                                          };
-                ViewData["Grades"] = new SelectList(selectList, "Value", "Text");
+                ViewData["Grades"] = new SelectList(selectList, "Value", "Text", gradeValue);
                 return View();
             }
 
