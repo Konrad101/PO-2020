@@ -208,7 +208,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
                                                          Value = c.CourseId.ToString(),
                                                          Text = c.Name.ToString()
                                                      };
-            ViewData["Courses"] = new SelectList(selectList, "Value", "Text", courses[0].CourseId.ToString());
+            ViewData["Courses"] = new SelectList(selectList, "Value", "Text", course.CourseId.ToString());
 
             List<Models.Participant> participants = manager.GetParticipants();
             IEnumerable<SelectListItem> selectListParticipants = from p in participants
@@ -217,7 +217,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
                                                                      Value = p.ParticipantId.ToString(),
                                                                      Text = p.Name.ToString() + " " + p.Surname.ToString()
                                                                  };
-            ViewData["Participants"] = new SelectList(selectListParticipants, "Value", "Text");
+            ViewData["Participants"] = new SelectList(selectListParticipants, "Value", "Text", participant.ParticipantId.ToString());
 
             return View();
         }

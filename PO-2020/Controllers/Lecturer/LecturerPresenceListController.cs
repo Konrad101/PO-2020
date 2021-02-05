@@ -55,7 +55,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
                                                          Value = c.CourseId.ToString(),
                                                          Text = c.Name
                                                      };
-            ViewData["Courses"] = new SelectList(selectList, "Value", "Text");
+            ViewData["Courses"] = new SelectList(selectList, "Value", "Text", course.CourseId.ToString());
 
             List<Attendance> attendances = manager.GetAttendances(course);
             List<ClassesUnit> classesUnits = manager.GetClassesUnitsDate(course);
