@@ -242,6 +242,10 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 
         public bool EditQuestion(Question question)
         {
+            if (question.QuestionId < 0 || question.FinalExams.ExamId < 0)
+            {
+                throw new ArgumentException();
+            }
             conn.Open();
             string sql = $"SELECT COUNT(questionId) FROM Questions WHERE questionId = {question.QuestionId}";
 
@@ -255,7 +259,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             {
                 conn.Close();
                 return false;
-            }
+            } 
 
             sql = "UPDATE Questions " +
                 $"SET content = '{question.Content}', points = '{question.Points}', " +
@@ -325,23 +329,37 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             return question;
         }
 
-        //trzeba parametry dodac, ale dunno jakie
-        public void AddFinalThesis()
+        public bool EditSubmissionThesis(SubmissionThesis submissionTheses)
         {
-            throw new NotImplementedException();
-        }
-
-        public void EditSubmissionThesis(SubmissionThesis submissionTheses)
-        {
+            if (submissionTheses.SubmissionId < 0 || submissionTheses.FinalThesis.FinalThesisId < 0)
+            {
+                throw new ArgumentException();
+            }
             conn.Open();
-            string sql = "UPDATE SubmissionTheses " +
+            string sql = $"SELECT COUNT(submissionId) FROM SubmissionTheses WHERE submissionId = {submissionTheses.SubmissionId}";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+            
+            rdr.Read();
+            int count = int.Parse(rdr[0].ToString());
+            rdr.Close();
+            if (count == 0)
+            {
+                conn.Close();
+                return false;
+            }
+            
+            sql = "UPDATE SubmissionTheses " +
                 $"SET submissionId = '{submissionTheses.SubmissionId}', thesisTopic = '{submissionTheses.ThesisTopic}', " +
                 $"topicNumber = '{submissionTheses.TopicNumber}', thesisObjectives = '{submissionTheses.ThesisObjectives}', " +
                 $"thesisScope = '{submissionTheses.ThesisScope}', submissionStatus = '3' " +
                 $"WHERE submissionId = {submissionTheses.SubmissionId}";
-            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            cmd = new MySqlCommand(sql, conn);
             cmd.ExecuteNonQuery();
             conn.Close();
+
+            return true;
         }
 
         public void EditFinalThesisLecturer(int finalThesisId, int lecturerId)

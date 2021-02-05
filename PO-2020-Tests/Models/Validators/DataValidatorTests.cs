@@ -1,9 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework.Internal;
-using PO_implementacja_StudiaPodyplomowe.Models.Validators;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models.Validators.Tests
 {
@@ -49,6 +46,20 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Validators.Tests
             Assert.IsTrue(DataValidator.NumberIsValid("-203"));
             Assert.IsFalse(DataValidator.NumberIsValid("514415214752485214896258962148624851"));
             Assert.IsFalse(DataValidator.NumberIsValid("-57852147852147852148962145896258"));
+
+            try
+            {
+                DataValidator.NumberIsValid("355", minRange: 5, maxRange: 3);
+                Assert.Fail();
+            }
+            catch (ArgumentException) { }
+
+            try
+            {
+                Assert.IsFalse(DataValidator.NumberIsValid("1024", minRange: 5, maxRange: 5));
+                Assert.IsTrue(DataValidator.NumberIsValid("5", minRange: 5, maxRange: 5));
+            }
+            catch (ArgumentException) { Assert.Fail(); }
         }
 
         [TestMethod()]
@@ -63,8 +74,8 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Validators.Tests
             Assert.IsTrue(DataValidator.FieldContentIsValid("SARA"));
             Assert.IsTrue(DataValidator.FieldContentIsValid("21321234"));
             Assert.IsTrue(DataValidator.FieldContentIsValid("Sasa21"));
-            Assert.IsFalse(DataValidator.FieldContentIsValid("Lorem ipsum dolor sit amet, consectetur adipiscing elit.", maxLength:20));
-            Assert.IsTrue(DataValidator.FieldContentIsValid("Lorem ipsum dolor sit amet, consectetur adipiscing elit.", maxLength:500));
+            Assert.IsFalse(DataValidator.FieldContentIsValid("Lorem ipsum dolor sit amet, consectetur adipiscing elit.", maxLength: 20));
+            Assert.IsTrue(DataValidator.FieldContentIsValid("Lorem ipsum dolor sit amet, consectetur adipiscing elit.", maxLength: 500));
             try
             {
                 DataValidator.FieldContentIsValid("sda", maxLength: -20);

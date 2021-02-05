@@ -1,11 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NUnit.Framework;
-using PO_implementacja_StudiaPodyplomowe.Models.Database;
+﻿using PO_implementacja_StudiaPodyplomowe.Models.Database;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading;
 using Assert = NUnit.Framework.Assert;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models.Database.Tests
@@ -16,7 +11,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database.Tests
         [TestMethod()]
         public void EditReviewStatusTest()
         {
-            DatabaseManager manager = new DatabaseManager();
+            IDao manager = new DatabaseManager();
             try
             {
                 manager.EditReviewStatus(-1, ThesisStatus.APPROVED);
@@ -68,7 +63,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database.Tests
         [TestMethod()]
         public void EditQuestionTest()
         {
-            DatabaseManager manager = new DatabaseManager();
+            IDao manager = new DatabaseManager();
 
             Question question = new Question();
             question.QuestionId = 1;
@@ -78,13 +73,76 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database.Tests
             FinalExam finalExam = new FinalExam();
             finalExam.ExamId = 1;
             question.FinalExams = finalExam;
-
             Assert.IsTrue(manager.EditQuestion(question));
 
-            Assert.IsFalse(manager.EditQuestion(new Question()));
+            Question incompleteQuestion = new Question();
+
+            try
+            {
+                manager.EditQuestion(new Question());
+                Assert.Fail();
+            }
+            catch (NullReferenceException) { }
+
+            incompleteQuestion.QuestionId = 1;
+            finalExam.ExamId = -1;
+            incompleteQuestion.FinalExams = finalExam;
+            try
+            {
+                manager.EditQuestion(incompleteQuestion);
+                Assert.Fail();
+            } catch (ArgumentException) { }
+
             Question incorrectQuestion = new Question();
             incorrectQuestion.QuestionId = -1;
-            Assert.IsFalse(manager.EditQuestion(incorrectQuestion));
+            try
+            {
+                manager.EditQuestion(incorrectQuestion);
+                Assert.Fail();
+            }
+            catch (ArgumentException) { }
+        }
+
+        [TestMethod()]
+        public void EditSubmissionThesisTest()
+        {
+            IDao dao = new DatabaseManager();
+
+            SubmissionThesis submission = new SubmissionThesis();
+            submission.SubmissionId = 1;
+            submission.ThesisTopic = "Tresc";
+            submission.TopicNumber = 2;
+            submission.ThesisObjectives = "Cele pracy";
+            submission.ThesisScope = "Cele pracy";
+            submission.Status = ThesisStatus.APPROVED;
+            FinalThesis finalThesis = new FinalThesis();
+            finalThesis.FinalThesisId = 1;
+            submission.FinalThesis = finalThesis;
+            Edition edition = new Edition();    
+            edition.Number = 1;
+            submission.Edition = edition;
+
+            Assert.IsTrue(dao.EditSubmissionThesis(submission));
+
+            submission.SubmissionId = 100000;
+            Assert.IsFalse(dao.EditSubmissionThesis(submission));
+
+            try
+            {
+                SubmissionThesis incorrectSubmission = new SubmissionThesis();
+                incorrectSubmission.SubmissionId = -1;
+                dao.EditSubmissionThesis(incorrectSubmission);
+                Assert.Fail();
+            }
+            catch (ArgumentException) { }
+
+            try
+            {
+                submission.FinalThesis.FinalThesisId = -1;
+                dao.EditSubmissionThesis(submission);
+                Assert.Fail();
+            }
+            catch (ArgumentException) { }
         }
     }
 }

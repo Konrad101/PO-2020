@@ -143,7 +143,7 @@
                 <tr>
                 <td class="final_exam" col>@(Model.ToList().IndexOf(item) + 1)</td>
                     <td class="col_3">@ViewBag.examsQuestionsAmount[Model.ToList().IndexOf(item)]</td>
-                    <td class="col_4">@item.ExamDate.ToString("dd.MM.yyyy")</td>
+                    <td class="col_4">@item.ExamDate?.ToString("dd.MM.yyyy")</td>
                     <td class="col_5">@item.Classroom</td>
                     <td class="col_6">
                         <a asp-controller="StudyFieldManagerFinalExamList" asp-action="Edit" asp-route-id="@item.ExamId">
