@@ -15,7 +15,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
 
         public IActionResult Index()
         {
-            List<Course> courses = manager.GetCourses(1);
+            List<Course> courses = manager.GetCourses(1, 1);
             IEnumerable<SelectListItem> selectList = from c in courses
                                                      select new SelectListItem
                                                      {
@@ -41,7 +41,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
             Course course = new Course();
             course.CourseId = dict["course"];
 
-            List<Course> courses = manager.GetCourses(1);
+            List<Course> courses = manager.GetCourses(1, 1);
             IEnumerable<SelectListItem> selectList = from c in courses
                                                      select new SelectListItem
                                                      {
@@ -117,8 +117,15 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
                 presentPercentage = (int)(totalPresentQuantity / (double)totalQuantity * 100);
             }
 
-            totalQuantity = totalQuantity / finalList.Count();
-
+            if (finalList.Count() == 0)
+            {
+                totalQuantity = 0;
+            }
+            else
+            {
+                totalQuantity = totalQuantity / finalList.Count();
+            }
+                        
             ViewData["presentQuantity"] = totalPresentQuantity;
             ViewData["absentQuantity"] = totalAbsentQuantity;
             ViewData["totalQuantity"] = totalQuantity;

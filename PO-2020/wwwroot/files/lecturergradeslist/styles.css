@@ -828,7 +828,7 @@
   top:0px;
   width:1170px;
   height:34px;
-  padding:10px 10px 10px 10px;
+  padding:0px 10px 0px 10px;
   font-family:'Arial Normalny', 'Arial', sans-serif;
   font-weight:400;
   font-style:normal;
@@ -1003,23 +1003,23 @@
   text-transform:none;
 }
 #u837_input {
-  position:absolute;
-  left:0px;
-  top:0px;
-  width:1170px;
-  height:34px;
-  padding:10px 10px 10px 10px;
-  font-family:'Arial Normalny', 'Arial', sans-serif;
-  font-weight:400;
-  font-style:normal;
-  font-size:13px;
-  letter-spacing:normal;
-  color:#495057;
-  vertical-align:none;
-  text-align:left;
-  text-transform:none;
-  background-color:transparent;
-  border-color:transparent;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 1170px;
+    height: 34px;
+    padding: 0px 10px 0px 10px;
+    font-family: 'Arial Normalny', 'Arial', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 13px;
+    letter-spacing: normal;
+    color: #495057;
+    vertical-align: none;
+    text-align: left;
+    text-transform: none;
+    background-color: transparent;
+    border-color: transparent;
 }
 #u837_input.disabled {
   position:absolute;

@@ -18,7 +18,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
 
         public IActionResult Index()
         {
-            List<Models.Course> courses = manager.GetCourses(1);
+            List<Models.Course> courses = manager.GetCourses(1, 1);
             IEnumerable<SelectListItem> selectList = from c in courses
                                                      select new SelectListItem
                                                      {
@@ -32,7 +32,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
                                                                  select new SelectListItem
                                                                  {
                                                                      Value = p.ParticipantId.ToString(),
-                                                                     Text = p.Name.ToString()
+                                                                     Text = p.Name.ToString() + " " + p.Surname.ToString()
                                                                  };
             ViewData["Participants"] = new SelectList(selectListParticipants, "Value", "Text");
             return View();
@@ -186,7 +186,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
             ViewData["finalList"] = finalList;
 
             //the same like in the index
-            List<Models.Course> courses = manager.GetCourses(1);
+            List<Models.Course> courses = manager.GetCourses(1, 1);
             IEnumerable<SelectListItem> selectList = from c in courses
                                                      select new SelectListItem
                                                      {
@@ -200,7 +200,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
                                                                  select new SelectListItem
                                                                  {
                                                                      Value = p.ParticipantId.ToString(),
-                                                                     Text = p.Name.ToString()
+                                                                     Text = p.Name.ToString() + " " + p.Surname.ToString()
                                                                  };
             ViewData["Participants"] = new SelectList(selectListParticipants, "Value", "Text");
 

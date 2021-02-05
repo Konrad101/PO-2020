@@ -48,10 +48,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Validators
         {
             if (minRange != null && maxRange != null)
             {
-                if (minRange > maxRange)
-                {
-                    throw new ArgumentException("Min range must be smaller than max range");
-                }
+                throw new ArgumentException("Min range must be smaller than max range");
             }
 
             strNumber = RemoveWhiteSpaces(strNumber);

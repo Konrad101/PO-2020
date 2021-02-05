@@ -258,3 +258,7 @@
 	margin-bottom: 20px;
 	display: block;
 }
+
+.cursor_pointer {
+	cursor: pointer;
+}

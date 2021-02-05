@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 {
-    public interface IDao
+    interface IDao
     {
         public void AddReview(FinalThesisReview review);
         public void EditReview(FinalThesisReview review);
@@ -16,7 +16,8 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         public void DeleteQuestion(int questionId);
         public List<Question> GetQuestions(int finalExamId);
         public Question GetQuestion(int questionId);
-        public bool EditSubmissionThesis(SubmissionThesis submissionThesis);
+        public void AddFinalThesis();
+        public void EditSubmissionThesis(SubmissionThesis submissionThesis);
         public void EditFinalThesisLecturer(int finalThesisId, int lecturerId);
         public void EditSubmissionThesesStatus(int submissionId, int submissionStatus);
         public List<SubmissionThesis> GetSubmissionTheses(int edition);
@@ -25,7 +26,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
         public List<Attendance> GetAttendances(Participant participant, Course course);
         public List<Attendance> GetAttendances(Course course);
         public List<Course> GetCourses(int edition, Participant participant);
-        public List<Course> GetCourses(int edition);
+        public List<Course> GetCourses(int edition, int lecturerId);
         public List<ClassesUnit> GetClassesUnitsDate(Course course);
         public List<Lecturer> GetLecturers(int edition);
         public List<Participant> GetParticipants();
