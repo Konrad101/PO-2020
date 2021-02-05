@@ -253,8 +253,11 @@
                         </td>
                     </tr>
                 }
-
             </table>
+            @if (!ViewBag.gradesAreAvailable)
+            {
+                <h3>Brak ocen</h3>
+            }
             <a asp-controller="LecturerGradesList" asp-action="Add">
                 <img src="/../images/studyfieldmanagerfinalexamquestions/add_img_u355.png" class="add">
             </a>

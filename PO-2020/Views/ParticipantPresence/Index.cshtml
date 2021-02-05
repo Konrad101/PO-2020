@@ -136,16 +136,25 @@
             <!-- Unnamed (Droplist) -->
             <div id="u594" class="ax_default droplist">
                 <div id="u594_div" class=""></div>
-                <select id="u594_input" class="u594_input" asp-items="ViewBag.Courses" name="CourseId"></select>
+                @if (ViewBag.coursesDataAvailable)
+                {
+                    <select id="u594_input" class="u594_input" asp-items="ViewBag.Courses" name="CourseId"></select>
+                } else
+                {
+                    <select id="u594_input" class="u594_input" asp-items="ViewBag.Courses" name="CourseId" disabled></select>
+                }
             </div>
 
             <!-- Unnamed (Rectangle) -->
             <div id="u595" class="ax_default button">
-                <input id="u595_div" class="cursor_pointer" type="submit" value="Pokaż">
-            </div>
+                <input id="u595_div" class="@if (!ViewBag.coursesDataAvailable) { @("cursor_disabled") } else { @("cursor_pointer") }" type="submit" value="Pokaż" @if (!ViewBag.coursesDataAvailable) { @("disabled") }>
 
-            <!-- Unnamed (Rectangle) -->
-            <div id="u596" class="ax_default label">
+</div>
+
+
+<!-- Unnamed (Rectangle) -->
+
+<div id="u596" class="ax_default label">
                 <div id="u596_div" class=""></div>
                 <div id="u596_text" class="text ">
                     <p><span>Nazwa kursu</span></p>

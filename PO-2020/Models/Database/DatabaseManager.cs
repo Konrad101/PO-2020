@@ -657,7 +657,8 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
             conn.Open();
             string sql = $"SELECT C.courseId, C.courseName FROM ParticipantsWithCourses PC " +
                 "NATURAL JOIN Courses C NATURAL JOIN Editions E " +
-                $"WHERE PC.participantId = {participant.ParticipantId} AND E.edNumber = {edition}";
+                $"WHERE PC.participantId = {participant.ParticipantId} AND E.edNumber = {edition} " +
+                $"ORDER BY 2";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
 

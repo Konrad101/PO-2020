@@ -17,14 +17,21 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Participant
         {
             Models.Participant participant = new Models.Participant();
             participant.ParticipantId = 1;
-            List<Models.Course> courses = manager.GetCourses(1, participant);
-            IEnumerable<SelectListItem> selectList = from c in courses
-                                                     select new SelectListItem
-                                                     {
-                                                         Value = c.CourseId.ToString(),
-                                                         Text = c.Name
-                                                     };
-            ViewData["Courses"] = new SelectList(selectList, "Value", "Text");
+            List<Course> courses = manager.GetCourses(1, participant);
+            ViewBag.coursesDataAvailable = courses.Count > 0;
+            if (courses.Count > 0)
+            {
+                IEnumerable<SelectListItem> selectList = from c in courses
+                                                         select new SelectListItem
+                                                         {
+                                                             Value = c.CourseId.ToString(),
+                                                             Text = c.Name
+                                                         };
+                ViewData["Courses"] = new SelectList(selectList, "Value", "Text");
+            } else
+            {
+                ViewData["Courses"] = new SelectList(GetEmptySelectList(), "Value", "Text");
+            }
 
             return View(courses);
         }
@@ -44,7 +51,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Participant
             courseObject.CourseId = course;
             Models.Participant participant = new Models.Participant();
             participant.ParticipantId = 1;
-            List<Models.Course> courses = manager.GetCourses(1, participant);
+            List<Course> courses = manager.GetCourses(1, participant);
             IEnumerable<SelectListItem> selectList = from c in courses
                                                      select new SelectListItem
                                                      {
@@ -55,26 +62,22 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Participant
 
             List<ClassesUnit> classesUnits = manager.GetClassesUnitsDate(courseObject);
             List<Attendance> attendances = manager.GetAttendances(participant, courseObject);
+            ViewBag.attendancesAvailable = classesUnits.Count > 0;
+
+
             List<bool> attendancesBool = new List<bool>();
             foreach (ClassesUnit unit in classesUnits)
             {
-                bool is_find = false;
+                bool found = false;
                 foreach (Attendance item in attendances)
                 {
                     if (unit.ClassUnitId == item.ClassesUnit.ClassUnitId)
                     {
-                        is_find = true;
+                        found = true;
                         break;
                     }
                 }
-                if (is_find)
-                {
-                    attendancesBool.Add(true);
-                }
-                else
-                {
-                    attendancesBool.Add(false);
-                }
+                attendancesBool.Add(found);
             }
 
             ViewData["classesUnits"] = classesUnits;
@@ -110,6 +113,18 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Participant
 
 
             return View();
+        }
+
+        private List<SelectListItem> GetEmptySelectList()
+        {
+            List<SelectListItem> selectList = new List<SelectListItem>();
+            selectList.Add(new SelectListItem
+            {
+                Text = "Brak",
+                Value = "0"
+            });
+
+            return selectList;
         }
 
     }

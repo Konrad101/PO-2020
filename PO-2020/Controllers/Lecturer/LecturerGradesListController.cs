@@ -184,15 +184,15 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
         {
             Models.Participant participant = new Models.Participant();
             participant.ParticipantId = int.Parse(dict["stud"]);
-            Models.Course course = new Models.Course();
+            Course course = new Course();
             course.CourseId = dict["course"];
             staticParticipantId = participant.ParticipantId;
             staticCourseId = course.CourseId;
 
             List<PartialCourseGrade> grades = manager.GetParticipantsGrades(participant, course);
+            ViewBag.gradesAreAvailable = grades.Count > 0;
 
             List<Tuple<DateTime, Grade, string, PartialCourseGrade>> finalList = new List<Tuple<DateTime, Grade, string, PartialCourseGrade>>();
-
             foreach (PartialCourseGrade partial in grades)
             {
                 finalList.Add(new Tuple<DateTime, Grade, string, PartialCourseGrade>(partial.GradeDate, partial.GradeValue, partial.Comment, partial));
@@ -201,7 +201,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
             ViewData["finalList"] = finalList;
 
             //the same like in the index
-            List<Models.Course> courses = manager.GetCourses(1, 1);
+            List<Course> courses = manager.GetCourses(1, 1);
             IEnumerable<SelectListItem> selectList = from c in courses
                                                      select new SelectListItem
                                                      {

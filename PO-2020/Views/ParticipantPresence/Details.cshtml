@@ -192,6 +192,10 @@
                         </tr>
                     }
                 </table>
+                @if (!ViewBag.attendancesAvailable)
+                {
+                    <h3>Brak danych o obecnościach</h3>
+                }
             </div>
             <!-- Statystyki (Group) -->
             <div id="u616" class="ax_default" data-label="Statystyki" data-left="1165" data-top="350" data-width="725" data-height="208">
