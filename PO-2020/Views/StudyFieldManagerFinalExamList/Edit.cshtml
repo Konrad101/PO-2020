@@ -156,6 +156,10 @@
                 </tr>
             }
         </table>
+        @if (!ViewBag.questionsAvailable)
+        {
+            <h3 style="text-align: center;">Brak pytań z egzaminu</h3>
+        }
         <a asp-controller="StudyFieldManagerFinalExamList" asp-action="AddQuestion">
             <img src="/../images/studyfieldmanagerfinalexamquestions/add_img_u355.png" class="add">
         </a>

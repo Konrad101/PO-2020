@@ -244,7 +244,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database
 
         public bool EditQuestion(Question question)
         {
-            if (question.QuestionId < 0 || question.FinalExams.ExamId < 0)
+            if (question.QuestionId < 0)
             {
                 throw new ArgumentException();
             }

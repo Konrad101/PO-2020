@@ -28,6 +28,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
         {
             examId = id;
             List<Question> examQuestions = manager.GetQuestions(id);
+            ViewBag.questionsAvailable = examQuestions.Count > 0;
             return View(examQuestions);
         }
 

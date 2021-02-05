@@ -64,7 +64,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Participant
             List<Attendance> attendances = manager.GetAttendances(participant, courseObject);
             ViewBag.attendancesAvailable = classesUnits.Count > 0;
 
-
             List<bool> attendancesBool = new List<bool>();
             foreach (ClassesUnit unit in classesUnits)
             {

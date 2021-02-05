@@ -16,13 +16,20 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
         public IActionResult Index()
         {
             List<Course> courses = manager.GetCourses(1, 1);
-            IEnumerable<SelectListItem> selectList = from c in courses
-                                                     select new SelectListItem
-                                                     {
-                                                         Value = c.CourseId.ToString(),
-                                                         Text = c.Name
-                                                     };
-            ViewData["Courses"] = new SelectList(selectList, "Value", "Text");
+            ViewBag.coursesDataAvailable = courses.Count > 0;
+            if (courses.Count > 0)
+            {
+                IEnumerable<SelectListItem> selectList = from c in courses
+                                                         select new SelectListItem
+                                                         {
+                                                             Value = c.CourseId.ToString(),
+                                                             Text = c.Name
+                                                         };
+                ViewData["Courses"] = new SelectList(selectList, "Value", "Text");
+            } else
+            {
+                ViewData["Courses"] = new SelectList(GetEmptySelectList(), "Value", "Text");
+            }
 
             return View(courses);
         }
@@ -30,13 +37,13 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
         [HttpPost]
         public ActionResult Index(IFormCollection form)
         {
-            var dict = new Dictionary<String, String>{
+            var dict = new Dictionary<string, string>{
                 { "course", form["CourseId"] },
             };
             return RedirectToAction("Details", "LecturerPresenceList", dict);
         }
 
-        public ActionResult Details(Dictionary<String, String> dict)
+        public ActionResult Details(Dictionary<string, string> dict)
         {
             Course course = new Course();
             course.CourseId = dict["course"];
@@ -82,7 +89,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
             int absentQuantity = 0;
             int totalPresentQuantity = 0;
             int totalAbsentQuantity = 0;
-            List<Tuple<String, String, int, int>> finalList = new List<Tuple<String, String, int, int>>();
+            List<Tuple<string, string, int, int>> finalList = new List<Tuple<string, string, int, int>>();
 
             foreach (var sth in participantAttendances)
             {
@@ -107,6 +114,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
             }
 
             ViewData["finalList"] = finalList;
+            ViewBag.detailsAreAvailable = finalList.Count > 0;
 
             int totalQuantity = totalAbsentQuantity + totalPresentQuantity;
             int absentPercentage = 0;
@@ -138,10 +146,22 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
         [HttpPost]
         public ActionResult Details(IFormCollection form)
         {
-            var dict = new Dictionary<String, String>{
+            var dict = new Dictionary<string, string>{
                 { "course", form["CourseId"] },
             };
             return RedirectToAction("Details", "LecturerPresenceList", dict);
+        }
+
+        private List<SelectListItem> GetEmptySelectList()
+        {
+            List<SelectListItem> selectList = new List<SelectListItem>();
+            selectList.Add(new SelectListItem
+            {
+                Text = "Brak",
+                Value = "0"
+            });
+
+            return selectList;
         }
     }
 }
