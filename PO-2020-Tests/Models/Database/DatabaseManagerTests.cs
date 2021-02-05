@@ -69,31 +69,11 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database.Tests
             question.QuestionId = 1;
             question.Content = "Tresc";
             question.Answer = "Odp";
-
-            FinalExam finalExam = new FinalExam();
-            finalExam.ExamId = 1;
-            question.FinalExams = finalExam;
             Assert.IsTrue(manager.EditQuestion(question));
 
-            Question incompleteQuestion = new Question();
-
-            try
-            {
-                manager.EditQuestion(new Question());
-                Assert.Fail();
-            }
-            catch (NullReferenceException) { }
-
-            incompleteQuestion.QuestionId = 1;
-            finalExam.ExamId = -1;
-            incompleteQuestion.FinalExams = finalExam;
-            try
-            {
-                manager.EditQuestion(incompleteQuestion);
-                Assert.Fail();
-            } catch (ArgumentException) { }
-
             Question incorrectQuestion = new Question();
+            Assert.IsFalse(manager.EditQuestion(incorrectQuestion));
+            
             incorrectQuestion.QuestionId = -1;
             try
             {
@@ -123,7 +103,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database.Tests
             submission.Edition = edition;
 
             Assert.IsTrue(dao.EditSubmissionThesis(submission));
-
             submission.SubmissionId = 100000;
             Assert.IsFalse(dao.EditSubmissionThesis(submission));
 
