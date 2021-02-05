@@ -114,14 +114,6 @@ namespace PO_implementacja_StudiaPodyplomowe.Models.Database.Tests
                 Assert.Fail();
             }
             catch (ArgumentException) { }
-
-            try
-            {
-                submission.FinalThesis.FinalThesisId = -1;
-                dao.EditSubmissionThesis(submission);
-                Assert.Fail();
-            }
-            catch (ArgumentException) { }
         }
     }
 }
