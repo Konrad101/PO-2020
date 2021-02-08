@@ -11,7 +11,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Participant
 {
     public class ParticipantPresenceController : Controller
     {
-        private DatabaseManager manager = new DatabaseManager();
+        private IDao manager = new DatabaseManager();
 
         public ActionResult Index()
         {

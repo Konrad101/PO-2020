@@ -9,7 +9,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
 {
     public class StudyFieldManagerFinalExamListController : Controller
     {
-        private DatabaseManager manager = new DatabaseManager();
+        private IDao manager = new DatabaseManager();
         private static int examId;
 
         public IActionResult Index()
@@ -73,8 +73,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
 
         public IActionResult EditQuestion(int id)
         {
-            IDao dao = new DatabaseManager();
-            Question question = dao.GetQuestion(id);
+            Question question = manager.GetQuestion(id);
             ViewBag.dataIsValid = true;
             return View(question);
         }

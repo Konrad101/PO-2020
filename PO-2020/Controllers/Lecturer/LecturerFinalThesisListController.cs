@@ -42,11 +42,10 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
 
         public IActionResult Edit(int id)
         {
-            IDao dao = new DatabaseManager();
             UpdateTopicAndName(id);
             ViewBag.dataIsValid = true;
 
-            return View(dao.GetReview(id));
+            return View(manager.GetReview(id));
         }
 
         [HttpPost]
@@ -92,8 +91,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
 
         private void UpdateTopicAndName(int reviewId)
         {
-            IDao dao = new DatabaseManager();
-            FinalThesisReview review = dao.GetReview(reviewId);
+            FinalThesisReview review = manager.GetReview(reviewId);
             SubmissionThesis submission = manager.GetSubmissionForThesisId(review.FinalThesis.FinalThesisId);
 
             ViewBag.thesisTopic = submission.ThesisTopic;

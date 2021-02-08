@@ -11,7 +11,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
 {
     public class LecturerPresenceListController : Controller
     {
-        private DatabaseManager manager = new DatabaseManager();
+        private IDao manager = new DatabaseManager();
 
         public IActionResult Index()
         {

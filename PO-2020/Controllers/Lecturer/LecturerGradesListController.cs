@@ -12,7 +12,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
 {
     public class LecturerGradesListController : Controller
     {
-        private DatabaseManager manager = new DatabaseManager();
+        private IDao manager = new DatabaseManager();
         private static int staticParticipantId;
         private static string staticCourseId;
 
