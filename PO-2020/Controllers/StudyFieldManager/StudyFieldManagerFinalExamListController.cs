@@ -9,7 +9,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
 {
     public class StudyFieldManagerFinalExamListController : Controller
     {
-        private IDao manager = new DatabaseManager();
+        private IDao manager = DaoSingleton.GetInstance().Dao;
         private static int examId;
 
         public IActionResult Index()

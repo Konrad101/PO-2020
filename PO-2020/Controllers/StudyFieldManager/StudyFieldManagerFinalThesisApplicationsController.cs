@@ -11,7 +11,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.StudyFieldManager
 {
     public class StudyFieldManagerFinalThesisApplicationsController : Controller
     {
-        private IDao manager = new DatabaseManager();
+        private IDao manager = DaoSingleton.GetInstance().Dao;
 
         public IActionResult Index()
         {

@@ -12,7 +12,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
 {
     public class LecturerGradesListController : Controller
     {
-        private IDao manager = new DatabaseManager();
+        private IDao manager = DaoSingleton.GetInstance().Dao;
         private static int staticParticipantId;
         private static string staticCourseId;
 

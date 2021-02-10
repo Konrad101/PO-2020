@@ -11,7 +11,7 @@ namespace PO_implementacja_StudiaPodyplomowe.Controllers.Lecturer
 {
     public class LecturerPresenceListController : Controller
     {
-        private IDao manager = new DatabaseManager();
+        private IDao manager = DaoSingleton.GetInstance().Dao;
 
         public IActionResult Index()
         {
